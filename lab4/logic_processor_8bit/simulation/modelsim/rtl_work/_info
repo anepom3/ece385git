@@ -1,0 +1,85 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/simulation/modelsim
+vadder2
+Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z2 !s110 1581303079
+!i10b 1
+!s100 j@QHiP3HYAnN]P3bOJcgR3
+Ic2jaLOg3fd5I<kmD^nmWJ3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+!s105 adder2_sv_unit
+S1
+R0
+w1581301955
+8C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/adder2.sv
+FC:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/adder2.sv
+L0 1
+Z4 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z5 !s108 1581303079.000000
+!s107 C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/adder2.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit|C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/adder2.sv|
+!i113 1
+Z6 o-sv -work work
+Z7 !s92 -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit
+Z8 tCvgOpt 0
+vfull_adder
+R1
+R2
+!i10b 1
+!s100 9V?Bf66gaPX>iT56nd:RV1
+I^A1?bKCF9]aN3;2XonI0a0
+R3
+!s105 full_adder_sv_unit
+S1
+R0
+w1581298107
+8C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/full_adder.sv
+FC:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/full_adder.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/full_adder.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit|C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/full_adder.sv|
+!i113 1
+R6
+R7
+R8
+vtestbench
+R1
+!s110 1581303080
+!i10b 1
+!s100 BGNf19V=kS^XIIFPBg6?43
+I^CUUU:3IOYR6ob:4L^4go1
+R3
+!s105 testbench_adder2_sv_unit
+S1
+R0
+w1581302814
+8C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/testbench_adder2.sv
+FC:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/testbench_adder2.sv
+L0 1
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/testbench_adder2.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit|C:/Users/antho/Desktop/ece385git/lab4/logic_processor_8bit/testbench_adder2.sv|
+!i113 1
+R6
+R7
+R8

@@ -1,0 +1,24 @@
+module adder2(	input [1:0] A,B,
+					input c_in,
+					output [1:0] S,
+					output c_out);
+	
+	// Internal logic carries in the 2-bit adder
+	logic c1;
+	
+	
+	full_adder FA0(.x(A[0], .y(B[0]), .z(c_in),
+						.s(S[0]), .c(c1));				
+	// Note the output of FA0 's' is assigned as the output of the
+	// 2-bit adder S[0] i.e. so the S bits [1:0] can be accessed in
+	// parallel.
+	
+	// Note the output of FA0 'c' is assigned as to the internal logic
+	// 'c1' which acts as an intermediary, internal carry.
+	// The 'c1' will then become the z input (i.e. the carry-in input for
+	// the next full adder, FA1.
+	
+	full_adder FA1(.x(A[1]), .y(B[1]), .z(c1),
+						.s(S[1]), .c(c_out));
+endmodule
+						

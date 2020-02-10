@@ -1,0 +1,15 @@
+module testbench();
+
+timeunit 10ns; // Half clock cycle at 50 MHz
+					// This the amount of time represented by #1
+
+timeprecision 1ns;
+
+// These signals are internal because the processor will be
+// instantiated as a submodule in testbench.
+
+logic Clk = 0;
+logic [1:0] A;
+logic [1:0] B;
+logic c_in;
+
