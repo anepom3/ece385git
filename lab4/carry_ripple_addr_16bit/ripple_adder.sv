@@ -14,9 +14,9 @@ module ripple_adder
 		logic C0, C1, C2;
 		
 		four_bit_ra FRA0(.x(A[3 : 0]), .y(B[3 : 0]), .cin(0), .s(Sum[3 : 0]), .cout(C0));
-		four_bit_ra FRA1(.x(A[7 : 4]), .y(B[7 : 4]), .cin(0), .s(Sum[7 : 4]), .cout(C1));
-		four_bit_ra FRA2(.x(A[11: 8]), .y(B[11: 8]), .cin(0), .s(Sum[11: 8]), .cout(C2));
-		four_bit_ra FRA3(.x(A[15:12]), .y(B[15:12]), .cin(0), .s(Sum[15:12]), .cout(cO));
+		four_bit_ra FRA1(.x(A[7 : 4]), .y(B[7 : 4]), .cin(C0), .s(Sum[7 : 4]), .cout(C1));
+		four_bit_ra FRA2(.x(A[11: 8]), .y(B[11: 8]), .cin(C1), .s(Sum[11: 8]), .cout(C2));
+		four_bit_ra FRA3(.x(A[15:12]), .y(B[15:12]), .cin(C2), .s(Sum[15:12]), .cout(CO));
 	
 endmodule
 

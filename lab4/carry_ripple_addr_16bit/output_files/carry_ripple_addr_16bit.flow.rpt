@@ -1,5 +1,5 @@
 Flow report for carry_ripple_addr_16bit
-Mon Feb 10 19:43:12 2020
+Mon Feb 10 21:00:43 2020
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -40,17 +40,17 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Mon Feb 10 19:43:12 2020       ;
+; Flow Status                        ; Successful - Mon Feb 10 21:00:43 2020       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; carry_ripple_addr_16bit                     ;
 ; Top-level Entity Name              ; lab4_adders_toplevel                        ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE115F29C7                               ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 107 / 114,480 ( < 1 % )                     ;
-;     Total combinational functions  ; 99 / 114,480 ( < 1 % )                      ;
-;     Dedicated logic registers      ; 104 / 114,480 ( < 1 % )                     ;
-; Total registers                    ; 104                                         ;
+; Total logic elements               ; 125 / 114,480 ( < 1 % )                     ;
+;     Total combinational functions  ; 123 / 114,480 ( < 1 % )                     ;
+;     Dedicated logic registers      ; 105 / 114,480 ( < 1 % )                     ;
+; Total registers                    ; 105                                         ;
 ; Total pins                         ; 93 / 529 ( 18 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0 / 3,981,312 ( 0 % )                       ;
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+-------------------------+
 ; Option            ; Setting                 ;
 +-------------------+-------------------------+
-; Start date & time ; 02/10/2020 19:42:09     ;
+; Start date & time ; 02/10/2020 20:59:29     ;
 ; Main task         ; Compilation             ;
 ; Revision Name     ; carry_ripple_addr_16bit ;
 +-------------------+-------------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+-------------------------+----------------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value           ; Entity Name          ; Section Id     ;
 +-------------------------------------+----------------------------------------+-------------------------+----------------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 93383152037253.158138532813460         ; --                      ; --                   ; --             ;
+; COMPILER_SIGNATURE_ID               ; 93383152037253.158138996920144         ; --                      ; --                   ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Systemverilog Hdl                      ; --                      ; --                   ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (SystemVerilog)        ; <None>                  ; --                   ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --                      ; --                   ; eda_simulation ;
@@ -97,12 +97,12 @@ refer to the applicable agreement for further details.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:20     ; 1.0                     ; 4741 MB             ; 00:00:37                           ;
-; Fitter               ; 00:00:26     ; 1.0                     ; 5423 MB             ; 00:00:30                           ;
-; Assembler            ; 00:00:05     ; 1.0                     ; 4686 MB             ; 00:00:04                           ;
-; Timing Analyzer      ; 00:00:04     ; 1.0                     ; 4821 MB             ; 00:00:04                           ;
+; Analysis & Synthesis ; 00:00:23     ; 1.0                     ; 4742 MB             ; 00:00:40                           ;
+; Fitter               ; 00:00:35     ; 1.0                     ; 5491 MB             ; 00:00:44                           ;
+; Assembler            ; 00:00:05     ; 1.0                     ; 4688 MB             ; 00:00:05                           ;
+; Timing Analyzer      ; 00:00:03     ; 1.0                     ; 4820 MB             ; 00:00:03                           ;
 ; EDA Netlist Writer   ; 00:00:02     ; 1.0                     ; 4655 MB             ; 00:00:02                           ;
-; Total                ; 00:00:57     ; --                      ; --                  ; 00:01:17                           ;
+; Total                ; 00:01:08     ; --                      ; --                  ; 00:01:34                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

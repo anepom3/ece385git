@@ -1,5 +1,5 @@
 Analysis & Synthesis report for carry_ripple_addr_16bit
-Mon Feb 10 19:42:28 2020
+Mon Feb 10 20:59:51 2020
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -13,16 +13,14 @@ Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
-  8. Registers Removed During Synthesis
-  9. General Register Statistics
- 10. Multiplexer Restructuring Statistics (Restructuring Performed)
- 11. Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA3"
- 12. Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA2"
- 13. Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA1"
- 14. Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA0"
- 15. Post-Synthesis Netlist Statistics for Top Partition
- 16. Elapsed Time Per Partition
- 17. Analysis & Synthesis Messages
+  8. General Register Statistics
+  9. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 10. Port Connectivity Checks: "carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin1"
+ 11. Port Connectivity Checks: "carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin0"
+ 12. Port Connectivity Checks: "carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA"
+ 13. Post-Synthesis Netlist Statistics for Top Partition
+ 14. Elapsed Time Per Partition
+ 15. Analysis & Synthesis Messages
 
 
 
@@ -48,15 +46,15 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Feb 10 19:42:28 2020       ;
+; Analysis & Synthesis Status        ; Successful - Mon Feb 10 20:59:51 2020       ;
 ; Quartus Prime Version              ; 18.0.0 Build 614 04/24/2018 SJ Lite Edition ;
 ; Revision Name                      ; carry_ripple_addr_16bit                     ;
 ; Top-level Entity Name              ; lab4_adders_toplevel                        ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 115                                         ;
-;     Total combinational functions  ; 99                                          ;
-;     Dedicated logic registers      ; 104                                         ;
-; Total registers                    ; 104                                         ;
+; Total logic elements               ; 139                                         ;
+;     Total combinational functions  ; 123                                         ;
+;     Dedicated logic registers      ; 105                                         ;
+; Total registers                    ; 105                                         ;
 ; Total pins                         ; 93                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0                                           ;
@@ -176,6 +174,7 @@ refer to the applicable agreement for further details.
 ; ripple_adder.sv                  ; yes             ; User SystemVerilog HDL File  ; C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/ripple_adder.sv         ;         ;
 ; lab4_adders_toplevel.sv          ; yes             ; User SystemVerilog HDL File  ; C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/lab4_adders_toplevel.sv ;         ;
 ; HexDriver.sv                     ; yes             ; User SystemVerilog HDL File  ; C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/HexDriver.sv            ;         ;
+; carry_select_adder.sv            ; yes             ; User SystemVerilog HDL File  ; C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv   ;         ;
 +----------------------------------+-----------------+------------------------------+---------------------------------------------------------------------------------------+---------+
 
 
@@ -184,20 +183,20 @@ refer to the applicable agreement for further details.
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 115       ;
+; Estimated Total logic elements              ; 139       ;
 ;                                             ;           ;
-; Total combinational functions               ; 99        ;
+; Total combinational functions               ; 123       ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 68        ;
-;     -- 3 input functions                    ; 4         ;
-;     -- <=2 input functions                  ; 27        ;
+;     -- 4 input functions                    ; 79        ;
+;     -- 3 input functions                    ; 14        ;
+;     -- <=2 input functions                  ; 30        ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 99        ;
+;     -- normal mode                          ; 123       ;
 ;     -- arithmetic mode                      ; 0         ;
 ;                                             ;           ;
-; Total registers                             ; 104       ;
-;     -- Dedicated logic registers            ; 104       ;
+; Total registers                             ; 105       ;
+;     -- Dedicated logic registers            ; 105       ;
 ;     -- I/O registers                        ; 0         ;
 ;                                             ;           ;
 ; I/O pins                                    ; 93        ;
@@ -205,59 +204,61 @@ refer to the applicable agreement for further details.
 ; Embedded Multiplier 9-bit elements          ; 0         ;
 ;                                             ;           ;
 ; Maximum fan-out node                        ; Clk~input ;
-; Maximum fan-out                             ; 104       ;
-; Total fan-out                               ; 775       ;
-; Average fan-out                             ; 1.99      ;
+; Maximum fan-out                             ; 105       ;
+; Total fan-out                               ; 860       ;
+; Average fan-out                             ; 2.08      ;
 +---------------------------------------------+-----------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                         ;
-+-------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------+----------------------+--------------+
-; Compilation Hierarchy Node          ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                  ; Entity Name          ; Library Name ;
-+-------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------+----------------------+--------------+
-; |lab4_adders_toplevel               ; 99 (19)             ; 104 (104)                 ; 0           ; 0            ; 0       ; 0         ; 93   ; 0            ; |lab4_adders_toplevel                                                                ; lab4_adders_toplevel ; work         ;
-;    |HexDriver:Ahex0_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex0_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Ahex1_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex1_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Ahex2_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex2_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Ahex3_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex3_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Bhex0_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex0_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Bhex1_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex1_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Bhex2_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex2_inst                                           ; HexDriver            ; work         ;
-;    |HexDriver:Bhex3_inst|           ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex3_inst                                           ; HexDriver            ; work         ;
-;    |ripple_adder:ripple_adder_inst| ; 24 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst                                 ; ripple_adder         ; work         ;
-;       |four_bit_ra:FRA0|            ; 6 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA0                ; four_bit_ra          ; work         ;
-;          |full_adder:fa0|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA0|full_adder:fa0 ; full_adder           ; work         ;
-;          |full_adder:fa1|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA0|full_adder:fa1 ; full_adder           ; work         ;
-;          |full_adder:fa2|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA0|full_adder:fa2 ; full_adder           ; work         ;
-;          |full_adder:fa3|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA0|full_adder:fa3 ; full_adder           ; work         ;
-;       |four_bit_ra:FRA1|            ; 6 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA1                ; four_bit_ra          ; work         ;
-;          |full_adder:fa0|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA1|full_adder:fa0 ; full_adder           ; work         ;
-;          |full_adder:fa1|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA1|full_adder:fa1 ; full_adder           ; work         ;
-;          |full_adder:fa2|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA1|full_adder:fa2 ; full_adder           ; work         ;
-;          |full_adder:fa3|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA1|full_adder:fa3 ; full_adder           ; work         ;
-;       |four_bit_ra:FRA2|            ; 6 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA2                ; four_bit_ra          ; work         ;
-;          |full_adder:fa0|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA2|full_adder:fa0 ; full_adder           ; work         ;
-;          |full_adder:fa1|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA2|full_adder:fa1 ; full_adder           ; work         ;
-;          |full_adder:fa2|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA2|full_adder:fa2 ; full_adder           ; work         ;
-;          |full_adder:fa3|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA2|full_adder:fa3 ; full_adder           ; work         ;
-;       |four_bit_ra:FRA3|            ; 6 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA3                ; four_bit_ra          ; work         ;
-;          |full_adder:fa0|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA3|full_adder:fa0 ; full_adder           ; work         ;
-;          |full_adder:fa1|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA3|full_adder:fa1 ; full_adder           ; work         ;
-;          |full_adder:fa2|           ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA3|full_adder:fa2 ; full_adder           ; work         ;
-;          |full_adder:fa3|           ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|ripple_adder:ripple_adder_inst|four_bit_ra:FRA3|full_adder:fa3 ; full_adder           ; work         ;
-+-------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+--------------------------------------------------------------------------------------+----------------------+--------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                 ;
++-------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
+; Compilation Hierarchy Node                      ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                              ; Entity Name          ; Library Name ;
++-------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
+; |lab4_adders_toplevel                           ; 123 (28)            ; 105 (105)                 ; 0           ; 0            ; 0       ; 0         ; 93   ; 0            ; |lab4_adders_toplevel                                                                                                            ; lab4_adders_toplevel ; work         ;
+;    |HexDriver:Ahex0_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex0_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Ahex1_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex1_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Ahex2_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex2_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Ahex3_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Ahex3_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Bhex0_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex0_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Bhex1_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex1_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Bhex2_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex2_inst                                                                                       ; HexDriver            ; work         ;
+;    |HexDriver:Bhex3_inst|                       ; 7 (7)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|HexDriver:Bhex3_inst                                                                                       ; HexDriver            ; work         ;
+;    |carry_select_adder:carry_select_adder_inst| ; 39 (0)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst                                                                 ; carry_select_adder   ; work         ;
+;       |four_bit_csa:csa0_4bit|                  ; 10 (2)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit                                          ; four_bit_csa         ; work         ;
+;          |four_bit_mux:csa_mux|                 ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|four_bit_mux:csa_mux                     ; four_bit_mux         ; work         ;
+;          |sub_four_bit_ra:addr_cin0|            ; 2 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin0                ; sub_four_bit_ra      ; work         ;
+;             |full_adder:fa1|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin0|full_adder:fa1 ; full_adder           ; work         ;
+;             |full_adder:fa2|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin0|full_adder:fa2 ; full_adder           ; work         ;
+;          |sub_four_bit_ra:addr_cin1|            ; 5 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin1                ; sub_four_bit_ra      ; work         ;
+;             |full_adder:fa1|                    ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa1 ; full_adder           ; work         ;
+;             |full_adder:fa2|                    ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa2 ; full_adder           ; work         ;
+;             |full_adder:fa3|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa3 ; full_adder           ; work         ;
+;       |four_bit_csa:csa1_4bit|                  ; 12 (4)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit                                          ; four_bit_csa         ; work         ;
+;          |four_bit_mux:csa_mux|                 ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|four_bit_mux:csa_mux                     ; four_bit_mux         ; work         ;
+;          |sub_four_bit_ra:addr_cin0|            ; 2 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin0                ; sub_four_bit_ra      ; work         ;
+;             |full_adder:fa1|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin0|full_adder:fa1 ; full_adder           ; work         ;
+;             |full_adder:fa2|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin0|full_adder:fa2 ; full_adder           ; work         ;
+;          |sub_four_bit_ra:addr_cin1|            ; 5 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin1                ; sub_four_bit_ra      ; work         ;
+;             |full_adder:fa1|                    ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa1 ; full_adder           ; work         ;
+;             |full_adder:fa2|                    ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa2 ; full_adder           ; work         ;
+;             |full_adder:fa3|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa1_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa3 ; full_adder           ; work         ;
+;       |four_bit_csa:csa2_4bit|                  ; 10 (2)              ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit                                          ; four_bit_csa         ; work         ;
+;          |four_bit_mux:csa_mux|                 ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|four_bit_mux:csa_mux                     ; four_bit_mux         ; work         ;
+;          |sub_four_bit_ra:addr_cin0|            ; 2 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin0                ; sub_four_bit_ra      ; work         ;
+;             |full_adder:fa1|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin0|full_adder:fa1 ; full_adder           ; work         ;
+;             |full_adder:fa2|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin0|full_adder:fa2 ; full_adder           ; work         ;
+;          |sub_four_bit_ra:addr_cin1|            ; 5 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin1                ; sub_four_bit_ra      ; work         ;
+;             |full_adder:fa1|                    ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa1 ; full_adder           ; work         ;
+;             |full_adder:fa2|                    ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa2 ; full_adder           ; work         ;
+;             |full_adder:fa3|                    ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|four_bit_csa:csa2_4bit|sub_four_bit_ra:addr_cin1|full_adder:fa3 ; full_adder           ; work         ;
+;       |sub_four_bit_ra:init_FRA|                ; 7 (0)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA                                        ; sub_four_bit_ra      ; work         ;
+;          |full_adder:fa0|                       ; 1 (1)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA|full_adder:fa0                         ; full_adder           ; work         ;
+;          |full_adder:fa1|                       ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA|full_adder:fa1                         ; full_adder           ; work         ;
+;          |full_adder:fa2|                       ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA|full_adder:fa2                         ; full_adder           ; work         ;
+;          |full_adder:fa3|                       ; 2 (2)               ; 0 (0)                     ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |lab4_adders_toplevel|carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA|full_adder:fa3                         ; full_adder           ; work         ;
++-------------------------------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+----------------------------------------------------------------------------------------------------------------------------------+----------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
-
-
-+--------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                             ;
-+---------------------------------------+----------------------------------------+
-; Register name                         ; Reason for Removal                     ;
-+---------------------------------------+----------------------------------------+
-; CO~reg0                               ; Stuck at GND due to stuck port data_in ;
-; Total Number of Removed Registers = 1 ;                                        ;
-+---------------------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -265,69 +266,58 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 104   ;
-; Number of registers using Synchronous Clear  ; 16    ;
+; Total registers                              ; 105   ;
+; Number of registers using Synchronous Clear  ; 17    ;
 ; Number of registers using Synchronous Load   ; 0     ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 48    ;
+; Number of registers using Clock Enable       ; 49    ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                  ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
-; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |lab4_adders_toplevel|Sum[0]~reg0 ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |lab4_adders_toplevel|B[0]        ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |lab4_adders_toplevel|A[0]        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                   ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output         ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------+
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |lab4_adders_toplevel|CO~reg0      ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |lab4_adders_toplevel|B[0]         ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |lab4_adders_toplevel|A[10]        ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |lab4_adders_toplevel|Sum[6]~reg0  ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |lab4_adders_toplevel|Sum[11]~reg0 ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |lab4_adders_toplevel|Sum[15]~reg0 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA3"                                                                                                                                      ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port    ; Type   ; Severity ; Details                                                                                                                                                                            ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; cin     ; Input  ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
-; cin[-1] ; Input  ; Info     ; Stuck at GND                                                                                                                                                                       ;
-; cout    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                                                                ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin1"                                                                                         ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port    ; Type  ; Severity ; Details                                                                                                                                                                            ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; cin     ; Input ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; cin[-1] ; Input ; Info     ; Stuck at VCC                                                                                                                                                                       ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA2"                                                                                                                                      ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port    ; Type   ; Severity ; Details                                                                                                                                                                            ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; cin     ; Input  ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
-; cin[-1] ; Input  ; Info     ; Stuck at GND                                                                                                                                                                       ;
-; cout    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                                                                ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|sub_four_bit_ra:addr_cin0"                                                                                         ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port    ; Type  ; Severity ; Details                                                                                                                                                                            ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; cin     ; Input ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; cin[-1] ; Input ; Info     ; Stuck at GND                                                                                                                                                                       ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA1"                                                                                                                                      ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port    ; Type   ; Severity ; Details                                                                                                                                                                            ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; cin     ; Input  ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
-; cin[-1] ; Input  ; Info     ; Stuck at GND                                                                                                                                                                       ;
-; cout    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                                                                ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
-
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "ripple_adder:ripple_adder_inst|four_bit_ra:FRA0"                                                                                                                                      ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Port    ; Type   ; Severity ; Details                                                                                                                                                                            ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; cin     ; Input  ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
-; cin[-1] ; Input  ; Info     ; Stuck at GND                                                                                                                                                                       ;
-; cout    ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed.                                                                                                ;
-+---------+--------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA"                                                                                                                 ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Port    ; Type  ; Severity ; Details                                                                                                                                                                            ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; cin     ; Input ; Warning  ; Input port expression (32 bits) is wider than the input port (1 bits) it drives.  The 31 most-significant bit(s) in the expression will be dangling if they have no other fanouts. ;
+; cin[-1] ; Input ; Info     ; Stuck at GND                                                                                                                                                                       ;
++---------+-------+----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------+
@@ -336,19 +326,18 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 93                          ;
-; cycloneiii_ff         ; 104                         ;
+; cycloneiii_ff         ; 105                         ;
 ;     ENA               ; 32                          ;
-;     ENA SCLR          ; 16                          ;
+;     ENA SCLR          ; 17                          ;
 ;     plain             ; 56                          ;
-; cycloneiii_lcell_comb ; 100                         ;
-;     normal            ; 100                         ;
-;         0 data inputs ; 1                           ;
-;         2 data inputs ; 27                          ;
-;         3 data inputs ; 4                           ;
-;         4 data inputs ; 68                          ;
+; cycloneiii_lcell_comb ; 123                         ;
+;     normal            ; 123                         ;
+;         2 data inputs ; 30                          ;
+;         3 data inputs ; 14                          ;
+;         4 data inputs ; 79                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 3.00                        ;
-; Average LUT depth     ; 0.99                        ;
+; Max LUT depth         ; 7.00                        ;
+; Average LUT depth     ; 1.87                        ;
 +-----------------------+-----------------------------+
 
 
@@ -357,7 +346,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:02     ;
 +----------------+--------------+
 
 
@@ -367,7 +356,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
-    Info: Processing started: Mon Feb 10 19:42:08 2020
+    Info: Processing started: Mon Feb 10 20:59:28 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off carry_ripple_addr_16bit -c carry_ripple_addr_16bit
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 2 of the 2 processors detected
@@ -391,27 +380,29 @@ Info (12021): Found 4 design units, including 4 entities, in source file carry_s
     Info (12023): Found entity 4: four_bit_mux File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 72
 Info (12021): Found 1 design units, including 1 entities, in source file carry_lookahead_adder.sv
     Info (12023): Found entity 1: carry_lookahead_adder File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_lookahead_adder.sv Line: 1
-Warning (10236): Verilog HDL Implicit Net warning at ripple_adder.sv(19): created implicit net for "cO" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/ripple_adder.sv Line: 19
 Info (12127): Elaborating entity "lab4_adders_toplevel" for the top level hierarchy
-Info (12128): Elaborating entity "ripple_adder" for hierarchy "ripple_adder:ripple_adder_inst" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/lab4_adders_toplevel.sv Line: 114
-Warning (10034): Output port "CO" at ripple_adder.sv(7) has no driver File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/ripple_adder.sv Line: 7
-Info (12128): Elaborating entity "four_bit_ra" for hierarchy "ripple_adder:ripple_adder_inst|four_bit_ra:FRA0" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/ripple_adder.sv Line: 16
-Info (12128): Elaborating entity "full_adder" for hierarchy "ripple_adder:ripple_adder_inst|four_bit_ra:FRA0|full_adder:fa0" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/ripple_adder.sv Line: 34
+Info (12128): Elaborating entity "carry_select_adder" for hierarchy "carry_select_adder:carry_select_adder_inst" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/lab4_adders_toplevel.sv Line: 130
+Info (12128): Elaborating entity "sub_four_bit_ra" for hierarchy "carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 15
+Info (12128): Elaborating entity "full_adder" for hierarchy "carry_select_adder:carry_select_adder_inst|sub_four_bit_ra:init_FRA|full_adder:fa0" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 51
+Info (12128): Elaborating entity "four_bit_csa" for hierarchy "carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 16
+Info (12128): Elaborating entity "four_bit_mux" for hierarchy "carry_select_adder:carry_select_adder_inst|four_bit_csa:csa0_4bit|four_bit_mux:csa_mux" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 37
 Info (12128): Elaborating entity "HexDriver" for hierarchy "HexDriver:Ahex0_inst" File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/lab4_adders_toplevel.sv Line: 137
-Warning (12241): 4 hierarchies have connectivity warnings - see the Connectivity Checks report folder
-Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "CO" is stuck at GND File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/lab4_adders_toplevel.sv Line: 26
+Warning (12020): Port "cin" on the entity instantiation of "addr_cin1" is connected to a signal of width 32. The formal width of the signal in the module is 1.  The extra bits will be ignored. File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 35
+Warning (12020): Port "cin" on the entity instantiation of "addr_cin0" is connected to a signal of width 32. The formal width of the signal in the module is 1.  The extra bits will be ignored. File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 34
+Warning (12020): Port "cin" on the entity instantiation of "addr_cin1" is connected to a signal of width 32. The formal width of the signal in the module is 1.  The extra bits will be ignored. File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 35
+Warning (12020): Port "cin" on the entity instantiation of "addr_cin0" is connected to a signal of width 32. The formal width of the signal in the module is 1.  The extra bits will be ignored. File: C:/Users/antho/Desktop/ece385git/lab4/carry_ripple_addr_16bit/carry_select_adder.sv Line: 34
+Warning (12241): 3 hierarchies have connectivity warnings - see the Connectivity Checks report folder
 Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 224 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 248 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 20 input pins
     Info (21059): Implemented 73 output pins
-    Info (21061): Implemented 131 logic cells
+    Info (21061): Implemented 155 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 7 warnings
-    Info: Peak virtual memory: 4750 megabytes
-    Info: Processing ended: Mon Feb 10 19:42:28 2020
-    Info: Elapsed time: 00:00:20
-    Info: Total CPU time (on all processors): 00:00:37
+    Info: Peak virtual memory: 4751 megabytes
+    Info: Processing ended: Mon Feb 10 20:59:51 2020
+    Info: Elapsed time: 00:00:23
+    Info: Total CPU time (on all processors): 00:00:40
 
 
