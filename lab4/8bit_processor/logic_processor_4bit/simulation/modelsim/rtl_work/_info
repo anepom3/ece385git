@@ -7,53 +7,53 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-Z0 dC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/simulation/modelsim
+Z0 dC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/simulation/modelsim
 vcompute
 Z1 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
-Z2 !s110 1581310869
+Z2 !s110 1581399424
 !i10b 1
 !s100 i=]6932U1_OWO<5E?3HbR1
-ISdVh4>BKENG;MhYjX0K<30
+ID0=J3oI;LO7ELHa0Oj>Ic3
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 !s105 compute_sv_unit
 S1
 R0
-Z4 w1581231216
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv
+Z4 w1581383637
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv
 L0 1
 Z5 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z6 !s108 1581310868.000000
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv|
+Z6 !s108 1581399423.000000
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv|
 !i113 1
 Z7 o-sv -work work
-Z8 !s92 -sv -work work {+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit}
+Z8 !s92 -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit
 Z9 tCvgOpt 0
 vcontrol
 R1
-Z10 !s110 1581310868
+Z10 !s110 1581399423
 !i10b 1
 !s100 zA>KJEaR;hifiMGk<O7m^0
-I?Pj^;a[W^^QIB<SiVD32W1
+IZIm:@7o1`zn:Rm:ZHjcc>2
 R3
 !s105 Control_sv_unit
 S1
 R0
-w1581310679
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv
 L0 3
 R5
 r1
 !s85 0
 31
 R6
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv|
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv|
 !i113 1
 R7
 R8
@@ -63,22 +63,22 @@ R1
 R10
 !i10b 1
 !s100 ^DddjRd7Wla]U<SlP;mT@0
-IXBI]lBl^^G^Cci1o5WK821
+Icb1eG1Y_WH3[O`eVc9`3e0
 R3
 !s105 HexDriver_sv_unit
 S1
 R0
-w1581231217
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/HexDriver.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/HexDriver.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/HexDriver.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/HexDriver.sv
 L0 1
 R5
 r1
 !s85 0
 31
-Z11 !s108 1581310867.000000
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/HexDriver.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/HexDriver.sv|
+R6
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/HexDriver.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/HexDriver.sv|
 !i113 1
 R7
 R8
@@ -86,25 +86,25 @@ R9
 n@hex@driver
 vProcessor
 R1
-Z12 !s110 1581310870
+Z11 !s110 1581399425
 !i10b 1
 !s100 V>d?Ti8Dc4?RS0;B3ef>M0
-IPiD?Un_aD;7_cSzF^iSH22
+ILmg[FnB5^Pn1V3e]mOK163
 R3
 !s105 Processor_sv_unit
 S1
 R0
-w1581305270
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Processor.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Processor.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Processor.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Processor.sv
 L0 8
 R5
 r1
 !s85 0
 31
-Z13 !s108 1581310870.000000
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Processor.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Processor.sv|
+Z12 !s108 1581399424.000000
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Processor.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Processor.sv|
 !i113 1
 R7
 R8
@@ -112,25 +112,25 @@ R9
 n@processor
 vreg_8
 R1
-Z14 !s110 1581310867
+R10
 !i10b 1
 !s100 AXDzj?_?eZ4hKcKof@=bm2
-I`E7_<eSk0DemGC6VRc4TZ3
+IFn6oc<QYzWC8Yh>fgL@M33
 R3
 !s105 Reg_4_sv_unit
 S1
 R0
-w1581304970
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Reg_4.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Reg_4.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Reg_4.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Reg_4.sv
 L0 1
 R5
 r1
 !s85 0
 31
-R11
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Reg_4.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Reg_4.sv|
+R6
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Reg_4.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Reg_4.sv|
 !i113 1
 R7
 R8
@@ -140,147 +140,147 @@ R1
 R2
 !i10b 1
 !s100 2ffML3jhY4aCKKX2f;m:<1
-I>NKRQMKG0cSkNfLTYhQcB1
+I_H;gGRVj^SdnzTVWjM:8L1
 R3
 !s105 Register_unit_sv_unit
 S1
 R0
-w1581304714
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Register_unit.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Register_unit.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Register_unit.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Register_unit.sv
 L0 1
 R5
 r1
 !s85 0
 31
-!s108 1581310869.000000
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Register_unit.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Register_unit.sv|
+R12
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Register_unit.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Register_unit.sv|
 !i113 1
 R7
 R8
 R9
 vrouter
 R1
-R14
+R10
 !i10b 1
 !s100 lIdD9@`9>^lYia[Dkg2aV0
-I1^cKEEFJTjb4==1AoHC512
+IEmCZ;zgBBf<U29UVI6SoI2
 R3
 !s105 Router_sv_unit
 S1
 R0
-w1581231215
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv
 L0 1
 R5
 r1
 !s85 0
 31
-Z15 !s108 1581310866.000000
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv|
+R6
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv|
 !i113 1
 R7
 R8
 R9
 vsync
 R1
-Z16 !s110 1581310866
+R10
 !i10b 1
 !s100 2W5Vz0:F6ckE2`eJOTK5l1
-I8^ij>XkPWOPz>8;h?^RX01
+IO]KzVF;4mZjz>o;^d2::>3
 R3
-Z17 !s105 Synchronizers_sv_unit
+Z13 !s105 Synchronizers_sv_unit
 S1
 R0
 R4
-Z18 8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Synchronizers.sv
-Z19 FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Synchronizers.sv
+Z14 8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Synchronizers.sv
+Z15 FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Synchronizers.sv
 L0 4
 R5
 r1
 !s85 0
 31
-R15
-Z20 !s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Synchronizers.sv|
-Z21 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Synchronizers.sv|
+Z16 !s108 1581399422.000000
+Z17 !s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Synchronizers.sv|
+Z18 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Synchronizers.sv|
 !i113 1
 R7
 R8
 R9
 vsync_r0
 R1
-R16
+R10
 !i10b 1
 !s100 IGd9f_F;JNjVBLQ@DAnD10
-I1XBJfjJz1TG_;@lbOF>N@0
+I63;II;lZ_k>RC;O]P98F90
 R3
-R17
+R13
 S1
 R0
 R4
-R18
-R19
+R14
+R15
 L0 18
 R5
 r1
 !s85 0
 31
-R15
-R20
-R21
+R16
+R17
+R18
 !i113 1
 R7
 R8
 R9
 vsync_r1
 R1
-R16
+R10
 !i10b 1
 !s100 1CXiH1DYDbAUS69Ee2j060
-IhJ?M3Le9;GL>kX^LZ]ckJ3
+IKljKN<V>5^ke10Onl2=Ef0
 R3
-R17
+R13
 S1
 R0
 R4
-R18
-R19
+R14
+R15
 L0 39
 R5
 r1
 !s85 0
 31
-R15
-R20
-R21
+R16
+R17
+R18
 !i113 1
 R7
 R8
 R9
 vtestbench8
 R1
-R12
+R11
 !i10b 1
 !s100 ]z9QT1Z=WKi2nnBe9VBkl0
-I<>6=DHzPITznFekPkfdRc2
+Ik<FzOA^zW3L`:[9CdM?mH3
 R3
 !s105 testbench_8_sv_unit
 S1
 R0
-w1581289106
-8C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/testbench_8.sv
-FC:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/testbench_8.sv
+R4
+8C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/testbench_8.sv
+FC:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/testbench_8.sv
 L0 1
 R5
 r1
 !s85 0
 31
-R13
-!s107 C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/testbench_8.sv|
-!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit|C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/testbench_8.sv|
+!s108 1581399425.000000
+!s107 C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/testbench_8.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit|C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/testbench_8.sv|
 !i113 1
 R7
 R8

@@ -10,10 +10,10 @@
 # Copying C:/intelFPGA/18.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
 # Modifying modelsim.ini
 # 
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Synchronizers.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Synchronizers.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:06 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Synchronizers.sv 
+# Start time: 23:37:02 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Synchronizers.sv 
 # -- Compiling module sync
 # -- Compiling module sync_r0
 # -- Compiling module sync_r1
@@ -22,93 +22,93 @@
 # 	sync
 # 	sync_r0
 # 	sync_r1
-# End time: 23:01:06 on Feb 09,2020, Elapsed time: 0:00:00
+# End time: 23:37:03 on Feb 10,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:06 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv 
+# Start time: 23:37:03 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv 
 # -- Compiling module router
 # 
 # Top level modules:
 # 	router
-# End time: 23:01:07 on Feb 09,2020, Elapsed time: 0:00:01
+# End time: 23:37:03 on Feb 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Reg_4.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Reg_4.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:07 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Reg_4.sv 
+# Start time: 23:37:03 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Reg_4.sv 
 # -- Compiling module reg_8
 # 
 # Top level modules:
 # 	reg_8
-# End time: 23:01:07 on Feb 09,2020, Elapsed time: 0:00:00
+# End time: 23:37:03 on Feb 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/HexDriver.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/HexDriver.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:07 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/HexDriver.sv 
+# Start time: 23:37:03 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/HexDriver.sv 
 # -- Compiling module HexDriver
 # 
 # Top level modules:
 # 	HexDriver
-# End time: 23:01:08 on Feb 09,2020, Elapsed time: 0:00:01
+# End time: 23:37:03 on Feb 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:08 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv 
+# Start time: 23:37:03 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv 
 # -- Compiling module control
 # 
 # Top level modules:
 # 	control
-# End time: 23:01:08 on Feb 09,2020, Elapsed time: 0:00:00
+# End time: 23:37:03 on Feb 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:08 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv 
+# Start time: 23:37:03 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv 
 # -- Compiling module compute
 # 
 # Top level modules:
 # 	compute
-# End time: 23:01:09 on Feb 09,2020, Elapsed time: 0:00:01
+# End time: 23:37:04 on Feb 10,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Register_unit.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Register_unit.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:09 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Register_unit.sv 
+# Start time: 23:37:04 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Register_unit.sv 
 # -- Compiling module register_unit
 # 
 # Top level modules:
 # 	register_unit
-# End time: 23:01:09 on Feb 09,2020, Elapsed time: 0:00:00
+# End time: 23:37:04 on Feb 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Processor.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Processor.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:10 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Processor.sv 
+# Start time: 23:37:04 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Processor.sv 
 # -- Compiling module Processor
 # 
 # Top level modules:
 # 	Processor
-# End time: 23:01:10 on Feb 09,2020, Elapsed time: 0:00:00
+# End time: 23:37:05 on Feb 10,2020, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # 
-# vlog -sv -work work +incdir+C:/Users/mongo/Documents/College/Spring\ 2020/ECE\ 385/Lab\ 4/logic_processor_4bit {C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/testbench_8.sv}
+# vlog -sv -work work +incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit {C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/testbench_8.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-# Start time: 23:01:10 on Feb 09,2020
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit" C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/testbench_8.sv 
+# Start time: 23:37:05 on Feb 10,2020
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit" C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/testbench_8.sv 
 # -- Compiling module testbench8
 # 
 # Top level modules:
 # 	testbench8
-# End time: 23:01:11 on Feb 09,2020, Elapsed time: 0:00:01
+# End time: 23:37:05 on Feb 10,2020, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  testbench8
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" testbench8 
-# Start time: 23:01:13 on Feb 09,2020
+# Start time: 23:37:05 on Feb 10,2020
 # Loading sv_std.std
 # Loading work.testbench8
 # Loading work.Processor
@@ -126,18 +126,19 @@
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run -all
-# ** Warning: (vsim-8315) C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv(25): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv(25): No condition is true in the unique/priority if/case statement.
 #    Time: 0 ps  Iteration: 0  Instance: /testbench8/processor0/control_unit
-# ** Warning: (vsim-8315) C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv(17): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv(17): No condition is true in the unique/priority if/case statement.
 #    Time: 0 ps  Iteration: 0  Instance: /testbench8/processor0/router
-# ** Warning: (vsim-8315) C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Router.sv(7): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Router.sv(7): No condition is true in the unique/priority if/case statement.
 #    Time: 0 ps  Iteration: 0  Instance: /testbench8/processor0/router
-# ** Warning: (vsim-8315) C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/compute.sv(8): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/compute.sv(8): No condition is true in the unique/priority if/case statement.
 #    Time: 0 ps  Iteration: 0  Instance: /testbench8/processor0/compute_unit
-# ** Warning: (vsim-8315) C:/Users/mongo/Documents/College/Spring 2020/ECE 385/Lab 4/logic_processor_4bit/Control.sv(25): No condition is true in the unique/priority if/case statement.
+# ** Warning: (vsim-8315) C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/Control.sv(25): No condition is true in the unique/priority if/case statement.
 #    Time: 10 ns  Iteration: 2  Instance: /testbench8/processor0/control_unit
 # Success!
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf C:/Users/antho/Desktop/ece385git/lab4/8bit_processor/logic_processor_4bit/simulation/modelsim/wave.do
 # Break key hit
 # Simulation stop requested.
-# End time: 23:08:01 on Feb 09,2020, Elapsed time: 0:06:48
+# End time: 07:32:20 on Feb 11,2020, Elapsed time: 7:55:15
 # Errors: 0, Warnings: 5
