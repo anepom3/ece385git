@@ -4,6 +4,7 @@ module adder_9_bit
     input   logic[7:0]     B,
 	 input	logic				A_9th
 	 input	logic				B_9th
+	 input	logic				select_op
     output  logic[7:0]     Sum,
 	 output	logic				Sum_9th
 	 output	logic				B_Sum
@@ -15,11 +16,43 @@ module adder_9_bit
      * Full Adder for the 9th bit.
      * This implementation is completly combinational (it doesn't use always_ff or always_latch).
      */
+		logic [7:0] A';
+		logic [7:0] B';
+		logic A_9th';
+		logic B_9th';
+		logic cin;
+		
 		logic C0, C1;
 		
-		four_bit_ra FRA0(.x(A[3 : 0]), .y(B[3 : 0]), .cin(0), .s(Sum[3 : 0]), .cout(C0));
-		four_bit_ra FRA1(.x(A[7 : 4]), .y(B[7 : 4]), .cin(C0), .s(Sum[7 : 4]), .cout(C1));
-		full_adder(.x(A_9th), .y(B_9th), .cin(C1), .s(Sum_9th), .cout(cout));
+		always_comb begin
+			A' = A[0] XOR select_op;
+			A' = A[1] XOR select_op;
+			A' = A[2] XOR select_op;
+			A' = A[3] XOR select_op;
+			A' = A[4] XOR select_op;
+			A' = A[5] XOR select_op;
+			A' = A[6] XOR select_op;
+			A' = A[7] XOR select_op;
+			
+			A_9th' = A_9th XOR select_op;
+
+			B' = B[0] XOR select_op;
+			B' = B[1] XOR select_op;
+			B' = B[2] XOR select_op;
+			B' = B[3] XOR select_op;
+			B' = B[4] XOR select_op;
+			B' = B[5] XOR select_op;
+			B' = B[6] XOR select_op;
+			B' = B[7] XOR select_op;
+			B_9th' = B_9th XOR select_op;
+			
+			cin = 1b'0 XOR select_op;
+		end
+		
+		
+		four_bit_ra FRA0(.x(A'[3 : 0]), .y(B'[3 : 0]), .cin(cin), .s(Sum[3 : 0]), .cout(C0));
+		four_bit_ra FRA1(.x(A'[7 : 4]), .y(B'[7 : 4]), .cin(C0), .s(Sum[7 : 4]), .cout(C1));
+		full_adder(.x(A_9th'), .y(B_9th'), .cin(C1), .s(Sum_9th), .cout(cout));
 	
 endmodule
 
