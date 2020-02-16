@@ -40,18 +40,19 @@ multiplier8x8 tp(.*);
 
 initial begin : TEST_VECTORS
 
+// Reset
 Reset = 0;
 ClearA_LoadB = 1;
 Run   = 1;
 
 //test case1
-#2 Reset = 1;
+#2 Reset = 1; // Release Reset button
 
-#2 ClearA_LoadB = 0;
-	S     = 8'b00000001; // 
+#2 ClearA_LoadB = 0; // Press ClearA_LoadB
+	S     = 8'b00000001; // 1 into Load B
 
 #2 ClearA_LoadB = 1;
-	S		= 8'b00000010;
+	S		= 8'b00000010; // 2 held on the switches
 	
 #2 Run   = 0;
 

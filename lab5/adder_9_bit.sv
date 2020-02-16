@@ -62,7 +62,7 @@ module adder_9_bit
     // the 9th bit.
 		four_bit_ra FRA0(.x(S_comb[3 : 0]), .y(A[3 : 0]), .cin(cin), .s(Sum[3 : 0]), .cout(C0));
 		four_bit_ra FRA1(.x(S_comb[7 : 4]), .y(A[7 : 4]), .cin(C0), .s(Sum[7 : 4]), .cout(C1));
-		full_adder(.x(S_9th_comb), .y(A_9th), .cin(C1), .s(Sum_9th), .cout(cout));
+		full_adder FA9(.x(S_9th_comb), .y(A_9th), .cin(C1), .s(Sum_9th), .cout(cout));
 
 endmodule
 

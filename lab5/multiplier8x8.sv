@@ -26,6 +26,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
      logic [7:0] B;
      logic [7:0] S_hold;
      logic [7:0] A_In; //Data to put into SR A
+	  logic X_reg_internal;
 
 
      /* Declare Internal Wires */
@@ -33,6 +34,10 @@ module multiplier8x8 (input  logic Clk,          //Internal
      logic [6:0] AHex1_comb;
      logic [6:0] BHex0_comb;
      logic [6:0] BHex1_comb;
+	  logic ResetH;
+	  logic ClearA_LoadBH;
+	  logic RunH;
+	  
 
      // These Aval_comb and B_val comb may not be needed?
      logic [7:0] Aval_comb;
@@ -52,22 +57,29 @@ module multiplier8x8 (input  logic Clk,          //Internal
      /* Always_init stuff here??? */
 
      /* Behavior of Multiplier */
-//     always_ff @(posedge Clk) begin
-//
+     always_ff @(posedge Clk) begin
+
 //          if(ResetH) begin
 //               /* Do the reset */
 //               A <= 2'h00;
 //               B <= 2'h00;
 //          end
-//
-//          /* Do    */
-//          /* Some  */
-//          /* More  */
-//          /* Stuff */
-//          /* In    */
-//          /* Here  */
-//
-//     end
+
+          /* Do    */
+          /* Some  */
+          /* More  */
+          /* Stuff */
+          /* In    */
+          /* Here  */
+			 
+				if(Clear_A | ResetH ) begin
+					X_reg_internal <= 1'b0;
+				end
+				else begin
+					X_reg_internal <= X_reg_comb;
+				end
+
+     end
 
      /* Decoders for HEX drivers and output registers
      * Note that the hex drivers are calculated one cycle after Sum so
@@ -79,9 +91,17 @@ module multiplier8x8 (input  logic Clk,          //Internal
         AHexU <= AHex1_comb;
         BHexL <= BHex0_comb;
         BHexU <= BHex1_comb;
-		  X_reg <= X_reg_comb;
+		  X_reg <= X_reg_internal;
 
     end
+	 
+	 always_comb begin
+		Aval_comb = A;
+		Bval_comb = B;
+		Aval = Aval_comb;
+		Bval = Bval_comb;
+		
+	 end
 
     /* Instantiation of modules */
     reg_8   reg_8_A ( // Inputs
@@ -93,7 +113,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
                       .Shift_Out(B_Shift_In), .Data_Out(A));
 
     reg_8   reg_8_B ( // Inputs
-                      .Clk(Clk), .Reset(ResetH), .Clear(0),
+                      .Clk(Clk), .Reset(ResetH), .Clear(1'b0),
                       .Shift_In(B_Shift_In), .Load(Ld_B), .Shift_En(Shift),
                       .D(S_hold),
 
@@ -107,7 +127,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
                             .select_op(select_op),.M(M),
 
                             //  Outputs
-                            .Final_Sum(A_In), .Final_Sum_9th(X_reg_comb), .COUT(0)
+                            .Final_Sum(A_In), .Final_Sum_9th(X_reg_comb), .COUT(x)
     );
 
     control   control_unit ( // Inputs
@@ -124,28 +144,28 @@ module multiplier8x8 (input  logic Clk,          //Internal
      HexDriver Ahex0_inst
      (
          .In0(A[3:0]),   // This connects the 4 least significant bits of
-         .Out0(Ahex0_comb) // register A to the input of a hex driver named Ahex0_inst
+         .Out0(AHex0_comb) // register A to the input of a hex driver named Ahex0_inst
      );
 
 
      HexDriver Ahex1_inst
      (
          .In0(A[7:4]),
-         .Out0(Ahex1_comb)
+         .Out0(AHex1_comb)
      );
 
 
      HexDriver Bhex0_inst
      (
          .In0(B[3:0]),
-         .Out0(Bhex0_comb)
+         .Out0(BHex0_comb)
      );
 
 
      HexDriver Bhex1_inst
      (
          .In0(B[7:4]),
-         .Out0(Bhex1_comb)
+         .Out0(BHex1_comb)
      );
 
 	  //Input synchronizers required for asynchronous inputs (in this case, from the switches)

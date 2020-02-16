@@ -41,7 +41,10 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
   		  Finish :    if(~Run)
                       next_state = Wait; //only if Run button is released
   		  Wait   :    if(Run)
+						  begin
                       next_state = A0; //only if Run button is pressed again
+							 Clear_A   = 1'b1;
+						  end
 
         endcase
 
@@ -53,15 +56,15 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
             begin
               Shift_En  = 1'b0;
               select_op = 1'b0;
-              Ld_A      = 1'b0;
+              Ld_A      = 1'b1;
               Ld_B      = 1'b0;
-              Clear_A   = 1'b1;
+              Clear_A   = 1'b0;
             end
       A1, A2, A3, A4, A5, A6	     	:
             begin
               Shift_En  = 1'b0;
               select_op = 1'b0;
-              Ld_A      = 1'b0;
+              Ld_A      = 1'b1;
               Ld_B      = 1'b0;
               Clear_A   = 1'b0;
             end
@@ -82,7 +85,7 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
             select_op = 1'b1;
           else
             select_op = 1'b0;
-          Ld_A      = 1'b0;
+          Ld_A      = 1'b1;
           Ld_B      = 1'b0;
           Clear_A   = 1'b0;
 
@@ -97,7 +100,7 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
         end
       Wait   :
         begin
-          Shift_En  = 1'b1;
+          Shift_En  = 1'b0;
           select_op = 1'b0;
           if(ClearA_LoadB)
             begin
@@ -109,7 +112,7 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
             begin
               Ld_A      = 1'b0;
               Ld_B      = 1'b0;
-              Clear_A   = 1'b1;
+              Clear_A   = 1'b0;
             end
         end
 		  endcase
