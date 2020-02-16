@@ -39,7 +39,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
      logic [7:0] Bval_comb;
 
 
-     logic X_reg; //Sign extrension
+     logic X_reg_comb; //Sign extrension
      logic B_Shift_In; //Shift bit from A[0] to B[7]
      logic M; //Current bit of multiplicand (from B, goes into logic of adder)
      logic Shift; //Shift the SRs
@@ -79,13 +79,14 @@ module multiplier8x8 (input  logic Clk,          //Internal
         Ahex1 <= Ahex1_comb;
         Bhex0 <= Bhex0_comb;
         Bhex1 <= Bhex1_comb;
+		  X_reg <= X_reg_comb;
 
     end
 
     /* Instantiation of modules */
     reg_8   reg_8_A ( // Inputs
                       .Clk(Clk), .Reset(ResetH), .Clear(Clear_A),
-                      .Shift_In(X_reg), .Load(Ld_A), .Shift_En(Shift),
+                      .Shift_In(X_reg_comb), .Load(Ld_A), .Shift_En(Shift),
                       .D(A_In),
 
                       // Outputs
@@ -102,16 +103,16 @@ module multiplier8x8 (input  logic Clk,          //Internal
     );
 
     adder_9_bit adder_unit ( // Inputs
-                            .S(S_hold), .A(A), .S_9th(S_hold[7]), .A_9th([7]),
+                            .S(S_hold), .A(A), .S_9th(S_hold[7]), .A_9th(A[7]),
                             .select_op(select_op),.M(M),
 
                             //  Outputs
-                            .Final_Sum(A_In), .Final_Sum_9th(X_reg), .COUT(0)
+                            .Final_Sum(A_In), .Final_Sum_9th(X_reg_comb), .COUT(0)
     );
 
     control   control_unit ( // Inputs
                             .Clk(Clk), .Reset(ResetH),
-                            .ClearA_LoadB(ClearA_LoadBH), .Run(RunH) .M(M)
+                            .ClearA_LoadB(ClearA_LoadBH), .Run(RunH) .M(M),
 
                             //  Outputs
                             .Shift_En(Shift), .select_op(select_op),
