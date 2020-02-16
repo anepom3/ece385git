@@ -25,25 +25,25 @@ module adder_9_bit
 		logic C0, C1;
 		
 		always_comb begin
-			A' = A[0] XOR select_op;
-			A' = A[1] XOR select_op;
-			A' = A[2] XOR select_op;
-			A' = A[3] XOR select_op;
-			A' = A[4] XOR select_op;
-			A' = A[5] XOR select_op;
-			A' = A[6] XOR select_op;
-			A' = A[7] XOR select_op;
+			A'[0] = A[0] XOR select_op;
+			A'[1] = A[1] XOR select_op;
+			A'[2] = A[2] XOR select_op;
+			A'[3] = A[3] XOR select_op;
+			A'[4] = A[4] XOR select_op;
+			A'[5] = A[5] XOR select_op;
+			A'[6] = A[6] XOR select_op;
+			A'[7] = A[7] XOR select_op;
 			
 			A_9th' = A_9th XOR select_op;
 
-			B' = B[0] XOR select_op;
-			B' = B[1] XOR select_op;
-			B' = B[2] XOR select_op;
-			B' = B[3] XOR select_op;
-			B' = B[4] XOR select_op;
-			B' = B[5] XOR select_op;
-			B' = B[6] XOR select_op;
-			B' = B[7] XOR select_op;
+			B'[0] = B[0] XOR select_op;
+			B'[1] = B[1] XOR select_op;
+			B'[2] = B[2] XOR select_op;
+			B'[3] = B[3] XOR select_op;
+			B'[4] = B[4] XOR select_op;
+			B'[5] = B[5] XOR select_op;
+			B'[6] = B[6] XOR select_op;
+			B'[7] = B[7] XOR select_op;
 			B_9th' = B_9th XOR select_op;
 			
 			cin = 1b'0 XOR select_op;
