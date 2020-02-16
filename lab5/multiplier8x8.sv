@@ -29,10 +29,10 @@ module multiplier8x8 (input  logic Clk,          //Internal
 
 
      /* Declare Internal Wires */
-     logic [6:0] Ahex0_comb;
-     logic [6:0] Ahex1_comb;
-     logic [6:0] Bhex0_comb;
-     logic [6:0] Bhex1_comb;
+     logic [6:0] AHex0_comb;
+     logic [6:0] AHex1_comb;
+     logic [6:0] BHex0_comb;
+     logic [6:0] BHex1_comb;
 
      // These Aval_comb and B_val comb may not be needed?
      logic [7:0] Aval_comb;
@@ -52,22 +52,22 @@ module multiplier8x8 (input  logic Clk,          //Internal
      /* Always_init stuff here??? */
 
      /* Behavior of Multiplier */
-     always_ff @(posedge Clk) begin
-
-          if(ResetH) begin
-               /* Do the reset */
-               A <= 8'h00;
-               B <= 8'h00;
-          end
-
-          /* Do    */
-          /* Some  */
-          /* More  */
-          /* Stuff */
-          /* In    */
-          /* Here  */
-
-     end
+//     always_ff @(posedge Clk) begin
+//
+//          if(ResetH) begin
+//               /* Do the reset */
+//               A <= 2'h00;
+//               B <= 2'h00;
+//          end
+//
+//          /* Do    */
+//          /* Some  */
+//          /* More  */
+//          /* Stuff */
+//          /* In    */
+//          /* Here  */
+//
+//     end
 
      /* Decoders for HEX drivers and output registers
      * Note that the hex drivers are calculated one cycle after Sum so
@@ -75,10 +75,10 @@ module multiplier8x8 (input  logic Clk,          //Internal
      * The human eye can't see this one-cycle latency so it's OK. */
     always_ff @(posedge Clk) begin
         // These connect our hex modules to the HEX LED Display outputs.
-        Ahex0 <= Ahex0_comb;
-        Ahex1 <= Ahex1_comb;
-        Bhex0 <= Bhex0_comb;
-        Bhex1 <= Bhex1_comb;
+        AHexL <= AHex0_comb;
+        AHexU <= AHex1_comb;
+        BHexL <= BHex0_comb;
+        BHexU <= BHex1_comb;
 		  X_reg <= X_reg_comb;
 
     end
@@ -112,7 +112,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
 
     control   control_unit ( // Inputs
                             .Clk(Clk), .Reset(ResetH),
-                            .ClearA_LoadB(ClearA_LoadBH), .Run(RunH) .M(M),
+                            .ClearA_LoadB(ClearA_LoadBH), .Run(RunH), .M(M),
 
                             //  Outputs
                             .Shift_En(Shift), .select_op(select_op),
@@ -152,7 +152,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
 	  //These are array module instantiations
 	  //Note: S stands for SYNCHRONIZED, H stands for active HIGH
 	  //Note: We can invert the levels inside the port assignments
-	  sync button_sync[3:0] (Clk, {~Reset, ~ClearA_LoadB, ~Run}, {ResetH, ClearA_LoadBH, RunH});
+	  sync button_sync[2:0] (Clk, {~Reset, ~ClearA_LoadB, ~Run}, {ResetH, ClearA_LoadBH, RunH});
 	  sync S_sync[7:0] (Clk, S, S_hold);
 
 endmodule

@@ -17,8 +17,8 @@ module adder_9_bit
      * Full Adder for the 9th bit.
      * This implementation is completly combinational (it doesn't use always_ff or always_latch).
      */
-		logic [7:0] S';
-		logic S_9th';
+		logic [7:0] S_comb;
+		logic S_9th_comb;
 		logic cin;
     logic [7:0] Sum;
     logic Sum_9th;
@@ -26,21 +26,21 @@ module adder_9_bit
 
 		logic C0, C1;
 
-    // Build XOR network to conditionally flip S input and add 1 via the
+    // Build XOR (^) network to conditionally flip S input and add 1 via the
     // carry in.
 		always_comb begin
-			S'[0] = S[0] XOR select_op;
-			S'[1] = S[1] XOR select_op;
-			S'[2] = S[2] XOR select_op;
-			S'[3] = S[3] XOR select_op;
-			S'[4] = S[4] XOR select_op;
-			S'[5] = S[5] XOR select_op;
-			S'[6] = S[6] XOR select_op;
-			S'[7] = S[7] XOR select_op;
+			S_comb[0] = S[0] ^ select_op;
+			S_comb[1] = S[1] ^ select_op;
+			S_comb[2] = S[2] ^ select_op;
+			S_comb[3] = S[3] ^ select_op;
+			S_comb[4] = S[4] ^ select_op;
+			S_comb[5] = S[5] ^ select_op;
+			S_comb[6] = S[6] ^ select_op;
+			S_comb[7] = S[7] ^ select_op;
 
-			S_9th' = S_9th XOR select_op;
+			S_9th_comb = S_9th ^ select_op;
 
-			cin = 1b'0 XOR select_op;
+			cin = 1'b0 ^ select_op;
 
       // Building logic to by pass adders if M is 0, i.e. LSB of B is 0
       // so don't add.
@@ -54,15 +54,15 @@ module adder_9_bit
         begin
           Final_Sum = A[7:0];
           Final_Sum_9th = A_9th;
-          COUT = X;
+			 COUT = 0;
         end
 		end
 
     // Instantiating the 4-bit ripple adders and a one final full adder for
     // the 9th bit.
-		four_bit_ra FRA0(.x(S'[3 : 0]), .y(A[3 : 0]), .cin(cin), .s(Sum[3 : 0]), .cout(C0));
-		four_bit_ra FRA1(.x(S'[7 : 4]), .y(A[7 : 4]), .cin(C0), .s(Sum[7 : 4]), .cout(C1));
-		full_adder(.x(S_9th'), .y(A_9th), .cin(C1), .s(Sum_9th), .cout(cout));
+		four_bit_ra FRA0(.x(S_comb[3 : 0]), .y(A[3 : 0]), .cin(cin), .s(Sum[3 : 0]), .cout(C0));
+		four_bit_ra FRA1(.x(S_comb[7 : 4]), .y(A[7 : 4]), .cin(C0), .s(Sum[7 : 4]), .cout(C1));
+		full_adder(.x(S_9th_comb), .y(A_9th), .cin(C1), .s(Sum_9th), .cout(cout));
 
 endmodule
 
