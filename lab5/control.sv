@@ -1,5 +1,5 @@
-module control (input  logic Clk, Reset, LoadA, LoadB, Execute,
-                output logic Shift_En, Ld_A, Ld_B );
+module control (input  logic Clk, Reset, LoadA, LoadB, Execute, M
+                output logic Shift_En, select_op, Ld_A, Ld_B );
 
     // Declare signals curr_state, next_state of type enum
     // with enum values of A, B, ..., F as the state values
@@ -28,18 +28,18 @@ module control (input  logic Clk, Reset, LoadA, LoadB, Execute,
         S1     :    next_state = A2;
         A2     :    next_state = S2;
         S2     :    next_state = A3;
-				A3     :    next_state = S3;
-				S3     :    next_state = A4;
-				A4     :    next_state = S4;
-				S4     :    next_state = A5;
+		  A3     :    next_state = S3;
+		  S3     :    next_state = A4;
+		  A4     :    next_state = S4;
+		  S4     :    next_state = A5;
         A5     :    next_state = S5;
         S5     :    next_state = A6;
         A6     :    next_state = S6;
         S6     :    next_state = A7;
         A7     :    next_state = S7;
         S7     :    next_state = Finish;
-				Finish :    next_state = Wait; //only if ~RUN
-				Wait   :    next_state = S0; //only if RUN
+		  Finish :    next_state = Wait; //only if ~RUN
+		  Wait   :    next_state = S0; //only if RUN
 
         endcase
 
@@ -47,6 +47,7 @@ module control (input  logic Clk, Reset, LoadA, LoadB, Execute,
         case (curr_state)
 
 		  /* Fill case statements with vals */
+		  A0		:
 
 		  endcase
 	 end
