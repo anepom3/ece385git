@@ -18,6 +18,8 @@ module multiplier8x8
      /* Declare Internal Registers */
      logic [7:0] A;
      logic [7:0] B;
+     logic [7:0] S_hold;
+     logic [7:0] A_In; //Data to put into SR A
 
 
      /* Declare Internal Wires */
@@ -29,9 +31,54 @@ module multiplier8x8
      logic [7:0] Bval_comb;
      logic X; //Sign extrension
      logic M; //Current bit of multiplicand (from B, goes into logic of adder)
+     logic Ld_A; //Load new data from S into A
+     logic Ld_B; //Load new data from S into B
+     logic Shift; //Shift the SRs
+     logic Clear_A; //Clear A to begin multiplication operation
+     logic B_Shift_In; //Shift bit from A[0] to B[7]
 
 
      /* Always_init stuff here??? */
+
+     /* Instantiation of modules */
+     reg_8   reg_8_A (
+               .Clk,
+               .Reset,
+               .Clear(Clear_A),
+               .Shift_In(X),
+               .Load(Ld_A),
+               .Shift_En(Shift), // double-check value name from output of control
+               .D(A_In),//Figure out where to get this (A_In = Sum Output)
+               .Shift_Out(B_Shift_In),
+               .Data_Out(A)
+     );
+
+     reg_8   reg_8_B ( //Finish this
+              .Clk,
+              .Reset,
+              .Clear(0);
+              .Shift_In(B_Shift_In),
+              .Load(),
+              .Shift_En(Shift),
+              .D(S),
+              .Shift_Out(M),
+              .Data_Out(B)
+     );
+
+     control   control_unit (
+
+     );
+
+     adder_9_bit adder_unit (
+                    .A(S),
+                    .B(A),
+                    .A_9th().
+                    .B_9th(),
+                    .select_op(),
+                    .Sum(),
+                    .Sum_9th(),
+                    .cout()
+     );
 
 
      /* Behavior of Multiplier */
