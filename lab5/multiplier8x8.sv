@@ -1,20 +1,26 @@
-module multiplier8x8
-(
-     input logic Clk, //Internal
-                 Reset, //Push button 0
-                 Run, //Push button 1
-                 ClearA_LoadB, //Push Button 2
-     input  logic [7:0] S, //From switches
-     output logic [7:0] Aval, //Values of Registers
-                        Bval,
-     output logic [6:0] AHexU, //Hex values
-                        AHexL,
-                        BHexU,
-                        BHexL,
-     output logic X
-);
+// 8bit x 8bit Multiplier Top Level module
+// Anthony Nepomuceno and Tyler Mongoven
+// ECE 385 Spring 2020
+// Lab 5
 
+module multiplier8x8 (input  logic Clk,          //Internal
+                                   Reset,        //Push button 0
+                                   Run,          //Push button 3
+                                   ClearA_LoadB, //Push Button 2
+                      input  logic [7:0] S,      //From switches [0:7]
 
+                      // Do we need the Aval and Bval outputs?
+                      output logic [7:0] Aval,   //Values of Registers
+                                   Bval,
+                      // These will output to the Hex Value LED displays
+                      output logic [6:0] AHexU,  //Hex values
+                                   AHexL,
+                                   BHexU,
+                                   BHexL,
+                       // This will be displayed on the LED G8
+                      output logic X);          // Value of sign extension REG X
+
+      // Why do we need these registers?
      /* Declare Internal Registers */
      logic [7:0] A;
      logic [7:0] B;
@@ -27,8 +33,12 @@ module multiplier8x8
      logic [6:0] Ahex1_comb;
      logic [6:0] Bhex0_comb;
      logic [6:0] Bhex1_comb;
+
+     // These Aval_comb and B_val comb may not be needed?
      logic [7:0] Aval_comb;
      logic [7:0] Bval_comb;
+
+
      logic X; //Sign extrension
      logic M; //Current bit of multiplicand (from B, goes into logic of adder)
      logic Ld_A; //Load new data from S into A
@@ -39,47 +49,6 @@ module multiplier8x8
 
 
      /* Always_init stuff here??? */
-
-     /* Instantiation of modules */
-     reg_8   reg_8_A (
-               .Clk,
-               .Reset,
-               .Clear(Clear_A),
-               .Shift_In(X),
-               .Load(Ld_A),
-               .Shift_En(Shift), // double-check value name from output of control
-               .D(A_In),//Figure out where to get this (A_In = Sum Output)
-               .Shift_Out(B_Shift_In),
-               .Data_Out(A)
-     );
-
-     reg_8   reg_8_B ( //Finish this
-              .Clk,
-              .Reset,
-              .Clear(0);
-              .Shift_In(B_Shift_In),
-              .Load(),
-              .Shift_En(Shift),
-              .D(S),
-              .Shift_Out(M),
-              .Data_Out(B)
-     );
-
-     control   control_unit (
-
-     );
-
-     adder_9_bit adder_unit (
-                    .A(S),
-                    .B(A),
-                    .A_9th().
-                    .B_9th(),
-                    .select_op(),
-                    .Sum(),
-                    .Sum_9th(),
-                    .cout()
-     );
-
 
      /* Behavior of Multiplier */
      always_ff @(posedge Clk) begin
@@ -99,8 +68,59 @@ module multiplier8x8
 
      end
 
+     /* Decoders for HEX drivers and output registers
+     * Note that the hex drivers are calculated one cycle after Sum so
+     * that they have minimal interfere with timing (fmax) analysis.
+     * The human eye can't see this one-cycle latency so it's OK. */
+    always_ff @(posedge Clk) begin
+        // These connect our hex modules to the HEX LED Display outputs.
+        Ahex0 <= Ahex0_comb;
+        Ahex1 <= Ahex1_comb;
+        Bhex0 <= Bhex0_comb;
+        Bhex1 <= Bhex1_comb;
 
+    end
 
+    /* Instantiation of modules */
+    reg_8   reg_8_A (
+              .Clk,
+              .Reset,
+              .Clear(Clear_A),
+              .Shift_In(X),
+              .Load(Ld_A),
+              .Shift_En(Shift), // double-check value name from output of control
+              .D(A_In),//Figure out where to get this (A_In = Sum Output)
+              .Shift_Out(B_Shift_In),
+              .Data_Out(A)
+    );
+
+    reg_8   reg_8_B ( //Finish this
+             .Clk,
+             .Reset,
+             .Clear(0);
+             .Shift_In(B_Shift_In),
+             .Load(),
+             .Shift_En(Shift),
+             .D(S),
+             .Shift_Out(M),
+             .Data_Out(B)
+    );
+
+    adder_9_bit adder_unit (
+                   .S(S),
+                   .A(A),
+                   .S_9th().
+                   .A_9th(),
+                   .select_op(),
+                   .M(),
+                   .Final_Sum(),
+                   .Final_Sum_9th(),
+                   .COUT()
+    );
+
+    control   control_unit (
+
+    );
 
      /* Hex Drivers */
      HexDriver Ahex0_inst

@@ -2,7 +2,7 @@
 
 //synchronizer with no reset (for switches/buttons)
 module sync (
-	input  logic Clk, d, 
+	input  logic Clk, d,
 	output logic q
 );
 
@@ -16,12 +16,12 @@ endmodule
 
 //synchronizer with reset to 0 (d_ff)
 module sync_r0 (
-	input  logic Clk, Reset, d, 
+	input  logic Clk, Reset, d,
 	output logic q
 );
 
 //initial
-//begin	
+//begin
 //	q <= 1'b0;
 //end
 
@@ -37,11 +37,11 @@ endmodule
 
 //synchronizer with reset to 1 (d_ff)
 module sync_r1 (
-	input  logic Clk, Reset, d, 
+	input  logic Clk, Reset, d,
 	output logic q
 );
 //initial
-//begin	
+//begin
 //	q <= 1'b1;
 //end
 
