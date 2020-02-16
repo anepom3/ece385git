@@ -6,6 +6,7 @@ module adder_9_bit
   input	  logic				   A_9th,
   input	  logic				   select_op,
   input   logic          M,
+
   output  logic[7:0]     Final_Sum,
   output	logic				   Final_Sum_9th,
   output  logic          COUT

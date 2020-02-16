@@ -1,4 +1,4 @@
-module control (input  logic Clk, Reset, ClearA_LoadB, Execute, M
+module control (input  logic Clk, Reset, ClearA_LoadB, Run, M
                 output logic Shift_En, select_op, Ld_A, Ld_B, Clear_A);
 
     // Declare signals curr_state, next_state of type enum
@@ -9,7 +9,7 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Execute, M
 	//updates flip flop, current state is the only one
     always_ff @ (posedge Clk)
     begin
-        if (~Reset)
+        if (Reset)
             curr_state <= Wait;
         else
             curr_state <= next_state;
@@ -38,10 +38,10 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Execute, M
         S6     :    next_state = A7;
         A7     :    next_state = S7;
         S7     :    next_state = Finish;
-  		  Finish :    if(Execute)
-                      next_state = Wait; //only if execute button is released
-  		  Wait   :    if(~Execute)
-                      next_state = A0; //only if execute button is pressed again
+  		  Finish :    if(~Run)
+                      next_state = Wait; //only if Run button is released
+  		  Wait   :    if(Run)
+                      next_state = A0; //only if Run button is pressed again
 
         endcase
 
@@ -99,7 +99,7 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Execute, M
         begin
           Shift_En  = 1b'1;
           select_op = 1b'0;
-          if(~ClearA_LoadB) // NOT due to active low
+          if(ClearA_LoadB)
             begin
               Ld_A      = 1b'0;
               Ld_B      = 1b'1;

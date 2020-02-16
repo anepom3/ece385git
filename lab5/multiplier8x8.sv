@@ -18,7 +18,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
                                    BHexU,
                                    BHexL,
                        // This will be displayed on the LED G8
-                      output logic X);          // Value of sign extension REG X
+                      output logic X_reg);          // Value of sign extension REG X
 
       // Why do we need these registers?
      /* Declare Internal Registers */
@@ -39,13 +39,14 @@ module multiplier8x8 (input  logic Clk,          //Internal
      logic [7:0] Bval_comb;
 
 
-     logic X; //Sign extrension
+     logic X_reg; //Sign extrension
+     logic B_Shift_In; //Shift bit from A[0] to B[7]
      logic M; //Current bit of multiplicand (from B, goes into logic of adder)
+     logic Shift; //Shift the SRs
+     logic select_op; //Wire for Add - 0 or Sub - 1
      logic Ld_A; //Load new data from S into A
      logic Ld_B; //Load new data from S into B
-     logic Shift; //Shift the SRs
      logic Clear_A; //Clear A to begin multiplication operation
-     logic B_Shift_In; //Shift bit from A[0] to B[7]
 
 
      /* Always_init stuff here??? */
@@ -53,7 +54,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
      /* Behavior of Multiplier */
      always_ff @(posedge Clk) begin
 
-          if(!Reset) begin
+          if(ResetH) begin
                /* Do the reset */
                A <= 8'h00;
                B <= 8'h00;
@@ -82,43 +83,39 @@ module multiplier8x8 (input  logic Clk,          //Internal
     end
 
     /* Instantiation of modules */
-    reg_8   reg_8_A (
-              .Clk,
-              .Reset,
-              .Clear(Clear_A),
-              .Shift_In(X),
-              .Load(Ld_A),
-              .Shift_En(Shift), // double-check value name from output of control
-              .D(A_In),//Figure out where to get this (A_In = Sum Output)
-              .Shift_Out(B_Shift_In),
-              .Data_Out(A)
+    reg_8   reg_8_A ( // Inputs
+                      .Clk(Clk), .Reset(ResetH), .Clear(Clear_A),
+                      .Shift_In(X_reg), .Load(Ld_A), .Shift_En(Shift),
+                      .D(A_In),
+
+                      // Outputs
+                      .Shift_Out(B_Shift_In), .Data_Out(A));
+
+    reg_8   reg_8_B ( // Inputs
+                      .Clk(Clk), .Reset(ResetH), .Clear(0),
+                      .Shift_In(B_Shift_In), .Load(Ld_B), .Shift_En(Shift),
+                      .D(S_hold),
+
+                      // Outputs
+                      .Shift_Out(M),
+                      .Data_Out(B)
     );
 
-    reg_8   reg_8_B ( //Finish this
-             .Clk,
-             .Reset,
-             .Clear(0);
-             .Shift_In(B_Shift_In),
-             .Load(),
-             .Shift_En(Shift),
-             .D(S),
-             .Shift_Out(M),
-             .Data_Out(B)
+    adder_9_bit adder_unit ( // Inputs
+                            .S(S_hold), .A(A), .S_9th(S_hold[7]), .A_9th([7]),
+                            .select_op(select_op),.M(M),
+
+                            //  Outputs
+                            .Final_Sum(A_In), .Final_Sum_9th(X_reg), .COUT(0)
     );
 
-    adder_9_bit adder_unit (
-                   .S(S),
-                   .A(A),
-                   .S_9th().
-                   .A_9th(),
-                   .select_op(),
-                   .M(),
-                   .Final_Sum(),
-                   .Final_Sum_9th(),
-                   .COUT()
-    );
+    control   control_unit ( // Inputs
+                            .Clk(Clk), .Reset(ResetH),
+                            .ClearA_LoadB(ClearA_LoadBH), .Run(RunH) .M(M)
 
-    control   control_unit (
+                            //  Outputs
+                            .Shift_En(Shift), .select_op(select_op),
+                            .Ld_A(Ld_A), .Ld_B(Ld_B), .Clear_A(Clear_A)
 
     );
 
@@ -154,9 +151,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
 	  //These are array module instantiations
 	  //Note: S stands for SYNCHRONIZED, H stands for active HIGH
 	  //Note: We can invert the levels inside the port assignments
-	  sync button_sync[3:0] (Clk, {~Reset, ~LoadA, ~LoadB, ~Execute}, {Reset_SH, LoadA_SH, LoadB_SH, Execute_SH});
-	  sync Din_sync[7:0] (Clk, Din, Din_S);
-	  sync F_sync[2:0] (Clk, F, F_S);
-	  sync R_sync[1:0] (Clk, R, R_S);
+	  sync button_sync[3:0] (Clk, {~Reset, ~ClearA_LoadB, ~Run}, {ResetH, ClearA_LoadBH, RunH});
+	  sync S_sync[7:0] (Clk, S, S_hold);
 
 endmodule
