@@ -41,10 +41,7 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
   		  Finish :    if(~Run)
                       next_state = Wait; //only if Run button is released
   		  Wait   :    if(Run)
-						  begin
                       next_state = A0; //only if Run button is pressed again
-							 Clear_A   = 1'b1;
-						  end
 
         endcase
 
@@ -109,6 +106,8 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
               Ld_A      = 1'b0;
               Ld_B      = 1'b0;
               Clear_A   = 1'b0;
+				  if(Run)
+					Clear_A = 1'b1;
             end
         end
 		  endcase
