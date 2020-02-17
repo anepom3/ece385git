@@ -49,8 +49,8 @@ module adder_9_bit
 			 COUT = cout;
           Final_Sum = Sum;
           Final_Sum_9th = Sum_9th;
-			 if(select_op)
-				Final_Sum_9th = ~S_9th;
+//			 if(select_op)
+//				Final_Sum_9th = ~S_9th;
           
         end
       else
