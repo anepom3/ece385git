@@ -79,16 +79,12 @@ module control (input  logic Clk, Reset, ClearA_LoadB, Run, M,
       A7     :
         begin
           Shift_En  = 1'b0;
-          if(M == 1'b0)
-            select_op = 1'b0;
-          else if(M == 1'b1)
-            select_op = 1'b1;
-          else
-            select_op = 1'b0;
-          Ld_A      = 1'b1;
+		    Ld_A      = 1'b1;
           Ld_B      = 1'b0;
           Clear_A   = 1'b0;
-
+			 select_op = 1'b1;
+          if(M == 1'b0)
+            select_op = 1'b0;
         end
       Finish :
         begin

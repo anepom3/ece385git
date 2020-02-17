@@ -52,12 +52,12 @@ Run   = 1;
 #1 Reset = 1; // Release Reset button
 
 #1 ClearA_LoadB = 0; // Press ClearA_LoadB
-	S     = 8'b00000010; // 2 into Load B
+	S     = 8'b10000000; // -128 into Load B
 
 #1 ClearA_LoadB = 1;
-	S		= 8'b10000001; // -127 held on the switches
+	S		= 8'b00000011; // 3 held on the switches
 	
-#1 ans_1 = 16'hff02; // -254 is the answer
+#1 ans_1 = 16'hfe80; // -384 is the answer
 
 #1 Run   = 0; //check answer at 450ns
 
@@ -75,7 +75,7 @@ Run   = 1;
 #2 ClearA_LoadB = 1;
 	S		= 8'b10000000; // -128 held on the switches
 	
-#1 ans_2 = 16'h8000; // 16384 is the answer
+#1 ans_2 = 16'h4000; // 16384 is the answer
 
 #1 Run   = 0; //check answer at 900ns
 

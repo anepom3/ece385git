@@ -26,8 +26,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
      logic [7:0] B;
      logic [7:0] S_hold;
      logic [7:0] A_In; //Data to put into SR A
-	  logic X_reg_internal;
-
+	  
 
      /* Declare Internal Wires */
      logic [6:0] AHex0_comb;
@@ -38,13 +37,13 @@ module multiplier8x8 (input  logic Clk,          //Internal
 	  logic ClearA_LoadBH;
 	  logic RunH;
 	  
-
-     // These Aval_comb and B_val comb may not be needed?
      logic [7:0] Aval_comb;
      logic [7:0] Bval_comb;
 
 
      logic X_reg_comb; //Sign extrension
+	  logic X_reg_2_A;
+
      logic B_Shift_In; //Shift bit from A[0] to B[7]
      logic M; //Current bit of multiplicand (from B, goes into logic of adder)
      logic Shift; //Shift the SRs
@@ -57,29 +56,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
      /* Always_init stuff here??? */
 
      /* Behavior of Multiplier */
-     always_ff @(posedge Clk) begin
-
-//          if(ResetH) begin
-//               /* Do the reset */
-//               A <= 2'h00;
-//               B <= 2'h00;
-//          end
-
-          /* Do    */
-          /* Some  */
-          /* More  */
-          /* Stuff */
-          /* In    */
-          /* Here  */
-			 
-				if(Clear_A | ResetH ) begin
-					X_reg_internal <= 1'b0;
-				end
-				else begin
-					X_reg_internal <= X_reg_comb;
-				end
-
-     end
+    
 
      /* Decoders for HEX drivers and output registers
      * Note that the hex drivers are calculated one cycle after Sum so
@@ -91,7 +68,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
         AHexU <= AHex1_comb;
         BHexL <= BHex0_comb;
         BHexU <= BHex1_comb;
-		  X_reg <= X_reg_internal;
+		  X_reg <= X_reg_2_A;
 
     end
 	 
@@ -106,7 +83,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
     /* Instantiation of modules */
     reg_8   reg_8_A ( // Inputs
                       .Clk(Clk), .Reset(ResetH), .Clear(Clear_A),
-                      .Shift_In(X_reg_comb), .Load(Ld_A), .Shift_En(Shift),
+                      .Shift_In(X_reg_2_A), .Load(Ld_A), .Shift_En(Shift),
                       .D(A_In),
 
                       // Outputs
@@ -121,6 +98,8 @@ module multiplier8x8 (input  logic Clk,          //Internal
                       .Shift_Out(M),
                       .Data_Out(B)
     );
+	 
+	 reg_1 reg_1_X (.Clk(Clk),  .Reset(ResetH), .Clear(Clear_A), .D(X_reg_comb), .Data_Out(X_reg_2_A));
 
     adder_9_bit adder_unit ( // Inputs
                             .S(S_hold), .A(A), .S_9th(S_hold[7]), .A_9th(A[7]),
