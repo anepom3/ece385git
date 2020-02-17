@@ -68,6 +68,51 @@ set_global_assignment -name EDA_TEST_BENCH_NAME testbench -section_id eda_simula
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id testbench
 set_global_assignment -name EDA_TEST_BENCH_RUN_SIM_FOR "1000 ns" -section_id testbench
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME testbench -section_id testbench
-set_global_assignment -name EDA_TEST_BENCH_FILE testbench.sv -section_id testbench
 set_global_assignment -name SYSTEMVERILOG_FILE reg_1.sv
+set_location_assignment PIN_AA25 -to AHexL[0]
+set_location_assignment PIN_AA26 -to AHexL[1]
+set_location_assignment PIN_Y25 -to AHexL[2]
+set_location_assignment PIN_W26 -to AHexL[3]
+set_location_assignment PIN_Y26 -to AHexL[4]
+set_location_assignment PIN_W27 -to AHexL[5]
+set_location_assignment PIN_W28 -to AHexL[6]
+set_location_assignment PIN_V21 -to AHexU[0]
+set_location_assignment PIN_U21 -to AHexU[1]
+set_location_assignment PIN_AB20 -to AHexU[2]
+set_location_assignment PIN_AA21 -to AHexU[3]
+set_location_assignment PIN_AD24 -to AHexU[4]
+set_location_assignment PIN_AF23 -to AHexU[5]
+set_location_assignment PIN_Y19 -to AHexU[6]
+set_location_assignment PIN_G18 -to BHexL[0]
+set_location_assignment PIN_F22 -to BHexL[1]
+set_location_assignment PIN_E17 -to BHexL[2]
+set_location_assignment PIN_L26 -to BHexL[3]
+set_location_assignment PIN_L25 -to BHexL[4]
+set_location_assignment PIN_J22 -to BHexL[5]
+set_location_assignment PIN_H22 -to BHexL[6]
+set_location_assignment PIN_M24 -to BHexU[0]
+set_location_assignment PIN_Y22 -to BHexU[1]
+set_location_assignment PIN_W21 -to BHexU[2]
+set_location_assignment PIN_W22 -to BHexU[3]
+set_location_assignment PIN_W25 -to BHexU[4]
+set_location_assignment PIN_U23 -to BHexU[5]
+set_location_assignment PIN_U24 -to BHexU[6]
+set_location_assignment PIN_N21 -to ClearA_LoadB
+set_location_assignment PIN_Y2 -to Clk
+set_location_assignment PIN_M23 -to Reset
+set_location_assignment PIN_R24 -to Run
+set_location_assignment PIN_AB28 -to S[0]
+set_location_assignment PIN_AC28 -to S[1]
+set_location_assignment PIN_AC27 -to S[2]
+set_location_assignment PIN_AD27 -to S[3]
+set_location_assignment PIN_AB27 -to S[4]
+set_location_assignment PIN_AC26 -to S[5]
+set_location_assignment PIN_AD26 -to S[6]
+set_location_assignment PIN_AB26 -to S[7]
+set_location_assignment PIN_F17 -to X_reg
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench.sv -section_id testbench
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity lab4_adders_toplevel -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity lab4_adders_toplevel -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity lab4_adders_toplevel -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -entity lab4_adders_toplevel -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
