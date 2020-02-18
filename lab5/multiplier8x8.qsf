@@ -1,12 +1,12 @@
 # -------------------------------------------------------------------------- #
 #
 # Copyright (C) 2018  Intel Corporation. All rights reserved.
-# Your use of Intel Corporation's design tools, logic functions 
-# and other software and tools, and its AMPP partner logic 
-# functions, and any output files from any of the foregoing 
-# (including device programming or simulation files), and any 
-# associated documentation or information are expressly subject 
-# to the terms and conditions of the Intel Program License 
+# Your use of Intel Corporation's design tools, logic functions
+# and other software and tools, and its AMPP partner logic
+# functions, and any output files from any of the foregoing
+# (including device programming or simulation files), and any
+# associated documentation or information are expressly subject
+# to the terms and conditions of the Intel Program License
 # Subscription Agreement, the Intel Quartus Prime License Agreement,
 # the Intel FPGA IP License Agreement, or other applicable license
 # agreement, including, without limitation, that your use is for
@@ -52,9 +52,6 @@ set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name SYSTEMVERILOG_FILE Shift_Reg_8.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Synchronizers.sv
 set_global_assignment -name SYSTEMVERILOG_FILE multiplier8x8.sv
@@ -111,8 +108,9 @@ set_location_assignment PIN_AD26 -to S[6]
 set_location_assignment PIN_AB26 -to S[7]
 set_location_assignment PIN_F17 -to X_reg
 set_global_assignment -name EDA_TEST_BENCH_FILE testbench.sv -section_id testbench
-set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -entity lab4_adders_toplevel -section_id Top
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -entity lab4_adders_toplevel -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -entity lab4_adders_toplevel -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -entity lab4_adders_toplevel -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+set_global_assignment -name SDC_FILE multiplier8x8.sdc
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -99,7 +99,7 @@ module multiplier8x8 (input  logic Clk,          //Internal
                       .Data_Out(B)
     );
 	 
-	 reg_1 reg_1_X (.Clk(Clk),  .Reset(ResetH), .Clear(Clear_A), .D(X_reg_comb), .Data_Out(X_reg_2_A));
+	 reg_1 reg_1_X (.Clk(Clk),  .Reset(ResetH), .Clear(Clear_A), .Data_IN(X_reg_comb), .Ld(Ld_A), .Data_OUT(X_reg_2_A));
 
     adder_9_bit adder_unit ( // Inputs
                             .S(S_hold), .A(A), .S_9th(S_hold[7]), .A_9th(A[7]),
