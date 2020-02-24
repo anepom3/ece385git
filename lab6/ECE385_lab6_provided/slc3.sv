@@ -50,6 +50,8 @@ logic [15:0] MUX_2_MDR;
 logic [15:0] BUS;
 logic [15:0] PC_PLUS_comb;
 
+assign Data = BUS;
+
 // Signals being displayed on hex display
 logic [3:0][3:0] hex_4;
 
