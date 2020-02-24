@@ -74,7 +74,16 @@ assign MIO_EN = ~OE;
 
 // You need to make your own datapath module and connect everything to the datapath
 // Be careful about whether Reset is active high or low
-datapath d0 (.Clk, .Reset, LD_PC, LD_IR, LD_MAR, LD_MDR, D_bus_IN( ??? ), D_bus_OUT( ??? ));
+datapath d0 (.Clk, .Reset(Reset_ah), .DIN(), .DOUT());
+internal_tristate internal_tri_inst(.GatePC_IN(PC), .GateMAR_IN(MAR), .GateMDR_IN(MDR),
+                                    .GateALU_IN( 16'h0000 /* temp val until ALU is implemented */ ), .Select({GatePC,GateMAR,GateMDR,GateALU}));
+
+PC PC_inst(.Clk, .LD_PC, .Reset(Reset_ah), .DIN(), .DOUT(PC) );
+IR IR_inst(.Clk, .LD_IR, .Reset(Reset_ah), .DIN(), .DOUT(IR) );
+MAR MAR_inst(.Clk, .LD_MAR, .Reset(Reset_ah), .DIN(), .DOUT(MAR));
+MDR MDR_inst(.Clk, .LD_MDR, .Reset(Reset_ah), .DIN(), .DOUT(MDR));
+PCMUX PCMUX_inst(.PC_MUX(), .PC_PLUS(), .BUS(), .ADDER(), PC_IN());
+MDRMUX MDRMUX_inst(.MDR_MUX(MIO_EN), .Data_to_CPU(MDR), .BUS(), .MDR_IN());
 
 // Our SRAM and I/O controller
 Mem2IO memory_subsystem(

@@ -6,30 +6,20 @@
 // MAR Package: MAR, (GateMAR)
 // IR Package: IR
 // Internal Tri-state MUX Package: GateMDR, GateMAR, GatePC (Gate ALU for Week 2)
-module datapath (input logic Clk,
-                             Reset,
-                             LD_PC,
-                             LD_IR,
-                             LD_MAR,
-                             LD_MDR,
+module datapath #(N=16)(// Inputs
+                        input logic Clk, Reset,
+                        input [N-1:0] DIN,
+                        // Outputs
+                        output logic [N-1:0] DOUT
+                        );
+always_ff @ (posedge Clk) begin
+  if(Reset)
+    DOUT <= 16'h0000;
+  else
+    DOUT <= DIN;
+end
 
-                 //Does this need to include the internal connections listed in lines 44-45 of slc3.sv???
+endmodule
 
-
-                //Should these two be combined into one inout D_BUS
-                 input logic [15:0] D_bus_IN, //Data going from other components into data bus
-
-                 output logic [15:0] D_bus_OUT //Data going from data bus into other components
-                 );
-
-
-          //What should we put for the LD values for these instantiations???
-          PC PC_inst(.Clk, .Reset, .LD_PC, .DIN(D_bus_OUT), .DOUT(D_bus_IN));
-
-          MDR MDR_inst(.Clk, .Reset, .LD_MDR, .DIN(D_bus_OUT), .DOUT(D_bus_IN));
-
-          MAR MAR_inst(.Clk, .Reset, .LD_MAR, .DIN(D_bus_OUT), .DOUT(D_bus_IN));
-
-          IR IR_inst(.Clk, .Reset, .LD_IR, .DIN(D_bus_OUT), .DOUT(D_bus_IN));
 
 endmodule
