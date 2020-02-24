@@ -2,8 +2,8 @@
 // Company:        UIUC ECE Dept.
 // Engineer:       Stephen Kempf
 //
-// Create Date:    
-// Design Name:    ECE 385 Lab 6 Given Code - SLC-3 
+// Create Date:
+// Design Name:    ECE 385 Lab 6 Given Code - SLC-3
 // Module Name:    SLC3
 //
 // Comments:
@@ -11,8 +11,8 @@
 //    Spring 2007 Distribution
 //    Revised 07-26-2013
 //    Spring 2015 Distribution
-//    Revised 09-22-2015 
-//    Revised 10-19-2017 
+//    Revised 09-22-2015
+//    Revised 10-19-2017
 //    spring 2018 Distribution
 //
 //------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ assign MIO_EN = ~OE;
 
 // You need to make your own datapath module and connect everything to the datapath
 // Be careful about whether Reset is active high or low
-datapath d0 (/* Please fill in the signals.... */);
+datapath d0 (.Clk, .Reset, LD_PC, LD_IR, LD_MAR, LD_MDR, D_bus_IN( ??? ), D_bus_OUT( ??? ));
 
 // Our SRAM and I/O controller
 Mem2IO memory_subsystem(
