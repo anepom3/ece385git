@@ -18,7 +18,7 @@ timeprecision 1ns;
 
 //PC
   // Inputs
-  logic Clk, LD_PC, Reset;
+  logic Clk, LD_IR, Reset;
   logic [15:0] DIN;
   // Outputs
   logic [15:0] DOUT;
@@ -36,8 +36,8 @@ initial begin : CLOCK_INITIALIZATION
 	Clk = 0;
 end
 
-// PCMUX test(.*);
-PC PC_test(.*);
+// Register test(.*);
+IR IR_test(.*);
 
 initial begin : TEST_VECTORS
 // PC_PLUS = 16'h0001;
@@ -66,10 +66,10 @@ initial begin : TEST_VECTORS
 // #5;
 #5 Reset = 1'b1;
 #5 Reset = 1'b0;
-#5 LD_PC = 1'b0;
+#5 LD_IR = 1'b0;
 #5 DIN = 16'h0001;
 #5;
-#5 LD_PC = 1'b1;
+#5 LD_IR = 1'b1;
 #5 Reset = 1'b1;
 
 end
