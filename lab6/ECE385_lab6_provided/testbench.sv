@@ -4,6 +4,20 @@ timeunit 10ns;
 
 timeprecision 1ns;
 
+
+//Week 1 Simulation - Functioning IR from PC
+
+    //Inputs
+    logic [15:0] S;
+    logic Clk, Reset, Run, Continue;
+    wire [15:0] Data;
+
+    logic [11:0] LED;
+    logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7;
+    logic CE, UB, LB, OE, WE;
+    logic [19:0] ADDR;
+
+
 //PC_MUX
 	// Inputs
    // logic [1:0] PC_MUX; // Select bit 00 - PC + 1, 01 - BUS, 10 - ADDER
@@ -18,12 +32,12 @@ timeprecision 1ns;
 
 //PC
   // Inputs
-  logic Clk, LD_IR, Reset;
-  logic [15:0] DIN;
+  // logic Clk, LD_IR, Reset;
+  // logic [15:0] DIN;
   // Outputs
-  logic [15:0] DOUT;
+  // logic [15:0] DOUT;
 	//Holders for answers
-	logic [15:0] ans_1, ans_2, ans_3, ans_4;
+	// logic [15:0] ans_1, ans_2, ans_3, ans_4;
 
 
 always begin : CLOCK_GENERATION
@@ -37,7 +51,8 @@ initial begin : CLOCK_INITIALIZATION
 end
 
 // Register test(.*);
-IR IR_test(.*);
+// IR IR_test(.*);
+slc3 slc3_inst(.*);
 
 initial begin : TEST_VECTORS
 // PC_PLUS = 16'h0001;
@@ -64,13 +79,42 @@ initial begin : TEST_VECTORS
 // // Test Case #4 : Select from default case (16'hxxxx)
 // #5 PC_MUX = 2'b11;
 // #5;
-#5 Reset = 1'b1;
-#5 Reset = 1'b0;
-#5 LD_IR = 1'b0;
-#5 DIN = 16'h0001;
-#5;
-#5 LD_IR = 1'b1;
-#5 Reset = 1'b1;
+// Tests for Registers
+// #5 Reset = 1'b1;
+// #5 Reset = 1'b0;
+// #5 LD_IR = 1'b0;
+// #5 DIN = 16'h0001;
+// #5;
+// #5 LD_IR = 1'b1;
+// #5 Reset = 1'b1;
+
+// Test Case 1 : Reset
+
+#2 Reset = 1;
+#2 Reset = 0; // Reset is Pressed
+
+#2 Run = 0; // Run is Pressed, start doing stuff
+
+//Instruction #1 : opCLR(R0) : IR = 0x
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
+#2 Continue = 0; // Get next instruction into IR
+
+//Instruction #2 : opLDR(R1,R0,inSW) : IR = 0x
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
+#2 Continue = 0; // Get next instruction into IR
+
+//Instruction #3 : opJMP(R1) : IR = 0x
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
+#2 Continue = 0; // Get next instruction into IR
+
+//Instruction #4 : opLDR(R1,R0,inSW) : IR = 0x
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
+#2 Continue = 0; // Get next instruction into IR
+
+//Instruction #5 : opSTR(R1,R0,outHEx) : IR = 0x
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
+#2 Continue = 0; // Get next instruction into IR
+
 
 end
 

@@ -20,6 +20,3 @@ always_ff @ (posedge Clk) begin
 end
 
 endmodule
-
-
-endmodule

@@ -89,8 +89,8 @@ IR IR_inst(.Clk, .LD_IR, .Reset(Reset_ah), .DIN(BUS), .DOUT(IR) );
 MAR MAR_inst(.Clk, .LD_MAR, .Reset(Reset_ah), .DIN(BUS), .DOUT(MAR));
 MDR MDR_inst(.Clk, .LD_MDR, .Reset(Reset_ah), .DIN(MUX_2_MDR), .DOUT(MDR));
 PCMUX PCMUX_inst(.PC_MUX(PC_MUX), .PC_PLUS(PC_PLUS_comb),
-                 .BUS(BUS), .ADDER(16'h0000 /* temp val until Adder is implemented */), 
-                  PC_IN(MUX_2_PC));
+                 .BUS(BUS), .ADDER(16'h0000 /* temp val until Adder is implemented */),
+                  .PC_IN(MUX_2_PC));
 MDRMUX MDRMUX_inst(.MDR_MUX(MIO_EN), .Data_to_CPU(MDR_In), .BUS(BUS), .MDR_IN(MUX_2_MDR));
 Incrementer PC_PLUS(.DIN(PC), .DOUT(PC_PLUS_comb));
 
