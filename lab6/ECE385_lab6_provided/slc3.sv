@@ -45,6 +45,11 @@ logic [15:0] MDR_In;
 logic [15:0] MAR, MDR, IR, PC;
 logic [15:0] Data_from_SRAM, Data_to_SRAM;
 
+logic [15:0] MUX_2_PC;
+logic [15:0] MUX_2_MDR;
+logic [15:0] BUS;
+logic [15:0] PC_PLUS_comb;
+
 // Signals being displayed on hex display
 logic [3:0][3:0] hex_4;
 
@@ -76,14 +81,18 @@ assign MIO_EN = ~OE;
 // Be careful about whether Reset is active high or low
 datapath d0 (.Clk, .Reset(Reset_ah), .DIN(), .DOUT());
 internal_tristate internal_tri_inst(.GatePC_IN(PC), .GateMAR_IN(MAR), .GateMDR_IN(MDR),
-                                    .GateALU_IN( 16'h0000 /* temp val until ALU is implemented */ ), .Select({GatePC,GateMAR,GateMDR,GateALU}));
+                                    .GateALU_IN( 16'h0000 /* temp val until ALU is implemented */ ), .Select({GatePC,GateMAR,GateMDR,GateALU}),
+                                    .Gate_OUT(BUS));
 
-PC PC_inst(.Clk, .LD_PC, .Reset(Reset_ah), .DIN(), .DOUT(PC) );
-IR IR_inst(.Clk, .LD_IR, .Reset(Reset_ah), .DIN(), .DOUT(IR) );
-MAR MAR_inst(.Clk, .LD_MAR, .Reset(Reset_ah), .DIN(), .DOUT(MAR));
-MDR MDR_inst(.Clk, .LD_MDR, .Reset(Reset_ah), .DIN(), .DOUT(MDR));
-PCMUX PCMUX_inst(.PC_MUX(), .PC_PLUS(), .BUS(), .ADDER(), PC_IN());
-MDRMUX MDRMUX_inst(.MDR_MUX(MIO_EN), .Data_to_CPU(MDR), .BUS(), .MDR_IN());
+PC PC_inst(.Clk, .LD_PC, .Reset(Reset_ah), .DIN(MUX_2_PC), .DOUT(PC) );
+IR IR_inst(.Clk, .LD_IR, .Reset(Reset_ah), .DIN(BUS), .DOUT(IR) );
+MAR MAR_inst(.Clk, .LD_MAR, .Reset(Reset_ah), .DIN(BUS), .DOUT(MAR));
+MDR MDR_inst(.Clk, .LD_MDR, .Reset(Reset_ah), .DIN(MUX_2_MDR), .DOUT(MDR));
+PCMUX PCMUX_inst(.PC_MUX(PC_MUX), .PC_PLUS(PC_PLUS_comb),
+                 .BUS(BUS), .ADDER(16'h0000 /* temp val until Adder is implemented */), 
+                  PC_IN(MUX_2_PC));
+MDRMUX MDRMUX_inst(.MDR_MUX(MIO_EN), .Data_to_CPU(MDR_In), .BUS(BUS), .MDR_IN(MUX_2_MDR));
+Incrementer PC_PLUS(.DIN(PC), .DOUT(PC_PLUS_comb));
 
 // Our SRAM and I/O controller
 Mem2IO memory_subsystem(
