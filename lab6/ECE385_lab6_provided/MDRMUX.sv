@@ -7,8 +7,8 @@ module MDRMUX  (input logic MDR_MUX, // Select bit 0 - Data_to_CPU, 1 - BUS
 
               always_comb begin
                 case(MDR_MUX)
-                  1'b0 : MDR_IN = Data_to_CPU;
-                  1'b1 : MDR_IN = BUS;
+                  1'b0 : MDR_IN = BUS;
+                  1'b1 : MDR_IN = Data_to_CPU;
                 endcase
               end
 endmodule

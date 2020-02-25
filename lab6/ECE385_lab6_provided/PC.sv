@@ -1,6 +1,6 @@
 // We'll create the program counter module here!
 module PC #(N=16) (// Inputs
-                   input logic Clk, LD_PC, Reset,
+                   input logic Clk, Reset, LD_PC, 
                    input logic [N-1:0] DIN,
                    // Outputs
                    output logic [N-1:0] DOUT

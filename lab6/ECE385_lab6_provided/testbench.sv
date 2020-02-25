@@ -99,22 +99,27 @@ initial begin : TEST_VECTORS
 //Instruction #1 : opCLR(R0) : IR = 0x5020 (0101 000 000 1 00000)
 #8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 #2 Continue = 0; // Get next instruction into IR
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 
 //Instruction #2 : opLDR(R1,R0,inSW) : IR = 0x6200 (0110 001 000 000000)
 #8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 #2 Continue = 0; // Get next instruction into IR
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 
 //Instruction #3 : opJMP(R1) : IR = 0xC040 (1100 000 001 000000)
 #8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 #2 Continue = 0; // Get next instruction into IR
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 
 //Instruction #4 : opLDR(R1,R0,inSW) : IR = 0x6200 (0110 001 000 000000)
 #8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 #2 Continue = 0; // Get next instruction into IR
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 
 //Instruction #5 : opSTR(R1,R0,outHEx) : IR = 0x7200 (0111 001 000 000000)
 #8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 #2 Continue = 0; // Get next instruction into IR
+#8 Continue = 1; // Continue needs to go from low to high to go to the next instruction
 
 
 end

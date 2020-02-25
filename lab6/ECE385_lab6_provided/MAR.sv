@@ -1,7 +1,7 @@
 // We'll create the MAR module here.
 // This is just a 16-bit register.
 module MAR #(N=16) (// Inputs
-                   input logic Clk, LD_MAR, Reset,
+                   input logic Clk, Reset, LD_MAR, 
                    input logic [N-1:0] DIN,
                    // Outputs
                    output logic [N-1:0] DOUT
