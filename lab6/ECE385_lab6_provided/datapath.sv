@@ -56,4 +56,23 @@ module datapath #(N=16)(// Inputs
                                              .Select({GateALU, GateMARMUX, GateMDR, GatePC}),
                                              .Gate_OUT(BUS));
 
+    // Register File package
+    reg_file reg_file_inst();
+    DRMUX DRMUX_inst();
+    SR1MUX SR1MUX_inst();
+
+    // ALU package
+    SR2MUX SR2MUX_inst();
+    ALU ALU_inst();
+
+    // ADDR package
+    ADDR ADDR_inst();
+    ADDR1MUX ADDR1MUX_inst();
+    ADDR2MUX ADDR2MUX_inst();
+
+    // Sign Extension Package
+    sign_ext sign_ext_inst();
+
+    // BEN package
+    BEN_LOGIC BEN_LOGIC_inst();
 endmodule

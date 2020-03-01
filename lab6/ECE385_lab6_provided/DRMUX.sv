@@ -1,7 +1,7 @@
 // This is the file for the DRMUX!
 // Inputs: IR[11:0], Select Bit
 // Outputs: 0 - IR[11:9], 1 - 3'b111
-module SR1MUX (input logic [2:0] IR_Slice0,
+module DRMUX (input logic [2:0] IR_Slice0,
 
                  input logic Select, // ADDR2MUX control signal
                  output logic [2:0] Gate_OUT // To REGFILE
