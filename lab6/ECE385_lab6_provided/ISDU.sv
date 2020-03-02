@@ -240,68 +240,108 @@ module ISDU (   input logic         Clk,
 					ALUK = 2'b00;
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
-					// incomplete...
+					// incomplete... does something else need to happen in this state???
 				end
 			// You need to finish the rest of states.....
-			S_05 : // DR <- SR1 & Input2 (SR2 or immm5); set CC
+			S_05 : // DR <- SR1 & Input2 (SR2 or imm5); set CC
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					SR2MUX = IR_5; // choose between SR2 and imm5
+					ALUK = 2'b01; // AND operation of ALU
+					GateALU = 1'b1; // result comes from ALU
+					LD_REG = 1'b1; // load into DR
+					LD_CC = 1'b1; // set CC
 				end
 			S_09 : // DR <- NOT(SR); set CC
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					ALUK = 2'b10; // NOT operation of ALU
+					GateALU = 1'b1; // result comes from ALU
+					LD_REG = 1'b1; // load into DR
+					LD_CC = 1'b1; // set CC
 				end
 			S_00 : // [BEN]
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					// I think this one is just nothing...???
 				end
 			S_22 : // PC <- PC + off9
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					ADDR2MUX = 2'b10; // sign-extended 9-bit offset
+					LD_PC = 1'b1; // set PC value
+					PCMUX = 2'b10; // set PC value from adder output value
 				end
 			S_12 : // PC <- BaseR
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					ADDR1MUX = 1'b1; // adder input from reg instead of PC
+					LD_PC = 1'b1; // set PC value
+					PCMUX = 2'b10; // set PC value from adder output value
 				end
 			S_04 : // R7 <- PC
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					DRMUX = 1'b1 // set DR to 111
+					LD_REG = 1'b1; // set value into DR
+					GatePC = 1'b1; // put PC onto the datapath
 				end
 			S_21 : // PC <- PC + off11
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					LD_PC = 1'b1; // set PC value
+					PCMUX = 2'b10; // set PC value from adder output value
+					ADDR2MUX = 2'b11; // sign-extended 11-bit offset
 				end
 			S_06 : // MAR <- B + off6
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					LD_MAR = 1'b1; // set MAR value
+					ADDR1MUX = 1'b1; // Adder 1 input from BaseR
+					ADDR2MUX = 2'b01; // Adder 2 input from sign-extended 6-bit value
+					GateMARMUX = 1'b1; // put adder output onto the datapath
 				end
 			S_25_1 : // MDR <- M[MAR] : State 1
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					Mem_OE = 1'b0; // set memory output enable
 				end
 			S_25_2 : // MDR <- M[MAR] : State 2
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					Mem_OE = 1'b0; // set memory output enable
+					LD_MDR = 1'b1; // set MDR value
 				end
 			S_27 : // DR <- MDR; set CC
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					LD_REG = 1'b1; // set value into DR
+					GateMDR = 1'b1; // put MDR onto datapath
 				end
 			S_07 : // MAR <- B + off6
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					LD_MAR = 1'b1; // set MAR value
+					ADDR1MUX = 1'b1; // Adder 1 input from BaseR
+					ADDR2MUX = 2'b01; // Adder 2 input from sign-extended 6-bit value
+					GateMARMUX = 1'b1; // put adder output onto the datapath
 				end
 			S_23 : // MDR <- SR
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					LD_MDR = 1'b1; // set MDR value
+					ALUK = 2'b11; // Nop operation for ALU
+					GateALU = 1'b1; // put output of ALU onto datapath
 				end
 			S_16_1 : // M[MAR] <- MDR : State 1
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					Mem_WE = 1'b0; // set memory write enable
 				end
 			S_16_2 : // M[MAR] <- MDR : State 2
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
+					Mem_WE = 1'b0; // set memory write enable
 				end
 			default : ;
 		endcase
