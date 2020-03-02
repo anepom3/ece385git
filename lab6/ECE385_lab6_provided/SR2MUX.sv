@@ -3,8 +3,8 @@
 // Outputs: 0 - SR2_OUT, 1 - SEXT[imm5]
 module SR2MUX (input logic [15:0] SR2_OUT, imm5
 
-                 input logic Select, // ADDR2MUX control signal
-                 output logic [15:0] Gate_OUT // To ADDR
+                 input logic Select, // SR2MUX control signal
+                 output logic [15:0] Gate_OUT // To ALU
 );
 
     always_comb begin

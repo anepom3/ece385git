@@ -56,16 +56,16 @@ logic [15:0] Data_from_SRAM, Data_to_SRAM;
 logic [3:0][3:0] hex_4;
 
 // For week 1, hexdrivers will display IR. Comment out these in week 2.
-HexDriver hex_driver3 (IR[15:12], HEX3);
-HexDriver hex_driver2 (IR[11:8], HEX2);
-HexDriver hex_driver1 (IR[7:4], HEX1);
-HexDriver hex_driver0 (IR[3:0], HEX0);
+// HexDriver hex_driver3 (IR[15:12], HEX3);
+// HexDriver hex_driver2 (IR[11:8], HEX2);
+// HexDriver hex_driver1 (IR[7:4], HEX1);
+// HexDriver hex_driver0 (IR[3:0], HEX0);
 
 // For week 2, hexdrivers will be mounted to Mem2IO
-// HexDriver hex_driver3 (hex_4[3][3:0], HEX3);
-// HexDriver hex_driver2 (hex_4[2][3:0], HEX2);
-// HexDriver hex_driver1 (hex_4[1][3:0], HEX1);
-// HexDriver hex_driver0 (hex_4[0][3:0], HEX0);
+HexDriver hex_driver3 (hex_4[3][3:0], HEX3);
+HexDriver hex_driver2 (hex_4[2][3:0], HEX2);
+HexDriver hex_driver1 (hex_4[1][3:0], HEX1);
+HexDriver hex_driver0 (hex_4[0][3:0], HEX0);
 
 // The other hex display will show PC for both weeks.
 HexDriver hex_driver7 (PC[15:12], HEX7);
@@ -85,11 +85,15 @@ datapath d0 (
              // Inputs
              .Clk, .Reset(Reset_ah),
              .LD_PC, .LD_MDR, .LD_MAR, .LD_IR,
-             .PCMUX, .MIO_EN,
+             .LD_BEN, .LD_CC, .LD_REG,
+             .MIO_EN,
+
+             .PCMUX, .ADDR2MUX, .ALUK, .DRMUX,
+             .SR1MUX, .SR2MUX, .ADDR1MUX,
              .GatePC, .GateMDR, .GateMARMUX, .GateALU,
              .MEM2MDR(MDR_In),
               // Outputs
-             .MAR2MEM(MAR), .MDR2MEM(MDR), .IR_OUT(IR), .PC_OUT(PC)
+             .MAR2MEM(MAR), .MDR2MEM(MDR), .IR_OUT(IR), .PC_OUT(PC), .BEN_OUT(BEN)
              );
 
 // Our SRAM and I/O controller

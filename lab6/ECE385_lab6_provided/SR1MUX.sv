@@ -1,6 +1,6 @@
 // This is the file for the SR1MUX!
-// Inputs: IR[11:9], IR[8:6] Select Bit
-// Outputs: 0 - IR[11:9], 1 - IR[8:6]
+// Inputs: IR[8:6], IR[11:9] Select Bit
+// Outputs: 0 - IR[8:6], 1 - IR[11:9]
 module SR1MUX (input logic [2:0] IR_Slice0, IR_Slice1
 
                  input logic Select, // ADDR2MUX control signal
