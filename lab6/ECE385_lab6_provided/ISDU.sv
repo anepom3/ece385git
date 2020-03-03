@@ -248,6 +248,7 @@ module ISDU (   input logic         Clk,
 					ALUK = 2'b00;
 					GateALU = 1'b1;
 					LD_REG = 1'b1;
+					LD_CC = 1'b1;
 					// incomplete... does something else need to happen in this state???
 				end
 			// You need to finish the rest of states.....
@@ -299,6 +300,7 @@ module ISDU (   input logic         Clk,
 					// Fill in proper signals here, check if extra state needed for memory interaction
 					LD_PC = 1'b1; // set PC value
 					PCMUX = 2'b10; // set PC value from adder output value
+					ADDR1MUX = 1'b0; // PC
 					ADDR2MUX = 2'b11; // sign-extended 11-bit offset
 				end
 			S_06 : // MAR <- B + off6
