@@ -61,8 +61,6 @@ logic [3:0][3:0] hex_4;
 // HexDriver hex_driver1 (IR[7:4], HEX1);
 // HexDriver hex_driver0 (IR[3:0], HEX0);
 
-assign LED = IR;
-
 // For week 2, hexdrivers will be mounted to Mem2IO
 HexDriver hex_driver3 (hex_4[3][3:0], HEX3);
 HexDriver hex_driver2 (hex_4[2][3:0], HEX2);
@@ -87,7 +85,7 @@ datapath d0 (
              // Inputs
              .Clk, .Reset(Reset_ah),
              .LD_PC, .LD_MDR, .LD_MAR, .LD_IR,
-             .LD_BEN, .LD_CC, .LD_REG,
+             .LD_BEN, .LD_CC, .LD_REG, .LD_LED,
              .MIO_EN,
 
              .PCMUX, .ADDR2MUX, .ALUK, .DRMUX,
@@ -95,7 +93,8 @@ datapath d0 (
              .GatePC, .GateMDR, .GateMARMUX, .GateALU,
              .MEM2MDR(MDR_In),
               // Outputs
-             .MAR2MEM(MAR), .MDR2MEM(MDR), .IR_OUT(IR), .PC_OUT(PC), .BEN_OUT(BEN)
+             .MAR2MEM(MAR), .MDR2MEM(MDR), .IR_OUT(IR), .PC_OUT(PC),
+             .BEN_OUT(BEN), .LED_OUT(LED)
              );
 
 // Our SRAM and I/O controller

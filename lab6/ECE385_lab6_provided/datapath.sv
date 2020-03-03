@@ -9,18 +9,24 @@
 module datapath #(N=16)(// Inputs
                         input logic Clk, Reset,
                                     LD_PC, LD_MDR, LD_MAR, LD_IR,
-                                    MIO_EN,LD_BEN, LD_CC,LD_REG,
+                                    MIO_EN,LD_BEN, LD_CC,LD_REG,LD_LED,
                                     GatePC, GateMDR, GateMARMUX, GateALU,
                         input logic [1:0] PCMUX, ADDR2MUX, ALUK,
                         input logic DRMUX, SR1MUX, SR2MUX, ADDR1MUX,
                         input logic [N-1:0] MEM2MDR,
                         // Outputs
                         output logic [N-1:0] MAR2MEM, MDR2MEM, IR_OUT, PC_OUT,
+                        output logic [11:0] LED_OUT,
                         output logic BEN_OUT
                         );
 
     //Internal wires for datapath
     logic [N-1:0] BUS;
+
+    // Internal wires for LED
+
+    logic [11:0] LED_comb;
+    assign LED_OUT = LED_comb;
 
     // PC Packge Internal wires
     logic [N-1:0] PC_PLUS, ADDER, PC_IN, PC_OUT_comb;
@@ -52,6 +58,11 @@ module datapath #(N=16)(// Inputs
     logic BEN_OUT_comb;
     assign BEN_OUT = BEN_OUT_comb;
     // Module Instantiations
+
+    // LED package
+    LED LED_inst(.Clk, .Reset, .LD_LED, .DIN(IR_OUT_comb[11:0]),
+                 .DOUT(LED_comb));
+
     // PC Package
     PC PC_inst(.Clk, .Reset, .LD_PC, .DIN(PC_IN), .DOUT(PC_OUT_comb));
     Incrementer Incrementer_inst(.DIN(PC_OUT_comb), .DOUT(PC_PLUS));

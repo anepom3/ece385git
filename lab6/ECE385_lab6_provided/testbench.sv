@@ -93,7 +93,7 @@ initial begin : TEST_VECTORS
 #2 Reset = 1;
 #2 Reset = 0; // Reset is Pressed
 #2 Reset = 1;
-
+#2 S = 16'h005A;
 #2 Run = 0; // Run is Pressed, start doing stuff
 
 //Instruction #1 : opCLR(R0) : IR = 0x5020 (0101 000 000 1 00000)

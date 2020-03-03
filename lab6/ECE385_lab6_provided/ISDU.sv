@@ -232,8 +232,14 @@ module ISDU (   input logic         Clk,
 					GateMDR = 1'b1;
 					LD_IR = 1'b1;
 				end
-			PauseIR1: ; // Paused
-			PauseIR2: ; // Paused
+			PauseIR1:
+			begin
+				LD_LED = 1'b1;
+			end // Paused
+			PauseIR2:
+			begin
+				LD_LED = 1'b1;
+			end  // Paused
 			S_32 : // Set BEN
 				LD_BEN = 1'b1;
 			S_01 : // DR <- SR1 + Input2 (SR2 or imm5); set CC
