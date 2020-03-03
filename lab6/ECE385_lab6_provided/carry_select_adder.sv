@@ -31,8 +31,8 @@ module four_bit_csa(
 	logic [3:0] s0;
 	logic [3:0]	s1;
 
-	sub_four_bit_ra addr_cin0 (.x(x), .y(y), .cin(0), .s(s0), .cout(cout0));
-	sub_four_bit_ra addr_cin1 (.x(x), .y(y), .cin(1), .s(s1), .cout(cout1));
+	sub_four_bit_ra addr_cin0 (.x(x), .y(y), .cin(1'b0), .s(s0), .cout(cout0));
+	sub_four_bit_ra addr_cin1 (.x(x), .y(y), .cin(1'b1), .s(s1), .cout(cout1));
 
 	four_bit_mux csa_mux(.sel(cin), .sum_cin0(s0), .sum_cin1(s1), .sum(s));
 

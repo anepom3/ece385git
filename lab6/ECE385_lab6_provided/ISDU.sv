@@ -68,6 +68,7 @@ module ISDU (   input logic         Clk,
 						S_09,
 						S_00,
 						S_22,
+						S_27,
 						S_12,
 						S_04,
 						S_21,
@@ -176,10 +177,11 @@ module ISDU (   input logic         Clk,
 				Next_state = S_18;
 			S_09 :
 				Next_state = S_18;
-			S_00 :
+			S_00 : begin
 				Next_state = S_18;
 				if(BEN)
 					Next_state = S_22;
+					end
 			S_22 :
 				Next_state = S_18;
 			S_12 :
@@ -282,7 +284,7 @@ module ISDU (   input logic         Clk,
 			S_04 : // R7 <- PC
 				begin
 					// Fill in proper signals here, check if extra state needed for memory interaction
-					DRMUX = 1'b1 // set DR to 111
+					DRMUX = 1'b1 ;// set DR to 111
 					LD_REG = 1'b1; // set value into DR
 					GatePC = 1'b1; // put PC onto the datapath
 				end

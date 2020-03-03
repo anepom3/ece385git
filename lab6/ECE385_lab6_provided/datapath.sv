@@ -15,7 +15,7 @@ module datapath #(N=16)(// Inputs
                         input logic DRMUX, SR1MUX, SR2MUX, ADDR1MUX,
                         input logic [N-1:0] MEM2MDR,
                         // Outputs
-                        output logic [N-1:0] MAR2MEM, MDR2MEM, IR_OUT, PC_OUT
+                        output logic [N-1:0] MAR2MEM, MDR2MEM, IR_OUT, PC_OUT,
                         output logic BEN_OUT
                         );
 
@@ -37,6 +37,7 @@ module datapath #(N=16)(// Inputs
 
     // ALU Package Internal wires
     logic [N-1:0] ALU_BUS_comb;
+	 logic [N-1:0] B_ALU;
     // ADDR Package Internal wires
     logic [N-1:0] ADDR2toADDR, ADDR1toADDR;
     logic [N-1:0] ADDR_OUT_comb;
@@ -45,7 +46,7 @@ module datapath #(N=16)(// Inputs
     logic [N-1:0] SR1_OUT, SR2_OUT;
 
     // Sign extension Internal wires
-    logic [N-1] S_ext5, S_ext6, S_ext9, S_ext11;
+    logic [N-1:0] S_ext5, S_ext6, S_ext9, S_ext11;
 
     // BEN Logic Internal wires
     logic BEN_OUT_comb;

@@ -1,11 +1,11 @@
 // This is the file for the SR1MUX!
 // Inputs: IR[8:6], IR[11:9] Select Bit
 // Outputs: 0 - IR[8:6], 1 - IR[11:9]
-module SR1MUX (input logic [2:0] IR_Slice0, IR_Slice1
+module SR1MUX (input logic [2:0] IR_Slice0, IR_Slice1,
 
                  input logic Select, // ADDR2MUX control signal
                  output logic [2:0] Gate_OUT // To REGFILE
-);
+				  );
 
     always_comb begin
           Gate_OUT = 3'bxxx; // Check if we can do this with 'x' - is 'x' a

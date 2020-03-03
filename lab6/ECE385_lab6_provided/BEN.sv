@@ -8,7 +8,7 @@ module BEN (// Inputs
 
 always_ff @ (posedge Clk ) begin
   if(Reset)
-    DOUT <= 3'b000;
+    DOUT <= 1'b0;
   else if (LD_BEN)
     DOUT <= DIN;
 end

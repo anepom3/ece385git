@@ -15,7 +15,7 @@ module BEN_LOGIC (input logic [15:0] DIN, // From Bus
 
     // Module instantiation.
     LOGIC0 logic0_inst(.DIN, .DOUT(logic2NZP_comb));
-    NZP NZP_inst(.Clk, .LD_CC, Reset, .DIN(logic2NZP_comb),
+    NZP NZP_inst(.Clk, .LD_CC, .Reset, .DIN(logic2NZP_comb),
                  .DOUT(NZP2logic_comb));
     LOGIC1 logic1_inst(.DIN(NZP2logic_comb), .IR_Slice,
                        .DOUT(logic2BEN_comb));
@@ -29,7 +29,10 @@ module LOGIC0(input logic [15:0] DIN,
               );
     logic [2:0] DIN_comb;
     always_comb begin
-      if(DIN[15] == 1'b1) begin
+		
+		DOUT = DIN_comb;
+      
+		if(DIN[15] == 1'b1) begin
         DIN_comb = 3'b100;
       end
       else if (DIN == 16'h0000) begin
@@ -38,15 +41,15 @@ module LOGIC0(input logic [15:0] DIN,
       else if (DIN != 16'h0000 && DIN[15] == 1'b0) begin
         DIN_comb = 3'b001;
       end
-      else
+      else begin
         DIN_comb = 3'bxxx;
+		end
     end
-    DOUT = DIN_comb;
 endmodule
 
 module LOGIC1(input logic [2:0] DIN,
-              input logic [2:0] IR_Slice
-              output logic DOUT
+              input logic [2:0] IR_Slice,
+              output logic [2:0] DOUT
              );
 
    always_comb begin

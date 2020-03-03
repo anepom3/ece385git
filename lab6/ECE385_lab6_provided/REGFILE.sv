@@ -8,14 +8,14 @@ module reg_file (
                 );
 
 
-    Reg_16 SR0_inst(.Clk, .LD_REG(LD_REG0), .Reset, .DIN, DOUT(SR0_VAL);
-    Reg_16 SR1_inst(.Clk, .LD_REG(LD_REG1), .Reset, .DIN, DOUT(SR1_VAL);
-    Reg_16 SR2_inst(.Clk, .LD_REG(LD_REG2), .Reset, .DIN, DOUT(SR2_VAL);
-    Reg_16 SR3_inst(.Clk, .LD_REG(LD_REG3), .Reset, .DIN, DOUT(SR3_VAL);
-    Reg_16 SR4_inst(.Clk, .LD_REG(LD_REG4), .Reset, .DIN, DOUT(SR4_VAL);
-    Reg_16 SR5_inst(.Clk, .LD_REG(LD_REG5), .Reset, .DIN, DOUT(SR5_VAL);
-    Reg_16 SR6_inst(.Clk, .LD_REG(LD_REG6), .Reset, .DIN, DOUT(SR6_VAL);
-    Reg_16 SR7_inst(.Clk, .LD_REG(LD_REG7), .Reset, .DIN, DOUT(SR7_VAL);
+    Reg_16 SR0_inst(.Clk, .LD_REG(LD_REG0), .Reset, .DIN, .DOUT(SR0_VAL));
+    Reg_16 SR1_inst(.Clk, .LD_REG(LD_REG1), .Reset, .DIN, .DOUT(SR1_VAL));
+    Reg_16 SR2_inst(.Clk, .LD_REG(LD_REG2), .Reset, .DIN, .DOUT(SR2_VAL));
+    Reg_16 SR3_inst(.Clk, .LD_REG(LD_REG3), .Reset, .DIN, .DOUT(SR3_VAL));
+    Reg_16 SR4_inst(.Clk, .LD_REG(LD_REG4), .Reset, .DIN, .DOUT(SR4_VAL));
+    Reg_16 SR5_inst(.Clk, .LD_REG(LD_REG5), .Reset, .DIN, .DOUT(SR5_VAL));
+    Reg_16 SR6_inst(.Clk, .LD_REG(LD_REG6), .Reset, .DIN, .DOUT(SR6_VAL));
+    Reg_16 SR7_inst(.Clk, .LD_REG(LD_REG7), .Reset, .DIN, .DOUT(SR7_VAL));
 
     // Internal Wires
     logic [15:0] SR0_VAL;
@@ -39,8 +39,9 @@ module reg_file (
 
     always_comb begin
 
+	 {LD_REG0, LD_REG1, LD_REG2, LD_REG3, LD_REG4, LD_REG5, LD_REG6, LD_REG7} = 8'b0;
         if (LD_REG) begin // If LD_REG then set proper register to load data into
-            {LD_REG0, LD_REG1, LD_REG2, LD_REG3, LD_REG4, LD_REG5, LD_REG6, LD_REG7} = 8'b0;
+            
             unique case (DR_SEL)
                 3'b000: LD_REG0 = 1;
                 3'b001: LD_REG1 = 1;

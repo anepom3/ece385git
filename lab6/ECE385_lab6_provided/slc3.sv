@@ -61,6 +61,8 @@ logic [3:0][3:0] hex_4;
 // HexDriver hex_driver1 (IR[7:4], HEX1);
 // HexDriver hex_driver0 (IR[3:0], HEX0);
 
+assign LED = IR;
+
 // For week 2, hexdrivers will be mounted to Mem2IO
 HexDriver hex_driver3 (hex_4[3][3:0], HEX3);
 HexDriver hex_driver2 (hex_4[2][3:0], HEX2);
