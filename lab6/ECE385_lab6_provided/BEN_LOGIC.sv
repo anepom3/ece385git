@@ -29,30 +29,29 @@ module LOGIC0(input logic [15:0] DIN,
               );
     logic [2:0] DIN_comb;
     always_comb begin
-		
-		DOUT = DIN_comb;
-      
-		if(DIN[15] == 1'b1) begin
-        DIN_comb = 3'b100;
-      end
-      else if (DIN == 16'h0000) begin
-        DIN_comb = 3'b010;
-      end
-      else if (DIN != 16'h0000 && DIN[15] == 1'b0) begin
-        DIN_comb = 3'b001;
-      end
-      else begin
-        DIN_comb = 3'bxxx;
-		end
+
+  		if(DIN[15] == 1'b1) begin
+          DIN_comb = 3'b100;
+        end
+        else if (DIN == 16'h0000) begin
+          DIN_comb = 3'b010;
+        end
+        else if ((DIN != 16'h0000) && (DIN[15] == 1'b0)) begin
+          DIN_comb = 3'b001;
+        end
+        else begin
+          DIN_comb = 3'bxxx;
+  		end
+      DOUT = DIN_comb;
     end
 endmodule
 
 module LOGIC1(input logic [2:0] DIN,
               input logic [2:0] IR_Slice,
-              output logic [2:0] DOUT
+              output logic DOUT
              );
 
    always_comb begin
-     DOUT = DIN & IR_Slice;
+     DOUT = (DIN[2] & IR_Slice[2]) | (DIN[1] & IR_Slice[1]) | (DIN[0] & IR_Slice[0]);
    end
  endmodule

@@ -134,7 +134,7 @@ module ISDU (   input logic         Clk,
 			S_33_2 :
 				Next_state = S_35;
 			S_35 :
-				Next_state = PauseIR1;
+				Next_state = S_32;
 			// PauseIR1 and PauseIR2 are only for Week 1 such that TAs can see
 			// the values in IR.
 			PauseIR1 :
@@ -325,6 +325,7 @@ module ISDU (   input logic         Clk,
 					// Fill in proper signals here, check if extra state needed for memory interaction
 					LD_REG = 1'b1; // set value into DR
 					GateMDR = 1'b1; // put MDR onto datapath
+					LD_CC = 1'b1;
 				end
 			S_07 : // MAR <- B + off6
 				begin
@@ -340,6 +341,7 @@ module ISDU (   input logic         Clk,
 					LD_MDR = 1'b1; // set MDR value
 					ALUK = 2'b11; // Nop operation for ALU
 					GateALU = 1'b1; // put output of ALU onto datapath
+					SR1MUX = 1'b1; // Select SR (IR[11:9])
 				end
 			S_16_1 : // M[MAR] <- MDR : State 1
 				begin
