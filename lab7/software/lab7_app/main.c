@@ -9,32 +9,32 @@ int main()
 	int prev_add_button_state = 1;
 	int led_vals = 0;
 	int val = 0;
-	volatile unsigned int *LED_PIO = (unsigned int*)0x00000040; //make a pointer to access the PIO block
+	int but_vec = 3; // 3 active-low initialized to inactive [accumulate, reset]
+	volatile unsigned int *LED_PIO = (unsigned int*)0x00000050; //make a pointer to access the LED PIO block
+	volatile unsigned int *SW_PIO = (unsigned int*)0x00000030; //make a pointer to access the SW PIO block
+	volatile unsigned int *BUT_PIO = (unsigned int*)0x00000020; //make a pointer to access the buttons
 
 	*LED_PIO = 0; //clear all LEDs
 	while ( (1+1) != 3) //infinite loop
 	{
-		add_button_state = 0;//???
+		/// get current state of the buttons
+		but_vec = *BUT_PIO & 0x3;
+		reset_button = but_vec & 0x1;
+		add_button_state = (but_vec >> 1) & 0x1;
+
 		// check if ready to add
 		if((!add_button_state) && (add_button_state != prev_add_button_state)) {
 				// Perform addition
 				// get value to add from swtiches
-				val = 0;//???
+				val = *SW_PIO & 0xFF; // 8-bit value from switches
 
 				// add to running led total
 				if(led_val + val >= 256) {led_val = 256 - led_val + val;}
 				else {led_val += val;}
 
 				// display the new value on the LEDs
-				led_vec = 0; // how to set LED's as on or off
-				*LED_PIO = led_vec;// write new LED values
+				*LED_PIO = led_val; // write new LED values
 		}
-
-
-		for (i = 0; i < 100000; i++); //software delay
-		*LED_PIO |= 0x1; //set LSB
-		for (i = 0; i < 100000; i++); //software delay
-		*LED_PIO &= ~0x1; //clear LSB
 
 		prev_add_button_state = add_button_state;
 	}
