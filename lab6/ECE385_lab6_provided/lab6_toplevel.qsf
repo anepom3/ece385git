@@ -191,6 +191,20 @@ set_location_assignment PIN_AD4 -to LB
 set_location_assignment PIN_AF8 -to CE
 set_location_assignment PIN_Y2 -to Clk
 set_location_assignment PIN_N21 -to Continue
+set_global_assignment -name SYSTEMVERILOG_FILE LED.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SR2MUX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SR1MUX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE SEXT.sv
+set_global_assignment -name SYSTEMVERILOG_FILE REGFILE.sv
+set_global_assignment -name SYSTEMVERILOG_FILE NZP.sv
+set_global_assignment -name SYSTEMVERILOG_FILE DRMUX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE carry_select_adder.sv
+set_global_assignment -name SYSTEMVERILOG_FILE BEN_LOGIC.sv
+set_global_assignment -name SYSTEMVERILOG_FILE BEN.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ALU.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ADDR2MUX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ADDR1MUX.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ADDR.sv
 set_global_assignment -name SDC_FILE lab6_toplevel.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE HexDriver.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tristate.sv
@@ -212,4 +226,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE IR.sv
 set_global_assignment -name SYSTEMVERILOG_FILE internal_tristates.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Incrementer.sv
 set_global_assignment -name SYSTEMVERILOG_FILE datapath.sv
+set_global_assignment -name FLOW_ENABLE_POWER_ANALYZER ON
+set_global_assignment -name POWER_DEFAULT_INPUT_IO_TOGGLE_RATE "12.5 %"
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
