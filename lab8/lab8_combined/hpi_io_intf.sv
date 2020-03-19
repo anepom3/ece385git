@@ -9,37 +9,37 @@ module hpi_io_intf( input        Clk, Reset,
                     output       OTG_RD_N, OTG_WR_N, OTG_CS_N, OTG_RST_N // Active low
                    );
 
-// Buffer (register) for from_sw_data_out because inout bus should be driven 
+// Buffer (register) for from_sw_data_out because inout bus should be driven
 //   by a register, not combinational logic.
 logic [15:0] from_sw_data_out_buffer;
 
-// TODO: Fill in the blanks below. 
+// TODO: Fill in the blanks below.
 always_ff @ (posedge Clk)
 begin
     if(Reset)
     begin
-        from_sw_data_out_buffer <= 
-        OTG_ADDR                <= 
-        OTG_RD_N                <= 
-        OTG_WR_N                <= 
-        OTG_CS_N                <= 
-        OTG_RST_N               <= 
-        from_sw_data_in         <= 
+        from_sw_data_out_buffer <= 16'h0000;
+        OTG_ADDR                <= 2'b00;
+        OTG_RD_N                <= 1'b1;
+        OTG_WR_N                <= 1'b1;
+        OTG_CS_N                <= 1'b1;
+        OTG_RST_N               <= 1'b1;
+        from_sw_data_in         <= 16'h0000;
     end
-    else 
+    else
     begin
-        from_sw_data_out_buffer <= 
-        OTG_ADDR                <= 
-        OTG_RD_N                <= 
-        OTG_WR_N                <= 
-        OTG_CS_N                <= 
-        OTG_RST_N               <= 
-        from_sw_data_in         <= 
+        from_sw_data_out_buffer <= from_sw_data_in; // ???
+        OTG_ADDR                <= from_sw_address;
+        OTG_RD_N                <= from_sw_r;
+        OTG_WR_N                <= from_sw_w;
+        OTG_CS_N                <= from_sw_cs;
+        OTG_RST_N               <= from_sw_reset;
+        from_sw_data_in         <= from_sw_data_out; // ???
     end
 end
 
 // OTG_DATA should be high Z (tristated) when NIOS is not writing to OTG_DATA inout bus.
 // Look at tristate.sv in lab 6 for an example.
-assign OTG_DATA = 
+assign OTG_DATA = OTG_CS_N ? {16'hZZZZ} : from_sw_data_out_buffer; // Active-Low // correct values???
 
-endmodule 
+endmodule
