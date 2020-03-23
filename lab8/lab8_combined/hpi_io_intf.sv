@@ -23,18 +23,18 @@ begin
         OTG_RD_N                <= 1'b1;
         OTG_WR_N                <= 1'b1;
         OTG_CS_N                <= 1'b1;
-        OTG_RST_N               <= 1'b1;
+        OTG_RST_N               <= 1'b0;
         from_sw_data_in         <= 16'h0000;
     end
     else
     begin
-        from_sw_data_out_buffer <= from_sw_data_in; // ???
+        from_sw_data_out_buffer <= from_sw_data_out; // ???
         OTG_ADDR                <= from_sw_address;
         OTG_RD_N                <= from_sw_r;
         OTG_WR_N                <= from_sw_w;
         OTG_CS_N                <= from_sw_cs;
         OTG_RST_N               <= from_sw_reset;
-        from_sw_data_in         <= from_sw_data_out; // ???
+        from_sw_data_in         <= from_sw_data_out_buffer; // ???
     end
 end
 
