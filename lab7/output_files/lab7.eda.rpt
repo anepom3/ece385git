@@ -1,5 +1,5 @@
 EDA Netlist Writer report for lab7
-Sat Mar 07 14:25:04 2020
+Tue Mar 24 11:50:54 2020
 Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
 
 
@@ -36,7 +36,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Sat Mar 07 14:25:04 2020 ;
+; EDA Netlist Writer Status ; Successful - Tue Mar 24 11:50:54 2020 ;
 ; Revision Name             ; lab7                                  ;
 ; Top-level Entity Name     ; lab7                                  ;
 ; Family                    ; Cyclone IV E                          ;
@@ -88,7 +88,7 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime EDA Netlist Writer
     Info: Version 18.0.0 Build 614 04/24/2018 SJ Lite Edition
-    Info: Processing started: Sat Mar 07 14:24:46 2020
+    Info: Processing started: Tue Mar 24 11:50:44 2020
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off lab7 -c lab7
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (204019): Generated file lab7_7_1200mv_85c_slow.svo in folder "C:/Users/antho/Desktop/ece385git/lab7/simulation/modelsim/" for EDA simulation tool
@@ -100,9 +100,9 @@ Info (204019): Generated file lab7_7_1200mv_0c_v_slow.sdo in folder "C:/Users/an
 Info (204019): Generated file lab7_min_1200mv_0c_v_fast.sdo in folder "C:/Users/antho/Desktop/ece385git/lab7/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file lab7_v.sdo in folder "C:/Users/antho/Desktop/ece385git/lab7/simulation/modelsim/" for EDA simulation tool
 Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 4703 megabytes
-    Info: Processing ended: Sat Mar 07 14:25:04 2020
-    Info: Elapsed time: 00:00:18
-    Info: Total CPU time (on all processors): 00:00:16
+    Info: Peak virtual memory: 4704 megabytes
+    Info: Processing ended: Tue Mar 24 11:50:54 2020
+    Info: Elapsed time: 00:00:10
+    Info: Total CPU time (on all processors): 00:00:10
 
 

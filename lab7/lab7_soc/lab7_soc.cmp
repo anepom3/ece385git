@@ -1,5 +1,6 @@
 	component lab7_soc is
 		port (
+			button_wire_export                            : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- export
 			clk_clk                                       : in    std_logic                     := 'X';             -- clk
 			led_wire_export                               : out   std_logic_vector(7 downto 0);                     -- export
 			nios2_gen2_0_custom_instruction_master_readra : out   std_logic;                                        -- readra
@@ -14,7 +15,8 @@
 			sdram_wire_dq                                 : inout std_logic_vector(15 downto 0) := (others => 'X'); -- dq
 			sdram_wire_dqm                                : out   std_logic_vector(1 downto 0);                     -- dqm
 			sdram_wire_ras_n                              : out   std_logic;                                        -- ras_n
-			sdram_wire_we_n                               : out   std_logic                                         -- we_n
+			sdram_wire_we_n                               : out   std_logic;                                        -- we_n
+			sw_wire_export                                : in    std_logic_vector(7 downto 0)  := (others => 'X')  -- export
 		);
 	end component lab7_soc;
 

@@ -7,6 +7,7 @@ int main()
 	int i = 0;
 	int add_button_state = 1; // I am assuming that this button is active low!!!
 	int prev_add_button_state = 1;
+	int reset_button = 1;
 	int led_vals = 0;
 	int val = 0;
 	int but_vec = 3; // 3 active-low initialized to inactive [accumulate, reset]
@@ -22,6 +23,11 @@ int main()
 		reset_button = but_vec & 0x1;
 		add_button_state = (but_vec >> 1) & 0x1;
 
+		if(!reset_button){
+			led_vals = 0;
+			*LED_PIO = led_vals;
+			continue;
+		}
 		// check if ready to add
 		if((!add_button_state) && (add_button_state != prev_add_button_state)) {
 				// Perform addition
@@ -29,14 +35,21 @@ int main()
 				val = *SW_PIO & 0xFF; // 8-bit value from switches
 
 				// add to running led total
-				if(led_val + val >= 256) {led_val = 256 - led_val + val;}
-				else {led_val += val;}
+				if(led_vals + val >= 256) {led_vals = led_vals - 256 + val;}
+				else {led_vals += val;}
 
 				// display the new value on the LEDs
-				*LED_PIO = led_val; // write new LED values
+				*LED_PIO = led_vals; // write new LED values
 		}
 
 		prev_add_button_state = add_button_state;
 	}
+//	while ( (1+1) != 3) //infinite loop
+//		{
+//			for (i = 0; i < 100000; i++); //software delay
+//			*LED_PIO |= 0x1; //set LSB
+//			for (i = 0; i < 100000; i++); //software delay
+//			*LED_PIO &= ~0x1; //clear LSB
+//		}
 	return 1; //never gets here
 }
