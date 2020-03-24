@@ -97,7 +97,7 @@ int main(void)
 
 	while (!(IO_read(HPI_STATUS) & 0xFFFF) )  //read sie1 msg register
 	{
-		printf ("This line is %d.\n", __LINE__);
+//		printf ("This line is %d.\n", __LINE__);
 	}
 	printf ("This line is %d.\n", __LINE__);
 	while (IO_read(HPI_MAILBOX) != COMM_ACK)
@@ -132,14 +132,14 @@ int main(void)
 		printf("[ERROR]:routine mailbox data is %x\n",IO_read(HPI_MAILBOX));
 		goto USB_HOT_PLUG;
 	}
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	// STEP 2 end
 
 	ctl_reg = USB1_CTL_REG;
 	no_device = (A_DP_STAT | A_DM_STAT);
 	fs_device = A_DP_STAT;
 	usb_ctl_val = UsbRead(ctl_reg);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	if (!(usb_ctl_val & no_device))
 	{
 		printf ("This line is %d.\n", __LINE__);
@@ -169,6 +169,7 @@ int main(void)
 	}
 	else
 	{
+		printf ("This line is %d.\n", __LINE__);
 		/* check for low speed or full speed by reading D+ and D- lines */
 		if (usb_ctl_val & fs_device)
 		{
@@ -185,7 +186,7 @@ int main(void)
 	// STEP 3 begin
 	//------------------------------------------------------set address -----------------------------------------------------------------
 	UsbSetAddress();
-
+	printf ("This line is %d.\n", __LINE__);
 	while (!(IO_read(HPI_STATUS) & HPI_STATUS_SIE1msg_FLAG) )  //read sie1 msg register
 	{
 		UsbSetAddress();

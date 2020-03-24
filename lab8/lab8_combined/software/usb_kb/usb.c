@@ -118,25 +118,25 @@ void UsbSoftReset()
 	usleep(500000);
 	printf("[USB INIT]:Clear up the interrupt\r\n");
 	IO_read(HPI_MAILBOX);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	IO_read(HPI_STATUS);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	// Had to add the write due to a bug in BIOS where they overwrite
 	// the mailbox after initialization with garbage.  The read clears
 	// any pending interrupts.
 	UsbRead (HPI_SIE1_MSG_ADR);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	UsbWrite (HPI_SIE1_MSG_ADR, 0);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	UsbRead (HPI_SIE2_MSG_ADR);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	UsbWrite (HPI_SIE2_MSG_ADR, 0);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 
 	UsbWrite (HOST1_STAT_REG, 0xFFFF);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 	UsbWrite (HOST2_STAT_REG, 0xFFFF);
-	printf ("This line is %d.\n", __LINE__);
+//	printf ("This line is %d.\n", __LINE__);
 }
 
 
