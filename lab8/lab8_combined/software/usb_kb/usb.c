@@ -48,8 +48,7 @@ void UsbWrite(alt_u16 Address, alt_u16 Data)
 
 		// 1.
 			IO_write(HPI_ADDR, Address);
-			usleep(100000);
-			usleep(500000);
+
 
 		// 2.
 			IO_write(HPI_DATA, Data);
@@ -86,8 +85,7 @@ alt_u16 UsbRead(alt_u16 Address)
 
 		// 2. EZ-OTG will fetch data from specified address and make it ready
 		// to be transferred via HPI_DATA.
-		usleep(100000);
-		usleep(500000);
+
 
 		// 3.
 		ret = IO_read(HPI_DATA);

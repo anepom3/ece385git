@@ -132,27 +132,32 @@ int main(void)
 		printf("[ERROR]:routine mailbox data is %x\n",IO_read(HPI_MAILBOX));
 		goto USB_HOT_PLUG;
 	}
+	printf ("This line is %d.\n", __LINE__);
 	// STEP 2 end
 
 	ctl_reg = USB1_CTL_REG;
 	no_device = (A_DP_STAT | A_DM_STAT);
 	fs_device = A_DP_STAT;
 	usb_ctl_val = UsbRead(ctl_reg);
-
+	printf ("This line is %d.\n", __LINE__);
 	if (!(usb_ctl_val & no_device))
 	{
+		printf ("This line is %d.\n", __LINE__);
 		for(hot_plug_count = 0 ; hot_plug_count < 5 ; hot_plug_count++)
 		{
+			printf ("This line is %d.\n", __LINE__);
 			usleep(5*1000);
 			usb_ctl_val = UsbRead(ctl_reg);
 			if(usb_ctl_val & no_device) break;
 		}
 		if(!(usb_ctl_val & no_device))
 		{
+			printf ("This line is %d.\n", __LINE__);
 			printf("\n[INFO]: no device is present in SIE1!\n");
 			printf("[INFO]: please insert a USB keyboard in SIE1!\n");
 			while (!(usb_ctl_val & no_device))
 			{
+				printf ("This line is %d.\n", __LINE__);
 				usb_ctl_val = UsbRead(ctl_reg);
 				if(usb_ctl_val & no_device)
 					goto USB_HOT_PLUG;
@@ -160,6 +165,7 @@ int main(void)
 				usleep(2000);
 			}
 		}
+		printf ("This line is %d.\n", __LINE__);
 	}
 	else
 	{
