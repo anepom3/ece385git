@@ -23,7 +23,7 @@ begin
         OTG_RD_N                <= 1'b1;
         OTG_WR_N                <= 1'b1;
         OTG_CS_N                <= 1'b1;
-        OTG_RST_N               <= 1'b0;
+        OTG_RST_N               <= 1'b1;
         from_sw_data_in         <= 16'h0000;
     end
     else
@@ -34,12 +34,12 @@ begin
         OTG_WR_N                <= from_sw_w;
         OTG_CS_N                <= from_sw_cs;
         OTG_RST_N               <= from_sw_reset;
-        from_sw_data_in         <= from_sw_data_out_buffer; // ???
+        from_sw_data_in         <= OTG_DATA; // ???
     end
 end
 
 // OTG_DATA should be high Z (tristated) when NIOS is not writing to OTG_DATA inout bus.
 // Look at tristate.sv in lab 6 for an example.
-assign OTG_DATA = OTG_CS_N ? {16'hZZZZ} : from_sw_data_out_buffer; // Active-Low // correct values???
+assign OTG_DATA = from_sw_w ? {16'hZZZZ} : from_sw_data_out_buffer; // Active-Low // correct values???
 
 endmodule
