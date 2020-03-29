@@ -21,7 +21,7 @@ int run_mode = 0;
 
 /** charToHex
  *  Convert a single character to the 4-bit value it represents.
- *  
+ *
  *  Input: a character c (e.g. 'A')
  *  Output: converted 4-bit value (e.g. 0xA)
  */
@@ -47,7 +47,7 @@ char charToHex(char c)
 /** charsToHex
  *  Convert two characters to byte value it represents.
  *  Inputs must be 0-9, A-F, or a-f.
- *  
+ *
  *  Input: two characters c1 and c2 (e.g. 'A' and '7')
  *  Output: converted byte value (e.g. 0xA7)
  */
@@ -56,6 +56,76 @@ char charsToHex(char c1, char c2)
 	char hex1 = charToHex(c1);
 	char hex2 = charToHex(c2);
 	return (hex1 << 4) + hex2;
+}
+
+/** KeyExpansion
+	* Takes the Cipher Key and performs a Key Expansion to generate a series
+	* of Round Keys (4-Word matrix) and store them into Key Schedule.
+	*
+	* Input: int key_in[4]		- original 4-word key
+	*
+	* Output: int key_out[44] - 11 4-word keys
+  */
+int[44] KeyExpansion(int key_in[4]) {
+		int key_out[44]; // 11 4-word keys
+		int i=0;
+		int temp=0;
+		// First key is the original key
+		for(i=0;i<4;i++) {
+				key_out[i] = key[i];
+		}
+
+		// Make 10 other keys
+		for(i=4;i<44;i++) {
+				temp = key_out[i-1];
+
+				if((i % 4) == 0) {
+						temp = (temp << 8) | (temp >> 24); // Rotate Word {0,1,2,3} --> {1,2,3,0}
+						temp = SubBytes(temp); // Substitute bytes if words using table
+						temp ^= Rcon[i/4]; // xor with Round-key constant
+				}
+
+				key_out[i] = key_out[i-4] ^ temp;
+		}
+
+		return key_out;
+}
+
+/** AddRoundKey
+	* A Round Key of 4-Word matrix is applied to the
+	* updating State through a simple XOR operation in every round
+	*
+	* Input: int state_in[4] 	 - original 4-word key
+	*				 int round_key[4]	 - round key to use for operation
+	*
+	* Output: int ret_state[4] - new state after operation occurs
+  */
+int[4] AddRoundKey(int state_in[4], int round_key[4]) {
+		int ret_state[4];
+		int i=0;
+		for(i=0;i<4;i++) {
+				ret_state[i] = state_in[i] ^ round_key[i];
+		}
+		return ret_state;
+}
+
+/** SubBytes
+	* Each Byte of the updating State is non-linearly transformed by
+	* taking the multiplicative inverse in Rijndael’s finite field
+	* The process is usually simplified into applying a lookup table
+	* called the Rijndael S-box (substitution box).
+	*
+	* Input: int word_in 	- original word to substitute bytes for
+	*
+	* Output: int ret_word - substituted bytes of word
+  */
+int SubBytes(int word_in) {
+		int ret_word;
+
+		// TO-DO:
+		// Do operation of separarting bytes and applying substitutions
+
+		return ret_word;
 }
 
 /** encrypt
@@ -68,7 +138,15 @@ char charsToHex(char c1, char c2)
  */
 void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int * msg_enc, unsigned int * key)
 {
-	// Implement this function
+		// Implement this function
+
+		char input_string[32]; // Plaintext
+		int state[4]; // State
+		// int key_schedule[44]; // Key Schedule from Key Expansion (11 keys, 4 words each)
+
+		input_string = *(msg_ascii); // Get Plaintext in ASCII
+		// key_schedule = KeyExpansion(*key); // I don't think that is the right way to generate the Key Expansion...???
+
 }
 
 /** decrypt
