@@ -66,10 +66,10 @@ char charsToHex(char c1, char c2)
 	*
 	* Output: int key_out[44] - 11 4-word keys
   */
-int[44] KeyExpansion(int key_in[4]) {
-		int key_out[44]; // 11 4-word keys
+unsigned int[44] KeyExpansion(unsigned int key_in[4]) {
+		unsigned int key_out[44]; // 11 4-word keys
 		int i=0;
-		int temp=0;
+		unsigned int temp=0;
 		// First key is the original key
 		for(i=0;i<4;i++) {
 				key_out[i] = key[i];
@@ -95,13 +95,13 @@ int[44] KeyExpansion(int key_in[4]) {
 	* A Round Key of 4-Word matrix is applied to the
 	* updating State through a simple XOR operation in every round
 	*
-	* Input: int state_in[4] 	 - original 4-word key
+	* Input: int state_in[4] 	 - original 4-word state
 	*				 int round_key[4]	 - round key to use for operation
 	*
 	* Output: int ret_state[4] - new state after operation occurs
   */
-int[4] AddRoundKey(int state_in[4], int round_key[4]) {
-		int ret_state[4];
+unsigned int[4] AddRoundKey(unsigned int state_in[4], unsigned int round_key[4]) {
+		unsigned int ret_state[4];
 		int i=0;
 		for(i=0;i<4;i++) {
 				ret_state[i] = state_in[i] ^ round_key[i];
@@ -119,13 +119,90 @@ int[4] AddRoundKey(int state_in[4], int round_key[4]) {
 	*
 	* Output: int ret_word - substituted bytes of word
   */
-int SubBytes(int word_in) {
-		int ret_word;
+unsigned int SubBytes(unsigned int word_in) {
+		unsigned int ret_word=0;
+		int i=0;
 
-		// TO-DO:
-		// Do operation of separarting bytes and applying substitutions
+		for(i=0;i<4;i++) {
+				unsigned char temp;
+				temp = (unsigned char)((word_in >> (8*i)) & 0xFF); // isolate each char of word
+				temp = aes_sbox[temp]; // Substitute byte --> might be wrong indexing
+				ret_word |= (unsigned int)(temp) << (8*i); // Place byte into output word
+		}
 
 		return ret_word;
+}
+
+/** ShiftRows
+	* Each row in the updating State is shifted by some offsets
+	*
+	* Input: int state_in[4] 	 - original 4-word state
+	*
+	* Output: int ret_state[4] - new state after operation occurs
+	*
+	* [0, 4, 8,  12]	 			[0, 4, 8, 12]
+	* [1, 5, 9,  12]	---\	[5, 9, 13, 1]
+	* [2, 6, 10, 12]	---/  [10, 14, 2, 6]
+	* [3, 7, 11, 12]	 			[15, 3, 7, 11]
+  */
+unsigned int[4] ShiftRows(unsigned int state_in[4]) {
+		unsigned int ret_state[4];
+		unsigned char shift_bytes[16]; // 16 bytes of state to shift
+		int i=0;
+
+		for(i=0;i<4;i++) {
+				shift_bytes[(4*i)+0] = (unsigned char)(state_in[i] & 0xFF);
+				shift_bytes[(4*i)+1] = (unsigned char)((state_in[i] >> 8) & 0xFF);
+				shift_bytes[(4*i)+2] = (unsigned char)((state_in[i] >> 16) & 0xFF);
+				shift_bytes[(4*i)+3] = (unsigned char)((state_in[i] >> 24) & 0xFF);
+		}
+
+		ret_state[0] = ((unsigned int)(shift_bytes[15]) << 24) |
+									 ((unsigned int)(shift_bytes[10]) << 16) |
+									 ((unsigned int)(shift_bytes[5]) << 8) |
+									 ((unsigned int)(shift_bytes[0]));
+
+		ret_state[1] = ((unsigned int)(shift_bytes[3]) << 24) |
+									 ((unsigned int)(shift_bytes[14]) << 16) |
+									 ((unsigned int)(shift_bytes[9]) << 8) |
+									 ((unsigned int)(shift_bytes[4]));
+
+		ret_state[2] = ((unsigned int)(shift_bytes[7]) << 24) |
+									 ((unsigned int)(shift_bytes[2]) << 16) |
+									 ((unsigned int)(shift_bytes[13]) << 8) |
+									 ((unsigned int)(shift_bytes[8]));
+
+		ret_state[3] = ((unsigned int)(shift_bytes[11]) << 24) |
+									 ((unsigned int)(shift_bytes[6]) << 16) |
+									 ((unsigned int)(shift_bytes[1]) << 8) |
+									 ((unsigned int)(shift_bytes[12]));
+
+		return ret_state;
+}
+
+/** MixColumns
+	* Each of the four Words in the updating State undergoes separate
+	* invertible linear transformations over GF such that the four Bytes
+	* of each Word are linearly combined to form a new Word
+	*
+	* Input: int state_in[4] 	 - original 4-word key
+	*
+	* Output: int ret_state[4] - new state after operation occurs
+	*
+	* b[0] = a[0]    [1 1 1 1]
+	* b[1] = a[1] \/ [1 1 1 1]
+	* b[2] = a[2] /\ [1 1 1 1]
+	* b[3] = a[3]    [1 1 1 1]
+  */
+unsigned int[4] MixColumns(unsigned int state_in[4]) {
+		unsigned int ret_state[4];
+		int i=0;
+
+		for(i=0;i<4;i++) {
+
+		}
+
+		return ret_state;
 }
 
 /** encrypt
