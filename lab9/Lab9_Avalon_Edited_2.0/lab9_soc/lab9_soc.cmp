@@ -1,5 +1,6 @@
 	component lab9_soc is
 		port (
+			aes_export_export_data                        : out   std_logic_vector(31 downto 0);                    -- export_data
 			clk_clk                                       : in    std_logic                     := 'X';             -- clk
 			nios2_gen2_0_custom_instruction_master_readra : out   std_logic;                                        -- readra
 			reset_reset_n                                 : in    std_logic                     := 'X';             -- reset_n

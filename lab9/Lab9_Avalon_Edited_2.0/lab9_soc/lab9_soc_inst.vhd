@@ -1,5 +1,6 @@
 	component lab9_soc is
 		port (
+			aes_export_export_data                        : out   std_logic_vector(31 downto 0);                    -- export_data
 			clk_clk                                       : in    std_logic                     := 'X';             -- clk
 			nios2_gen2_0_custom_instruction_master_readra : out   std_logic;                                        -- readra
 			reset_reset_n                                 : in    std_logic                     := 'X';             -- reset_n
@@ -18,6 +19,7 @@
 
 	u0 : component lab9_soc
 		port map (
+			aes_export_export_data                        => CONNECTED_TO_aes_export_export_data,                        --                             aes_export.export_data
 			clk_clk                                       => CONNECTED_TO_clk_clk,                                       --                                    clk.clk
 			nios2_gen2_0_custom_instruction_master_readra => CONNECTED_TO_nios2_gen2_0_custom_instruction_master_readra, -- nios2_gen2_0_custom_instruction_master.readra
 			reset_reset_n                                 => CONNECTED_TO_reset_reset_n,                                 --                                  reset.reset_n

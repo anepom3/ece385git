@@ -1,5 +1,6 @@
 
 module lab9_soc (
+	aes_export_export_data,
 	clk_clk,
 	nios2_gen2_0_custom_instruction_master_readra,
 	reset_reset_n,
@@ -14,6 +15,7 @@ module lab9_soc (
 	sdram_wire_ras_n,
 	sdram_wire_we_n);	
 
+	output	[31:0]	aes_export_export_data;
 	input		clk_clk;
 	output		nios2_gen2_0_custom_instruction_master_readra;
 	input		reset_reset_n;

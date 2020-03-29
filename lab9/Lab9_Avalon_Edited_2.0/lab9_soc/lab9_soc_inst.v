@@ -1,4 +1,5 @@
 	lab9_soc u0 (
+		.aes_export_export_data                        (<connected-to-aes_export_export_data>),                        //                             aes_export.export_data
 		.clk_clk                                       (<connected-to-clk_clk>),                                       //                                    clk.clk
 		.nios2_gen2_0_custom_instruction_master_readra (<connected-to-nios2_gen2_0_custom_instruction_master_readra>), // nios2_gen2_0_custom_instruction_master.readra
 		.reset_reset_n                                 (<connected-to-reset_reset_n>),                                 //                                  reset.reset_n
