@@ -150,6 +150,7 @@ unsigned int[4] ShiftRows(unsigned int state_in[4]) {
 		unsigned char shift_bytes[16]; // 16 bytes of state to shift
 		int i=0;
 
+		// Separate bytes of input state in column-major order
 		for(i=0;i<4;i++) {
 				shift_bytes[(4*i)+0] = (unsigned char)(state_in[i] & 0xFF);
 				shift_bytes[(4*i)+1] = (unsigned char)((state_in[i] >> 8) & 0xFF);
@@ -157,6 +158,7 @@ unsigned int[4] ShiftRows(unsigned int state_in[4]) {
 				shift_bytes[(4*i)+3] = (unsigned char)((state_in[i] >> 24) & 0xFF);
 		}
 
+		// Set output state to be properly shifted
 		ret_state[0] = ((unsigned int)(shift_bytes[15]) << 24) |
 									 ((unsigned int)(shift_bytes[10]) << 16) |
 									 ((unsigned int)(shift_bytes[5]) << 8) |
@@ -189,10 +191,10 @@ unsigned int[4] ShiftRows(unsigned int state_in[4]) {
 	*
 	* Output: int ret_state[4] - new state after operation occurs
 	*
-	* b[0] = a[0]    [1 1 1 1]
-	* b[1] = a[1] \/ [1 1 1 1]
-	* b[2] = a[2] /\ [1 1 1 1]
-	* b[3] = a[3]    [1 1 1 1]
+	* b[0] = a[0]    [1 1 1 1]		b[0] = ({2} x a[0]) + ({3} x a[1]) + 				a[2]  + 			 a[3]
+	* b[1] = a[1] \/ [1 1 1 1]		b[0] =  			a[0]	+ ({2} x a[1]) + ({3} x a[2]) + 			 a[3]
+	* b[2] = a[2] /\ [1 1 1 1]		b[0] =  			a[0]	+ 			 a[1]  + ({2} x a[2]) + ({3} x a[3])
+	* b[3] = a[3]    [1 1 1 1]		b[0] = ({3} x a[0]) + 			 a[1]  + 				a[2]  + ({2} x a[3])
   */
 unsigned int[4] MixColumns(unsigned int state_in[4]) {
 		unsigned int ret_state[4];
