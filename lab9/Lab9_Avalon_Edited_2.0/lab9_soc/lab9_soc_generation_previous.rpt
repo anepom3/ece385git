@@ -1,0 +1,140 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\antho\Desktop\ece385git\lab9\Lab9_Avalon_Edited_2.0\lab9_soc.qsys --block-symbol-file --output-directory=C:\Users\antho\Desktop\ece385git\lab9\Lab9_Avalon_Edited_2.0\lab9_soc --family="Cyclone IV E" --part=EP4CE115F29C7
+Progress: Loading Lab9_Avalon_Edited_2.0/lab9_soc.qsys
+Progress: Reading input file
+Progress: Adding AES_Decryption_Core_0 [AES_Decryption_Core 1.1]
+Progress: Parameterizing module AES_Decryption_Core_0
+Progress: Adding CLK [clock_source 18.0]
+Progress: Parameterizing module CLK
+Progress: Adding JTAG_UART [altera_avalon_jtag_uart 18.0]
+Progress: Parameterizing module JTAG_UART
+Progress: Adding NIOS2 [altera_nios2_gen2 18.0]
+Progress: Parameterizing module NIOS2
+Progress: Adding NIOS2_SYSID [altera_avalon_sysid_qsys 18.0]
+Progress: Parameterizing module NIOS2_SYSID
+Progress: Adding ONCHIP_MEMORY [altera_avalon_onchip_memory2 18.0]
+Progress: Parameterizing module ONCHIP_MEMORY
+Progress: Adding SDRAM [altera_avalon_new_sdram_controller 18.0]
+Progress: Parameterizing module SDRAM
+Progress: Adding SDRAM_PLL [altpll 18.0]
+Progress: Parameterizing module SDRAM_PLL
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: lab9_soc.JTAG_UART: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+Info: lab9_soc.NIOS2_SYSID: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: lab9_soc.NIOS2_SYSID: Time stamp will be automatically updated when this component is generated.
+Info: lab9_soc.SDRAM: SDRAM Controller will only be supported in Quartus Prime Standard Edition in the future release.
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\antho\Desktop\ece385git\lab9\Lab9_Avalon_Edited_2.0\lab9_soc.qsys --synthesis=VERILOG --output-directory=C:\Users\antho\Desktop\ece385git\lab9\Lab9_Avalon_Edited_2.0\lab9_soc\synthesis --family="Cyclone IV E" --part=EP4CE115F29C7
+Progress: Loading Lab9_Avalon_Edited_2.0/lab9_soc.qsys
+Progress: Reading input file
+Progress: Adding AES_Decryption_Core_0 [AES_Decryption_Core 1.1]
+Progress: Parameterizing module AES_Decryption_Core_0
+Progress: Adding CLK [clock_source 18.0]
+Progress: Parameterizing module CLK
+Progress: Adding JTAG_UART [altera_avalon_jtag_uart 18.0]
+Progress: Parameterizing module JTAG_UART
+Progress: Adding NIOS2 [altera_nios2_gen2 18.0]
+Progress: Parameterizing module NIOS2
+Progress: Adding NIOS2_SYSID [altera_avalon_sysid_qsys 18.0]
+Progress: Parameterizing module NIOS2_SYSID
+Progress: Adding ONCHIP_MEMORY [altera_avalon_onchip_memory2 18.0]
+Progress: Parameterizing module ONCHIP_MEMORY
+Progress: Adding SDRAM [altera_avalon_new_sdram_controller 18.0]
+Progress: Parameterizing module SDRAM
+Progress: Adding SDRAM_PLL [altpll 18.0]
+Progress: Parameterizing module SDRAM_PLL
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: lab9_soc.JTAG_UART: JTAG UART IP input clock need to be at least double (2x) the operating frequency of JTAG TCK on board
+Info: lab9_soc.NIOS2_SYSID: System ID is not assigned automatically. Edit the System ID parameter to provide a unique ID
+Info: lab9_soc.NIOS2_SYSID: Time stamp will be automatically updated when this component is generated.
+Info: lab9_soc.SDRAM: SDRAM Controller will only be supported in Quartus Prime Standard Edition in the future release.
+Info: lab9_soc: Generating lab9_soc "lab9_soc" for QUARTUS_SYNTH
+Info: Inserting clock-crossing logic between cmd_demux.src6 and cmd_mux_006.sink0
+Info: Inserting clock-crossing logic between cmd_demux_001.src4 and cmd_mux_006.sink1
+Info: Inserting clock-crossing logic between rsp_demux_006.src0 and rsp_mux.sink6
+Info: Inserting clock-crossing logic between rsp_demux_006.src1 and rsp_mux_001.sink4
+Info: AES_Decryption_Core_0: "lab9_soc" instantiated AES_Decryption_Core "AES_Decryption_Core_0"
+Info: JTAG_UART: Starting RTL generation for module 'lab9_soc_JTAG_UART'
+Info: JTAG_UART:   Generation command is [exec C:/intelfpga_lite/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/18.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=lab9_soc_JTAG_UART --dir=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0037_JTAG_UART_gen/ --quartus_dir=C:/intelfpga_lite/18.0/quartus --verilog --config=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0037_JTAG_UART_gen//lab9_soc_JTAG_UART_component_configuration.pl  --do_build_sim=0  ]
+Info: JTAG_UART: Done RTL generation for module 'lab9_soc_JTAG_UART'
+Info: JTAG_UART: "lab9_soc" instantiated altera_avalon_jtag_uart "JTAG_UART"
+Info: NIOS2: "lab9_soc" instantiated altera_nios2_gen2 "NIOS2"
+Info: NIOS2_SYSID: "lab9_soc" instantiated altera_avalon_sysid_qsys "NIOS2_SYSID"
+Info: ONCHIP_MEMORY: Starting RTL generation for module 'lab9_soc_ONCHIP_MEMORY'
+Info: ONCHIP_MEMORY:   Generation command is [exec C:/intelfpga_lite/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/18.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=lab9_soc_ONCHIP_MEMORY --dir=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0039_ONCHIP_MEMORY_gen/ --quartus_dir=C:/intelfpga_lite/18.0/quartus --verilog --config=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0039_ONCHIP_MEMORY_gen//lab9_soc_ONCHIP_MEMORY_component_configuration.pl  --do_build_sim=0  ]
+Info: ONCHIP_MEMORY: Done RTL generation for module 'lab9_soc_ONCHIP_MEMORY'
+Info: ONCHIP_MEMORY: "lab9_soc" instantiated altera_avalon_onchip_memory2 "ONCHIP_MEMORY"
+Info: SDRAM: Starting RTL generation for module 'lab9_soc_SDRAM'
+Info: SDRAM:   Generation command is [exec C:/intelfpga_lite/18.0/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga_lite/18.0/quartus/bin64/perl/lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- C:/intelfpga_lite/18.0/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=lab9_soc_SDRAM --dir=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0040_SDRAM_gen/ --quartus_dir=C:/intelfpga_lite/18.0/quartus --verilog --config=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0040_SDRAM_gen//lab9_soc_SDRAM_component_configuration.pl  --do_build_sim=0  ]
+Info: SDRAM: Done RTL generation for module 'lab9_soc_SDRAM'
+Info: SDRAM: "lab9_soc" instantiated altera_avalon_new_sdram_controller "SDRAM"
+Info: SDRAM_PLL: "lab9_soc" instantiated altpll "SDRAM_PLL"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_001: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_002: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_003: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_004: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "lab9_soc" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: irq_mapper: "lab9_soc" instantiated altera_irq_mapper "irq_mapper"
+Info: rst_controller: "lab9_soc" instantiated altera_reset_controller "rst_controller"
+Info: cpu: Starting RTL generation for module 'lab9_soc_NIOS2_cpu'
+Info: cpu:   Generation command is [exec C:/intelFPGA_lite/18.0/quartus/bin64//eperlcmd.exe -I C:/intelFPGA_lite/18.0/quartus/bin64//perl/lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/europa -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga_lite/18.0/quartus/sopc_builder/bin -I C:/intelfpga_lite/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I C:/intelfpga_lite/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I C:/intelfpga_lite/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I C:/intelfpga_lite/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- C:/intelfpga_lite/18.0/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.epl --name=lab9_soc_NIOS2_cpu --dir=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0045_cpu_gen/ --quartus_bindir=C:/intelFPGA_lite/18.0/quartus/bin64/ --verilog --config=C:/Users/antho/AppData/Local/Temp/alt8351_8999545851925242321.dir/0045_cpu_gen//lab9_soc_NIOS2_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info: cpu: # 2020.03.30 14:58:54 (*) Starting Nios II generation
+Info: cpu: # 2020.03.30 14:58:54 (*)   Checking for plaintext license.
+Info: cpu: # 2020.03.30 14:58:57 (*)   Couldn't query license setup in Quartus directory C:/intelFPGA_lite/18.0/quartus/bin64/
+Info: cpu: # 2020.03.30 14:58:57 (*)   Defaulting to contents of LM_LICENSE_FILE environment variable
+Info: cpu: # 2020.03.30 14:58:57 (*)   LM_LICENSE_FILE environment variable is empty
+Info: cpu: # 2020.03.30 14:58:57 (*)   Plaintext license not found.
+Info: cpu: # 2020.03.30 14:58:57 (*)   No license required to generate encrypted Nios II/e.
+Info: cpu: # 2020.03.30 14:58:57 (*)   Elaborating CPU configuration settings
+Info: cpu: # 2020.03.30 14:58:57 (*)   Creating all objects for CPU
+Info: cpu: # 2020.03.30 14:59:03 (*)   Generating RTL from CPU objects
+Info: cpu: # 2020.03.30 14:59:03 (*)   Creating plain-text RTL
+Info: cpu: # 2020.03.30 14:59:06 (*) Done Nios II generation
+Info: cpu: Done RTL generation for module 'lab9_soc_NIOS2_cpu'
+Info: cpu: "NIOS2" instantiated altera_nios2_gen2_unit "cpu"
+Info: NIOS2_data_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "NIOS2_data_master_translator"
+Info: AES_Decryption_Core_0_AES_Slave_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "AES_Decryption_Core_0_AES_Slave_translator"
+Info: NIOS2_data_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "NIOS2_data_master_agent"
+Info: AES_Decryption_Core_0_AES_Slave_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "AES_Decryption_Core_0_AES_Slave_agent"
+Info: AES_Decryption_Core_0_AES_Slave_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "AES_Decryption_Core_0_AES_Slave_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: router_002: "mm_interconnect_0" instantiated altera_merlin_router "router_002"
+Info: router_004: "mm_interconnect_0" instantiated altera_merlin_router "router_004"
+Info: router_008: "mm_interconnect_0" instantiated altera_merlin_router "router_008"
+Info: SDRAM_s1_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "SDRAM_s1_burst_adapter"
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_001"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: cmd_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_002"
+Info: Reusing file C:/Users/antho/Desktop/ece385git/lab9/Lab9_Avalon_Edited_2.0/lab9_soc/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux"
+Info: rsp_demux_002: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "rsp_demux_002"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file C:/Users/antho/Desktop/ece385git/lab9/Lab9_Avalon_Edited_2.0/lab9_soc/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
+Info: Reusing file C:/Users/antho/Desktop/ece385git/lab9/Lab9_Avalon_Edited_2.0/lab9_soc/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: SDRAM_s1_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "SDRAM_s1_rsp_width_adapter"
+Info: Reusing file C:/Users/antho/Desktop/ece385git/lab9/Lab9_Avalon_Edited_2.0/lab9_soc/synthesis/submodules/altera_merlin_address_alignment.sv
+Info: Reusing file C:/Users/antho/Desktop/ece385git/lab9/Lab9_Avalon_Edited_2.0/lab9_soc/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: crosser: "mm_interconnect_0" instantiated altera_avalon_st_handshake_clock_crosser "crosser"
+Info: Reusing file C:/Users/antho/Desktop/ece385git/lab9/Lab9_Avalon_Edited_2.0/lab9_soc/synthesis/submodules/altera_avalon_st_pipeline_base.v
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: avalon_st_adapter_006: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_006"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: error_adapter_0: "avalon_st_adapter_006" instantiated error_adapter "error_adapter_0"
+Info: lab9_soc: Done "lab9_soc" with 37 modules, 63 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

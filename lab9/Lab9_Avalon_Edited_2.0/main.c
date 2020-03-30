@@ -64,9 +64,9 @@ char charsToHex(char c1, char c2)
 	*
 	* Input: int key_in[4]		- original 4-word key
 	*
-	* Output: int key_out[44] - 11 4-word keys
+	* Output: int key_schedule[44] - 11 4-word keys for schcedule
   */
-unsigned int[44] KeyExpansion(unsigned int key_in[4]) {
+void KeyExpansion(unsigned int key_in[4], unsigned int key_schedule) {
 		unsigned int key_out[44]; // 11 4-word keys
 		int i=0;
 		unsigned int temp=0;
@@ -100,7 +100,7 @@ unsigned int[44] KeyExpansion(unsigned int key_in[4]) {
 	*
 	* Output: int ret_state[4] - new state after operation occurs
   */
-unsigned int[4] AddRoundKey(unsigned int state_in[4], unsigned int round_key[4]) {
+void AddRoundKey(unsigned int state_in[4], unsigned int round_key[4], unsigned int ret_state[4]) {
 		unsigned int ret_state[4];
 		int i=0;
 		for(i=0;i<4;i++) {
@@ -119,7 +119,7 @@ unsigned int[4] AddRoundKey(unsigned int state_in[4], unsigned int round_key[4])
 	*
 	* Output: int ret_word - substituted bytes of word
   */
-unsigned int SubBytes(unsigned int word_in) {
+void SubBytes(unsigned int word_in, unsigned int word_out) {
 		unsigned int ret_word=0;
 		int i=0;
 
@@ -145,7 +145,7 @@ unsigned int SubBytes(unsigned int word_in) {
 	* [2, 6, 10, 12]	---/  [10, 14, 2, 6]
 	* [3, 7, 11, 12]	 			[15, 3, 7, 11]
   */
-unsigned int[4] ShiftRows(unsigned int state_in[4]) {
+unsigned int[4] ShiftRows(unsigned int state_in[4], unsigned int[4] ret_state) {
 		unsigned int ret_state[4];
 		unsigned char shift_bytes[16]; // 16 bytes of state to shift
 		int i=0;
@@ -218,6 +218,20 @@ unsigned int[4] MixColumns(unsigned int state_in[4]) {
 void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int * msg_enc, unsigned int * key)
 {
 		// Implement this function
+
+		printf("\n");
+		printf("Tyler Printed: ");
+		printf("MSG: ")
+		for(i=0;i<32;i++) {
+				printf("%c",msg_ascii[i]);
+		}
+		printf("\n");
+		printf("KEY: ")
+		for(i=0;i<32;i++) {
+				printf("%c",key_ascii[i]);
+		}
+		printf("\n");
+
 
 		char input_string[32]; // Plaintext
 		int state[4]; // State
