@@ -58,154 +58,139 @@ char charsToHex(char c1, char c2)
 	return (hex1 << 4) + hex2;
 }
 
+/** StatePrint
+	* Print the passed in state to the console in row-major order
+	*
+	* Inputs : unsigned int * state_in - 4 x 32bit state to be printed
+	*/
+void StatePrint(unsigned char * state_in) {
+		printf("\n");
+		printf("[%02x, %02x, %02x, %02x]\n",state_in[0],state_in[4],state_in[8],state_in[12]);
+		printf("[%02x, %02x, %02x, %02x]\n",state_in[1],state_in[5],state_in[9],state_in[13]);
+		printf("[%02x, %02x, %02x, %02x]\n",state_in[2],state_in[6],state_in[10],state_in[14]);
+		printf("[%02x, %02x, %02x, %02x]\n\n",state_in[3],state_in[7],state_in[11],state_in[15]);
+}
+
+void CleanUpState(unsigned char * state_in, unsigned char * state_out) {
+		int i=0;
+		for(i=0;i<16;i++) {
+				state_out[i] = state_in[i];
+		}
+}
+
 /** SubBytes
 	* Each Byte of the updating State is non-linearly transformed by
 	* taking the multiplicative inverse in Rijndael’s finite field
 	* The process is usually simplified into applying a lookup table
 	* called the Rijndael S-box (substitution box).
 	*
-	* Input: int word_in 	- original word to substitute bytes for
+	* Input: unsigned char * word_in 	- original word to substitute bytes for
 	*
-	* Output: int ret_word - substituted bytes of word
+	* Output: unsigned char * ret_word - substituted bytes of word
   */
-unsigned int SubBytes(unsigned int word_in) {
-		unsigned int ret_word=0;
-		//int ret_word=0;
-		int i=0;
-		unsigned char temp;
-		for(i=0;i<4;i++) {
-
-				temp = (unsigned char)((word_in >> ((8*i) & 0xFF))); // isolate each char of word
-				temp = (unsigned char)aes_sbox[(unsigned int)temp]; // Substitute byte --> might be wrong indexing
-				ret_word |= (unsigned int)((temp) << (8*i)); // Place byte into output word
-		}
-
-		return (unsigned int)ret_word;
+void SubBytes(unsigned char * word_in, unsigned char * word_out) {
+		word_out[0] = (unsigned char)aes_sbox[word_in[0]];
+		word_out[1] = (unsigned char)aes_sbox[word_in[1]];
+		word_out[2] = (unsigned char)aes_sbox[word_in[2]];
+		word_out[3] = (unsigned char)aes_sbox[word_in[3]];
 }
 
 /** KeyExpansion
 	* Takes the Cipher Key and performs a Key Expansion to generate a series
 	* of Round Keys (4-Word matrix) and store them into Key Schedule.
 	*
-	* Input: int key_in[4]		- original 4-word key
+	* Input: unsigned char * key_in				 - 16 x 8bit original key
 	*
-	* Output: int key_out[44] - 11 4-word keys
+	* Output: unsigned char * key_schedule - 11 4-word keys for schcedule split into 8bit chars
   */
-unsigned int KeyExpansion(unsigned int key_in[4]) {
-		unsigned int key_out[44]; // 11 4-word keys
+void KeyExpansion(unsigned char * key_in, unsigned char * key_schedule) {
 		int i=0;
-		unsigned int temp=0;
+		unsigned char temp[4];
+		unsigned char temp_sub[4];
+
+
 		// First key is the original key
-		for(i=0;i<4;i++) {
-				key_out[i] = key_in[i];
+		for(i=0;i<16;i++) {
+				key_schedule[i] = key_in[i];
 		}
 
 		// Make 10 other keys
-		for(i=4;i<44;i++) {
-				temp = key_out[i-1];
+		for(i=4;i<44;i++) { // 4-44 is the 40 words of the other 10 keys
+				// set temp word
+				temp[0] = key_schedule[(4*i)-16];
+				temp[1] = key_schedule[(4*i)-16+1];
+				temp[2] = key_schedule[(4*i)-16+2];
+				temp[3] = key_schedule[(4*i)-16+3];
 
-				if((i % 4) == 0) {
-						temp = (temp << 8) | (temp >> 24); // Rotate Word {0,1,2,3} --> {1,2,3,0}
-						temp = SubBytes(temp); // Substitute bytes if words using table
-						temp ^= Rcon[i/4]; // xor with Round-key constant
+				if((i % 4) == 0) { // every 4th key, re-randomize
+						// Rotate Word {0,1,2,3} --> {1,2,3,0}
+						temp_sub[0] = temp[1];
+						temp_sub[1] = temp[2];
+						temp_sub[2] = temp[3];
+						temp_sub[3] = temp[0];
+						// Substitute bytes if words using table
+						SubBytes(temp_sub, temp);
+						// xor with Round-key constant
+						temp[0] ^= (unsigned char)(Rcon[i/4] & 0xFF);
+						temp[1] ^= (unsigned char)((Rcon[i/4] >> 8) & 0xFF);
+						temp[2] ^= (unsigned char)((Rcon[i/4] >> 16) & 0xFF);
+						temp[3] ^= (unsigned char)((Rcon[i/4] >> 24) & 0xFF);
 				}
 
-				key_out[i] = key_out[i-4] ^ temp;
+				key_schedule[4*i] = key_schedule[i-16] ^ temp[0];
+				key_schedule[(4*i)+1] = key_schedule[i-16] ^ temp[1];
+				key_schedule[(4*i)+2] = key_schedule[i-16] ^ temp[2];
+				key_schedule[(4*i)+3] = key_schedule[i-16] ^ temp[3];
 		}
-
-		return key_out;
 }
 
 /** AddRoundKey
 	* A Round Key of 4-Word matrix is applied to the
 	* updating State through a simple XOR operation in every round
 	*
-	* Input: int state_in[4] 	 - original 4-word state
-	*				 int round_key[4]	 - round key to use for operation
+	* Input: unsigned char * state_in 	 - original 4-word state split into bytes
+	*				 unsigned char * round_key	 - round key to use for operation in bytes
 	*
-	* Output: int ret_state[4] - new state after operation occurs
+	* Output: unsigned char * ret_state - new state after operation occurs in bytes
   */
-unsigned int AddRoundKey(unsigned int state_in[4], unsigned int round_key[4]) {
-		unsigned int ret_state[4];
+void AddRoundKey(unsigned char * state_in, unsigned char * round_key, unsigned char * ret_state) {
 		int i=0;
-		for(i=0;i<4;i++) {
+		for(i=0;i<16;i++) {
 				ret_state[i] = state_in[i] ^ round_key[i];
 		}
-		return ret_state;
 }
 
-///** SubBytes
-//	* Each Byte of the updating State is non-linearly transformed by
-//	* taking the multiplicative inverse in Rijndael’s finite field
-//	* The process is usually simplified into applying a lookup table
-//	* called the Rijndael S-box (substitution box).
-//	*
-//	* Input: int word_in 	- original word to substitute bytes for
-//	*
-//	* Output: int ret_word - substituted bytes of word
-//  */
-//unsigned int SubBytes(unsigned int word_in) {
-//		unsigned int ret_word=0;
-//		//int ret_word=0;
-//		int i=0;
-//		unsigned char temp;
-//		for(i=0;i<4;i++) {
-//
-//				temp = (unsigned char)((word_in >> ((8*i) & 0xFF))); // isolate each char of word
-//				temp = (unsigned char)aes_sbox[(unsigned int)temp]; // Substitute byte --> might be wrong indexing
-//				ret_word |= (unsigned int)((temp) << (8*i)); // Place byte into output word
-//		}
-//
-//		return (unsigned int)ret_word;
-//}
+
 
 /** ShiftRows
 	* Each row in the updating State is shifted by some offsets
 	*
-	* Input: int state_in[4] 	 - original 4-word state
+	* Input: unsigned char * state_in 	 - original 4-word state in bytes
 	*
-	* Output: int ret_state[4] - new state after operation occurs
+	* Output: unsigned char * ret_state - new state after operation occurs in bytes
 	*
 	* [0, 4, 8,  12]	 			[0, 4, 8, 12]
 	* [1, 5, 9,  12]	---\	[5, 9, 13, 1]
 	* [2, 6, 10, 12]	---/  [10, 14, 2, 6]
 	* [3, 7, 11, 12]	 			[15, 3, 7, 11]
   */
-unsigned int ShiftRows(unsigned int state_in[4]) {
-		unsigned int ret_state[4];
-		unsigned char shift_bytes[16]; // 16 bytes of state to shift
-		int i=0;
-
-		// Separate bytes of input state in column-major order
-		for(i=0;i<4;i++) {
-				shift_bytes[(4*i)+0] = (unsigned char)(state_in[i] & 0xFF);
-				shift_bytes[(4*i)+1] = (unsigned char)((state_in[i] >> 8) & 0xFF);
-				shift_bytes[(4*i)+2] = (unsigned char)((state_in[i] >> 16) & 0xFF);
-				shift_bytes[(4*i)+3] = (unsigned char)((state_in[i] >> 24) & 0xFF);
-		}
-
-		// Set output state to be properly shifted
-		ret_state[0] = ((unsigned int)(shift_bytes[15]) << 24) |
-									 ((unsigned int)(shift_bytes[10]) << 16) |
-									 ((unsigned int)(shift_bytes[5]) << 8) |
-									 ((unsigned int)(shift_bytes[0]));
-
-		ret_state[1] = ((unsigned int)(shift_bytes[3]) << 24) |
-									 ((unsigned int)(shift_bytes[14]) << 16) |
-									 ((unsigned int)(shift_bytes[9]) << 8) |
-									 ((unsigned int)(shift_bytes[4]));
-
-		ret_state[2] = ((unsigned int)(shift_bytes[7]) << 24) |
-									 ((unsigned int)(shift_bytes[2]) << 16) |
-									 ((unsigned int)(shift_bytes[13]) << 8) |
-									 ((unsigned int)(shift_bytes[8]));
-
-		ret_state[3] = ((unsigned int)(shift_bytes[11]) << 24) |
-									 ((unsigned int)(shift_bytes[6]) << 16) |
-									 ((unsigned int)(shift_bytes[1]) << 8) |
-									 ((unsigned int)(shift_bytes[12]));
-
-		return ret_state;
+void ShiftRows(unsigned char * state_in, unsigned char * ret_state) {
+		ret_state[0] = state_in[0];
+		ret_state[1] = state_in[5];
+		ret_state[2] = state_in[10];
+		ret_state[3] = state_in[15];
+		ret_state[4] = state_in[4];
+		ret_state[5] = state_in[9];
+		ret_state[6] = state_in[14];
+		ret_state[7] = state_in[3];
+		ret_state[8] = state_in[8];
+		ret_state[9] = state_in[13];
+		ret_state[10] = state_in[2];
+		ret_state[11] = state_in[7];
+		ret_state[12] = state_in[12];
+		ret_state[13] = state_in[1];
+		ret_state[14] = state_in[6];
+		ret_state[15] = state_in[11];
 }
 
 /** MixColumns
@@ -213,24 +198,29 @@ unsigned int ShiftRows(unsigned int state_in[4]) {
 	* invertible linear transformations over GF such that the four Bytes
 	* of each Word are linearly combined to form a new Word
 	*
-	* Input: int state_in[4] 	 - original 4-word key
+	* Input: unsigned char * state_in 	 - original 4-word key in bytes
 	*
-	* Output: int ret_state[4] - new state after operation occurs
+	* Output: unsigned char * ret_state - new state after operation occurs in bytes
 	*
-	* b[0] = a[0]    [1 1 1 1]		b[0] = ({2} x a[0]) + ({3} x a[1]) + 				a[2]  + 			 a[3]
-	* b[1] = a[1] \/ [1 1 1 1]		b[0] =  			a[0]	+ ({2} x a[1]) + ({3} x a[2]) + 			 a[3]
-	* b[2] = a[2] /\ [1 1 1 1]		b[0] =  			a[0]	+ 			 a[1]  + ({2} x a[2]) + ({3} x a[3])
-	* b[3] = a[3]    [1 1 1 1]		b[0] = ({3} x a[0]) + 			 a[1]  + 				a[2]  + ({2} x a[3])
+	* b[0] = a[0]    [2 3 1 1]		b[0] = ({2} x a[0]) + ({3} x a[1]) + 				a[2]  + 			 a[3]
+	* b[1] = a[1] \/ [1 2 3 1]		b[0] =  			a[0]	+ ({2} x a[1]) + ({3} x a[2]) + 			 a[3]
+	* b[2] = a[2] /\ [1 1 2 3]		b[0] =  			a[0]	+ 			 a[1]  + ({2} x a[2]) + ({3} x a[3])
+	* b[3] = a[3]    [3 1 1 2]		b[0] = ({3} x a[0]) + 			 a[1]  + 				a[2]  + ({2} x a[3])
   */
-unsigned int MixColumns(unsigned int state_in[4]) {
-		unsigned int ret_state[4];
+void MixColumns(unsigned char * state_in , unsigned char * ret_state) {
 		int i=0;
+		unsigned char a,b,c,d;
 
 		for(i=0;i<4;i++) {
-
+				a = state_in[4*i];
+				b = state_in[(4*i)+1];
+				c = state_in[(4*i)+2];
+				d = state_in[(4*i)+3];
+				ret_state[4*i] 		 = (gf_mul[a][0]) ^ (gf_mul[b][1]) ^ (c) ^ (d);
+				ret_state[(4*i)+1] = (a) ^ (gf_mul[b][0]) ^ (gf_mul[c][1]) ^ (d);
+				ret_state[(4*i)+2] = (a) ^ (b) ^ (gf_mul[c][0]) ^ (gf_mul[c][1]);
+				ret_state[(4*i)+3] = (gf_mul[a][1]) ^ (b) ^ (c) ^ (gf_mul[d][0]);
 		}
-
-		return ret_state;
 }
 
 /** encrypt
@@ -245,38 +235,160 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 {
 		// Implement this function
 		int i=0;
-		printf("\n");
-		printf("Tyler Printed: ");
-		printf("MSG: ");
-		for(i=0;i<32;i++) {
-				printf("%c",msg_ascii[i]);
-		}
-		printf("\n");
-		printf("KEY: ");
-		for(i=0;i<32;i++) {
-				printf("%c",key_ascii[i]);
-		}
-		printf("\n");
+		int j=0;
+		unsigned char msg_bytes[16];
+		unsigned char key_bytes[16];
+		unsigned char key_schedule[176]; // key-schedule
+		unsigned char temp_round_key[16]; // round key to add
+		unsigned char msg_state_in[16]; // state of message to pass into helper functions
+		unsigned char msg_state_out[16]; // state of message that is returned from functions
+		unsigned char temp_sub_word_in[4]; // temp holder for words of state for input of SubBytes
+		unsigned char temp_sub_word_out[4]; // temp holder for words of state for output of SubBytes
 
-		char input_string[32]; // Plaintext
-		int state[4]; // State
-
-		for(i = 0; i < 4; i++){
-			AES_PTR[i] = key [i];
-			printf("AES_PTR: %d \n", AES_PTR[i]);
+		// Convert input message and key into hex
+		for(i=0;i<16;i++) {
+				msg_bytes[i] = charsToHex(msg_ascii[2*i], msg_ascii[(2*i)+1]);
+				key_bytes[i] = charsToHex(key_ascii[2*i], key_ascii[(2*i)+1]);
+				temp_round_key[i] = key_bytes[i];
+				msg_state_in[i] = msg_bytes[i];
 		}
-		AES_PTR[10] = 0xDEADBEEF;
-		if(AES_PTR[10] != 0xDEADBEEF){
-			printf("AES_PTR: %d \n", AES_PTR[10]);
-		}
-		for(i=0;i<32;i++) {
-			input_string[i] = *(msg_ascii);
+		printf("Input Msg (Row-Major Order):");
+		StatePrint(msg_bytes);
+		printf("Input Key (Row-Major Order):");
+		StatePrint(key_bytes);
+
+		// Add original key
+		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
+		CleanUpState(msg_state_out, msg_state_in);
+
+		for(i=1;i<10;i++) { // 9 rounds (keys 2-10)
+				// set next round key
+				temp_round_key[0] = key_schedule[16*i];
+				temp_round_key[1] = key_schedule[(16*i)+1];
+				temp_round_key[2] = key_schedule[(16*i)+2];
+				temp_round_key[3] = key_schedule[(16*i)+3];
+				temp_round_key[4] = key_schedule[(16*i)+4];
+				temp_round_key[5] = key_schedule[(16*i)+5];
+				temp_round_key[6] = key_schedule[(16*i)+6];
+				temp_round_key[7] = key_schedule[(16*i)+7];
+				temp_round_key[8] = key_schedule[(16*i)+8];
+				temp_round_key[9] = key_schedule[(16*i)+9];
+				temp_round_key[10] = key_schedule[(16*i)+10];
+				temp_round_key[11] = key_schedule[(16*i)+11];
+				temp_round_key[12] = key_schedule[(16*i)+12];
+				temp_round_key[13] = key_schedule[(16*i)+13];
+				temp_round_key[14] = key_schedule[(16*i)+14];
+				temp_round_key[15] = key_schedule[(16*i)+15];
+
+				// SubBytes
+				for(j=0;j<4;j++) {
+						temp_sub_word_in[0] = msg_state_in[j*4]; // take each word of the current message state
+						temp_sub_word_in[1] = msg_state_in[(j*4)+1];
+						temp_sub_word_in[2] = msg_state_in[(j*4)+2];
+						temp_sub_word_in[3] = msg_state_in[(j*4)+3];
+						SubBytes(temp_sub_word_in, temp_sub_word_out); // Substitute bytes
+						msg_state_in[j*4] = temp_sub_word_out[0]; // set replaced bytes back into state
+						msg_state_in[(j*4)+1] = temp_sub_word_out[1];
+						msg_state_in[(j*4)+2] = temp_sub_word_out[2];
+						msg_state_in[(j*4)+3] = temp_sub_word_out[3];
+				}
+
+				// ShiftRows
+				ShiftRows(msg_state_in, msg_state_out);
+				CleanUpState(msg_state_out, msg_state_in);
+
+				// MixColumns
+				for(j=0;j<4;j++) {
+						temp_sub_word_in[0] = msg_state_in[j*4]; // take each word of the current message state
+						temp_sub_word_in[1] = msg_state_in[(j*4)+1];
+						temp_sub_word_in[2] = msg_state_in[(j*4)+2];
+						temp_sub_word_in[3] = msg_state_in[(j*4)+3];
+						MixColumns(temp_sub_word_in, temp_sub_word_out); // Substitute bytes
+						msg_state_in[j*4] = temp_sub_word_out[0]; // set replaced bytes back into state
+						msg_state_in[(j*4)+1] = temp_sub_word_out[1];
+						msg_state_in[(j*4)+2] = temp_sub_word_out[2];
+						msg_state_in[(j*4)+3] = temp_sub_word_out[3];
+				}
+
+				// AddRoundKey
+				AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
+				CleanUpState(msg_state_out, msg_state_in);
 		}
 
-		// int key_schedule[44]; // Key Schedule from Key Expansion (11 keys, 4 words each)
+		// Last Round
+		// SubBytes
+		for(j=0;j<4;j++) {
+				temp_sub_word_in[0] = msg_state_in[j*4]; // take each word of the current message state
+				temp_sub_word_in[1] = msg_state_in[(j*4)+1];
+				temp_sub_word_in[2] = msg_state_in[(j*4)+2];
+				temp_sub_word_in[3] = msg_state_in[(j*4)+3];
+				SubBytes(temp_sub_word_in, temp_sub_word_out); // Substitute bytes
+				msg_state_in[j*4] = temp_sub_word_out[0]; // set replaced bytes back into state
+				msg_state_in[(j*4)+1] = temp_sub_word_out[1];
+				msg_state_in[(j*4)+2] = temp_sub_word_out[2];
+				msg_state_in[(j*4)+3] = temp_sub_word_out[3];
+		}
 
-		// input_string = *(msg_ascii); // Get Plaintext in ASCII
-		// key_schedule = KeyExpansion(*key); // I don't think that is the right way to generate the Key Expansion...???
+		// ShiftRows
+		ShiftRows(msg_state_in, msg_state_out);
+		CleanUpState(msg_state_out, msg_state_in);
+
+		// AddRoundKey
+		// set last round key
+		temp_round_key[0] = key_schedule[160];
+		temp_round_key[1] = key_schedule[161];
+		temp_round_key[2] = key_schedule[162];
+		temp_round_key[3] = key_schedule[163];
+		temp_round_key[4] = key_schedule[164];
+		temp_round_key[5] = key_schedule[165];
+		temp_round_key[6] = key_schedule[166];
+		temp_round_key[7] = key_schedule[167];
+		temp_round_key[8] = key_schedule[168];
+		temp_round_key[9] = key_schedule[169];
+		temp_round_key[10] = key_schedule[170];
+		temp_round_key[11] = key_schedule[171];
+		temp_round_key[12] = key_schedule[172];
+		temp_round_key[13] = key_schedule[173];
+		temp_round_key[14] = key_schedule[174];
+		temp_round_key[15] = key_schedule[175];
+
+		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
+		CleanUpState(msg_state_out, msg_state_in); // msg_state_out now holds the encrypted text
+
+		printf("Encrypted Msg (Row-Major Order):");
+		StatePrint(msg_state_out);
+
+		// Set key
+		key[0] = ((unsigned int)(key_schedule[0]) << 24) | ((unsigned int)(key_schedule[1]) << 16) | ((unsigned int)(key_schedule[2]) << 8) | ((unsigned int)(key_schedule[3]));
+		key[1] = ((unsigned int)(key_schedule[4]) << 24) | ((unsigned int)(key_schedule[5]) << 16) | ((unsigned int)(key_schedule[6]) << 8) | ((unsigned int)(key_schedule[7]));
+		key[2] = ((unsigned int)(key_schedule[8]) << 24) | ((unsigned int)(key_schedule[9]) << 16) | ((unsigned int)(key_schedule[10]) << 8) | ((unsigned int)(key_schedule[11]));
+		key[3] = ((unsigned int)(key_schedule[12]) << 24) | ((unsigned int)(key_schedule[13]) << 16) | ((unsigned int)(key_schedule[14]) << 8) | ((unsigned int)(key_schedule[15]));
+
+//		key[1] = 0xDEADBEEF;
+//		key[2] = 0xDEADBEEF;
+
+		AES_PTR[0] = key[0];
+		AES_PTR[1] = key[1];
+		AES_PTR[2] = key[2];
+		AES_PTR[3] = key[3];
+
+		for (i = 0; i < 4; i++){
+			printf("key[%d]: 0x%08x\n", i,key[i]);
+		}
+		printf("Register File: AES_PTR = %08x --> 0x%08x\n",AES_PTR, *(AES_PTR));
+		for (i = 0; i < 16; i++){
+			printf("REG%d = Hexadecimal: 0x%08x, Decimal:%d\n", i, AES_PTR[i]);
+		}
+//		if(AES_PTR[10] != 0xDEADBEEF){
+//			printf("Error!");
+//		}
+
+
+		// Set encrypted message
+		msg_enc[0] = ((unsigned int)(msg_state_out[0]) << 24) | ((unsigned int)(msg_state_out[1]) << 16) | ((unsigned int)(msg_state_out[2]) << 8) | ((unsigned int)(msg_state_out[3]));
+		msg_enc[1] = ((unsigned int)(msg_state_out[4]) << 24) | ((unsigned int)(msg_state_out[5]) << 16) | ((unsigned int)(msg_state_out[6]) << 8) | ((unsigned int)(msg_state_out[7]));
+		msg_enc[2] = ((unsigned int)(msg_state_out[8]) << 24) | ((unsigned int)(msg_state_out[9]) << 16) | ((unsigned int)(msg_state_out[10]) << 8) | ((unsigned int)(msg_state_out[11]));
+		msg_enc[3] = ((unsigned int)(msg_state_out[12]) << 24) | ((unsigned int)(msg_state_out[13]) << 16) | ((unsigned int)(msg_state_out[14]) << 8) | ((unsigned int)(msg_state_out[15]));
 
 }
 
@@ -313,6 +425,10 @@ int main()
 		// Continuously Perform Encryption and Decryption
 		while (1) {
 			int i = 0;
+			printf("Register File: AES_PTR = %08x --> 0x%08x\n",AES_PTR, *(AES_PTR));
+			for (i = 0; i < 16; i++){
+				printf("REG%d = 0x%08x\n", i, AES_PTR[i]);
+			}
 			printf("\nEnter Message:\n");
 			scanf("%s", msg_ascii);
 			printf("\n");

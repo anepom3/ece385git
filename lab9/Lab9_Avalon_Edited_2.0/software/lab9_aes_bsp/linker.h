@@ -4,7 +4,7 @@
  * Machine generated for CPU 'NIOS2' in SOPC Builder design 'lab9_soc'
  * SOPC Builder design path: ../../lab9_soc.sopcinfo
  *
- * Generated: Mon Mar 30 11:32:09 CDT 2020
+ * Generated: Mon Mar 30 23:42:38 CDT 2020
  */
 
 /*
@@ -70,7 +70,7 @@
 #define RESET_REGION_BASE 0x8000000
 #define RESET_REGION_SPAN 32
 #define SDRAM_REGION_BASE 0x8000020
-#define SDRAM_REGION_SPAN 67108832
+#define SDRAM_REGION_SPAN 134217696
 
 
 /*

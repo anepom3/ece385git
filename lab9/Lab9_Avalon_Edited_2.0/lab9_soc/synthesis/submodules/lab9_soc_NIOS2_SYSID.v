@@ -49,7 +49,7 @@ module lab9_soc_NIOS2_SYSID (
 
   wire    [ 31: 0] readdata;
   //control_slave, which is an e_avalon_slave
-  assign readdata = address ? 1585604779 : 0;
+  assign readdata = address ? 1585681958 : 0;
 
 endmodule
 

@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 30, 2020 3:21:06 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1585599666960</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Mar 31, 2020 2:21:14 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1585682474197</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\Users\antho\Desktop\ece385git\lab9\Lab9_Avalon_Edited_2.0\software\lab9_aes_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\lab9_soc.sopcinfo</SopcDesignFile>
@@ -930,8 +930,8 @@
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>SDRAM</slaveDescriptor>
-                <addressRange>0x08000000 - 0x0BFFFFFF</addressRange>
-                <addressSpan>67108864</addressSpan>
+                <addressRange>0x08000000 - 0x0FFFFFFF</addressRange>
+                <addressSpan>134217728</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <LinkerSection>

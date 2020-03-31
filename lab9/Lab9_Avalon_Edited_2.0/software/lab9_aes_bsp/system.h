@@ -4,7 +4,7 @@
  * Machine generated for CPU 'NIOS2' in SOPC Builder design 'lab9_soc'
  * SOPC Builder design path: ../../lab9_soc.sopcinfo
  *
- * Generated: Mon Mar 30 15:09:03 CDT 2020
+ * Generated: Tue Mar 31 14:21:15 CDT 2020
  */
 
 /*
@@ -186,7 +186,7 @@
 #define NIOS2_SYSID_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define NIOS2_SYSID_NAME "/dev/NIOS2_SYSID"
 #define NIOS2_SYSID_SPAN 8
-#define NIOS2_SYSID_TIMESTAMP 1585598260
+#define NIOS2_SYSID_TIMESTAMP 1585681958
 #define NIOS2_SYSID_TYPE "altera_avalon_sysid_qsys"
 
 
@@ -240,13 +240,13 @@
 #define SDRAM_SDRAM_ADDR_WIDTH 0x19
 #define SDRAM_SDRAM_BANK_WIDTH 2
 #define SDRAM_SDRAM_COL_WIDTH 10
-#define SDRAM_SDRAM_DATA_WIDTH 16
+#define SDRAM_SDRAM_DATA_WIDTH 32
 #define SDRAM_SDRAM_NUM_BANKS 4
 #define SDRAM_SDRAM_NUM_CHIPSELECTS 1
 #define SDRAM_SDRAM_ROW_WIDTH 13
 #define SDRAM_SHARED_DATA 0
 #define SDRAM_SIM_MODEL_BASE 0
-#define SDRAM_SPAN 67108864
+#define SDRAM_SPAN 134217728
 #define SDRAM_STARVATION_INDICATOR 0
 #define SDRAM_TRISTATE_BRIDGE_SLAVE ""
 #define SDRAM_TYPE "altera_avalon_new_sdram_controller"

@@ -25,8 +25,8 @@ module lab9_soc (
 	output		sdram_wire_cas_n;
 	output		sdram_wire_cke;
 	output		sdram_wire_cs_n;
-	inout	[15:0]	sdram_wire_dq;
-	output	[1:0]	sdram_wire_dqm;
+	inout	[31:0]	sdram_wire_dq;
+	output	[3:0]	sdram_wire_dqm;
 	output		sdram_wire_ras_n;
 	output		sdram_wire_we_n;
 endmodule

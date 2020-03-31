@@ -14,8 +14,8 @@ module lab9_soc (
 		output wire        sdram_wire_cas_n,                              //                                       .cas_n
 		output wire        sdram_wire_cke,                                //                                       .cke
 		output wire        sdram_wire_cs_n,                               //                                       .cs_n
-		inout  wire [15:0] sdram_wire_dq,                                 //                                       .dq
-		output wire [1:0]  sdram_wire_dqm,                                //                                       .dqm
+		inout  wire [31:0] sdram_wire_dq,                                 //                                       .dq
+		output wire [3:0]  sdram_wire_dqm,                                //                                       .dqm
 		output wire        sdram_wire_ras_n,                              //                                       .ras_n
 		output wire        sdram_wire_we_n                                //                                       .we_n
 	);
@@ -70,14 +70,14 @@ module lab9_soc (
 	wire  [31:0] mm_interconnect_0_onchip_memory_s1_writedata;                 // mm_interconnect_0:ONCHIP_MEMORY_s1_writedata -> ONCHIP_MEMORY:writedata
 	wire         mm_interconnect_0_onchip_memory_s1_clken;                     // mm_interconnect_0:ONCHIP_MEMORY_s1_clken -> ONCHIP_MEMORY:clken
 	wire         mm_interconnect_0_sdram_s1_chipselect;                        // mm_interconnect_0:SDRAM_s1_chipselect -> SDRAM:az_cs
-	wire  [15:0] mm_interconnect_0_sdram_s1_readdata;                          // SDRAM:za_data -> mm_interconnect_0:SDRAM_s1_readdata
+	wire  [31:0] mm_interconnect_0_sdram_s1_readdata;                          // SDRAM:za_data -> mm_interconnect_0:SDRAM_s1_readdata
 	wire         mm_interconnect_0_sdram_s1_waitrequest;                       // SDRAM:za_waitrequest -> mm_interconnect_0:SDRAM_s1_waitrequest
 	wire  [24:0] mm_interconnect_0_sdram_s1_address;                           // mm_interconnect_0:SDRAM_s1_address -> SDRAM:az_addr
 	wire         mm_interconnect_0_sdram_s1_read;                              // mm_interconnect_0:SDRAM_s1_read -> SDRAM:az_rd_n
-	wire   [1:0] mm_interconnect_0_sdram_s1_byteenable;                        // mm_interconnect_0:SDRAM_s1_byteenable -> SDRAM:az_be_n
+	wire   [3:0] mm_interconnect_0_sdram_s1_byteenable;                        // mm_interconnect_0:SDRAM_s1_byteenable -> SDRAM:az_be_n
 	wire         mm_interconnect_0_sdram_s1_readdatavalid;                     // SDRAM:za_valid -> mm_interconnect_0:SDRAM_s1_readdatavalid
 	wire         mm_interconnect_0_sdram_s1_write;                             // mm_interconnect_0:SDRAM_s1_write -> SDRAM:az_wr_n
-	wire  [15:0] mm_interconnect_0_sdram_s1_writedata;                         // mm_interconnect_0:SDRAM_s1_writedata -> SDRAM:az_data
+	wire  [31:0] mm_interconnect_0_sdram_s1_writedata;                         // mm_interconnect_0:SDRAM_s1_writedata -> SDRAM:az_data
 	wire         irq_mapper_receiver0_irq;                                     // JTAG_UART:av_irq -> irq_mapper:receiver0_irq
 	wire  [31:0] nios2_irq_irq;                                                // irq_mapper:sender_irq -> NIOS2:irq
 	wire         rst_controller_reset_out_reset;                               // rst_controller:reset_out -> [AES_Decryption_Core_0:RESET, JTAG_UART:rst_n, NIOS2:reset_n, NIOS2_SYSID:reset_n, ONCHIP_MEMORY:reset, SDRAM_PLL:reset, irq_mapper:reset, mm_interconnect_0:NIOS2_reset_reset_bridge_in_reset_reset, rst_translator:in_reset]

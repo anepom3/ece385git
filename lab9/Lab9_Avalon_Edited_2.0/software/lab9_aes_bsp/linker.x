@@ -4,7 +4,7 @@
  * Machine generated for CPU 'NIOS2' in SOPC Builder design 'lab9_soc'
  * SOPC Builder design path: ../../lab9_soc.sopcinfo
  *
- * Generated: Mon Mar 30 11:32:09 CDT 2020
+ * Generated: Mon Mar 30 23:42:38 CDT 2020
  */
 
 /*
@@ -52,7 +52,7 @@ MEMORY
 {
     ONCHIP_MEMORY : ORIGIN = 0x0, LENGTH = 16
     reset : ORIGIN = 0x8000000, LENGTH = 32
-    SDRAM : ORIGIN = 0x8000020, LENGTH = 67108832
+    SDRAM : ORIGIN = 0x8000020, LENGTH = 134217696
 }
 
 /* Define symbols for each memory base-address */
@@ -386,7 +386,7 @@ SECTIONS
 /*
  * Don't override this, override the __alt_stack_* symbols instead.
  */
-__alt_data_end = 0xc000000;
+__alt_data_end = 0x10000000;
 
 /*
  * The next two symbols define the location of the default stack.  You can
@@ -402,4 +402,4 @@ PROVIDE( __alt_stack_limit   = __alt_stack_base );
  * Override this symbol to put the heap in a different memory.
  */
 PROVIDE( __alt_heap_start    = end );
-PROVIDE( __alt_heap_limit    = 0xc000000 );
+PROVIDE( __alt_heap_limit    = 0x10000000 );

@@ -3,7 +3,7 @@
 # Machine generated for CPU 'NIOS2' in SOPC Builder design 'lab9_soc'
 # SOPC Builder design path: ../../lab9_soc.sopcinfo
 #
-# Generated: Mon Mar 30 11:32:09 CDT 2020
+# Generated: Mon Mar 30 23:42:38 CDT 2020
 
 # DO NOT MODIFY THIS FILE
 #
@@ -50,4 +50,4 @@
 memory 0x0 0x10 cache
 
 # SDRAM
-memory 0x8000000 0xc000000 cache
+memory 0x8000000 0x10000000 cache
