@@ -58,55 +58,83 @@ char charsToHex(char c1, char c2)
 	return (hex1 << 4) + hex2;
 }
 
+/** StatePrint
+	* Print the passed in state to the console in row-major order
+	*
+	* Inputs : unsigned int * state_in - 4 x 32bit state to be printed
+	*/
+void StatePrint(unsigned char * state_in) {
+		printf("\n");
+		printf("[%02x, %02x, %02x, %02x]\n",state_in[0],state_in[4],state_in[8],state_in[12]);
+		printf("[%02x, %02x, %02x, %02x]\n",state_in[1],state_in[5],state_in[9],state_in[13]);
+		printf("[%02x, %02x, %02x, %02x]\n",state_in[2],state_in[6],state_in[10],state_in[14]);
+		printf("[%02x, %02x, %02x, %02x]\n\n",state_in[3],state_in[7],state_in[11],state_in[15]);
+}
+
 /** KeyExpansion
 	* Takes the Cipher Key and performs a Key Expansion to generate a series
 	* of Round Keys (4-Word matrix) and store them into Key Schedule.
 	*
-	* Input: int key_in[4]		- original 4-word key
+	* Input: unsigned char * key_in				 - 16 x 8bit original key
 	*
-	* Output: int key_schedule[44] - 11 4-word keys for schcedule
+	* Output: unsigned char * key_schedule - 11 4-word keys for schcedule split into 8bit chars
   */
-void KeyExpansion(unsigned int key_in[4], unsigned int key_schedule) {
-		unsigned int key_out[44]; // 11 4-word keys
+void KeyExpansion(unsigned char * key_in, unsigned char * key_schedule) {
+		unsigned int key_schedule[176]; // 11 4-word keys
 		int i=0;
-		unsigned int temp=0;
+		unsigned char temp[4];
+		unsigned char temp_sub[4];
+		unsigned char temp_char;
+
 		// First key is the original key
-		for(i=0;i<4;i++) {
-				key_out[i] = key[i];
+		for(i=0;i<16;i++) {
+				key_schedule[i] = key_in[i];
 		}
 
 		// Make 10 other keys
-		for(i=4;i<44;i++) {
-				temp = key_out[i-1];
+		for(i=4;i<44;i++) { // 4-44 is the 40 words of the other 10 keys
+				// set temp word
+				temp[0] = key_schedule[(4*i)-16];
+				temp[1] = key_schedule[(4*i)-16+1];
+				temp[2] = key_schedule[(4*i)-16+2];
+				temp[3] = key_schedule[(4*i)-16+3];
 
-				if((i % 4) == 0) {
-						temp = (temp << 8) | (temp >> 24); // Rotate Word {0,1,2,3} --> {1,2,3,0}
-						temp = SubBytes(temp); // Substitute bytes if words using table
-						temp ^= Rcon[i/4]; // xor with Round-key constant
+				if((i % 4) == 0) { // every 4th key, re-randomize
+						// Rotate Word {0,1,2,3} --> {1,2,3,0}
+						temp_sub[0] = temp[1];
+						temp_sub[1] = temp[2];
+						temp_sub[2] = temp[3];
+						temp_sub[3] = temp[0];
+						// Substitute bytes if words using table
+						temp = SubBytes(temp_sub);
+						// xor with Round-key constant
+						temp[0] ^= (unsigned char)(Rcon[i/4] & 0xFF);
+						temp[1] ^= (unsigned char)((Rcon[i/4] >> 8) & 0xFF);
+						temp[2] ^= (unsigned char)((Rcon[i/4] >> 16) & 0xFF);
+						temp[3] ^= (unsigned char)((Rcon[i/4] >> 24) & 0xFF);
 				}
 
-				key_out[i] = key_out[i-4] ^ temp;
+				key_schedule[4*i] = key_schedule[i-16] ^ temp[0];
+				key_schedule[(4*i)+1] = key_schedule[i-16] ^ temp[1];
+				key_schedule[(4*i)+2] = key_schedule[i-16] ^ temp[2];
+				key_schedule[(4*i)+3] = key_schedule[i-16] ^ temp[3];
 		}
-
-		return key_out;
 }
 
 /** AddRoundKey
 	* A Round Key of 4-Word matrix is applied to the
 	* updating State through a simple XOR operation in every round
 	*
-	* Input: int state_in[4] 	 - original 4-word state
-	*				 int round_key[4]	 - round key to use for operation
+	* Input: unsigned char * state_in 	 - original 4-word state split into bytes
+	*				 unsigned char * round_key	 - round key to use for operation in bytes
 	*
-	* Output: int ret_state[4] - new state after operation occurs
+	* Output: unsigned char * ret_state - new state after operation occurs in bytes
   */
-void AddRoundKey(unsigned int state_in[4], unsigned int round_key[4], unsigned int ret_state[4]) {
-		unsigned int ret_state[4];
+void AddRoundKey(unsigned char * state_in, unsigned char * round_key, unsigned char * ret_state) {
 		int i=0;
-		for(i=0;i<4;i++) {
+		for(i=0;i<16;i++) {
 				ret_state[i] = state_in[i] ^ round_key[i];
 		}
-		return ret_state;
 }
 
 /** SubBytes
@@ -115,22 +143,15 @@ void AddRoundKey(unsigned int state_in[4], unsigned int round_key[4], unsigned i
 	* The process is usually simplified into applying a lookup table
 	* called the Rijndael S-box (substitution box).
 	*
-	* Input: int word_in 	- original word to substitute bytes for
+	* Input: unsigned char * word_in 	- original word to substitute bytes for
 	*
-	* Output: int ret_word - substituted bytes of word
+	* Output: unsigned char * ret_word - substituted bytes of word
   */
-void SubBytes(unsigned int word_in, unsigned int word_out) {
-		unsigned int ret_word=0;
-		int i=0;
-
-		for(i=0;i<4;i++) {
-				unsigned char temp;
-				temp = (unsigned char)((word_in >> (8*i)) & 0xFF); // isolate each char of word
-				temp = aes_sbox[temp]; // Substitute byte --> might be wrong indexing
-				ret_word |= (unsigned int)(temp) << (8*i); // Place byte into output word
-		}
-
-		return ret_word;
+void SubBytes(unsigned char * word_in, unsigned char * word_out) {
+		word_out[0] = aes_sbox[word_in[0]];
+		word_out[1] = aes_sbox[word_in[1]];
+		word_out[2] = aes_sbox[word_in[2]];
+		word_out[3] = aes_sbox[word_in[3]];
 }
 
 /** ShiftRows
@@ -218,28 +239,27 @@ unsigned int[4] MixColumns(unsigned int state_in[4]) {
 void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int * msg_enc, unsigned int * key)
 {
 		// Implement this function
-
-		printf("\n");
-		printf("Tyler Printed: ");
-		printf("MSG: ")
-		for(i=0;i<32;i++) {
-				printf("%c",msg_ascii[i]);
+		int i=0;
+		unsigned char msg_bytes[16];
+		unsigned char key_bytes[16];
+		// Convert input message and key into hex
+		for(i=0;i<16;i++) {
+				msg_bytes[i] = charsToHex(msg_ascii[2*i], msg_ascii[(2*i)+1]);
+				key_bytes[i] = charsToHex(msg_ascii[2*i], key_ascii[(2*i)+1]);
 		}
-		printf("\n");
-		printf("KEY: ")
-		for(i=0;i<32;i++) {
-				printf("%c",key_ascii[i]);
+		printf("Input Msg (Row-Major Order):");
+		StatePrint(msg_bytes);
+		printf("Input Key (Row-Major Order):");
+		StatePrint(key_bytes);
+
+		// TO-DO : Fill in the actual algorithm after unit testing each helper function
+
+
+		// Convert encrypted messgage back from hex into character string
+		for(i=0;i<16;i++) {
+				// msg_enc[2*i] = charToHex();
+				// msg_enc[(2*i)+1] = charToHex();
 		}
-		printf("\n");
-
-
-		char input_string[32]; // Plaintext
-		int state[4]; // State
-		// int key_schedule[44]; // Key Schedule from Key Expansion (11 keys, 4 words each)
-
-		input_string = *(msg_ascii); // Get Plaintext in ASCII
-		// key_schedule = KeyExpansion(*key); // I don't think that is the right way to generate the Key Expansion...???
-
 }
 
 /** decrypt
