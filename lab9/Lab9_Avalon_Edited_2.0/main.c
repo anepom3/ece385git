@@ -194,16 +194,19 @@ void ShiftRows(unsigned char * state_in, unsigned char * ret_state) {
 	*
 	* Output: unsigned char * ret_state - new state after operation occurs in bytes
 	*
-	* b[0] = a[0]    [1 1 1 1]		b[0] = ({2} x a[0]) + ({3} x a[1]) + 				a[2]  + 			 a[3]
-	* b[1] = a[1] \/ [1 1 1 1]		b[0] =  			a[0]	+ ({2} x a[1]) + ({3} x a[2]) + 			 a[3]
-	* b[2] = a[2] /\ [1 1 1 1]		b[0] =  			a[0]	+ 			 a[1]  + ({2} x a[2]) + ({3} x a[3])
-	* b[3] = a[3]    [1 1 1 1]		b[0] = ({3} x a[0]) + 			 a[1]  + 				a[2]  + ({2} x a[3])
+	* b[0] = a[0]    [2 3 1 1]		b[0] = ({2} x a[0]) + ({3} x a[1]) + 				a[2]  + 			 a[3]
+	* b[1] = a[1] \/ [1 2 3 1]		b[0] =  			a[0]	+ ({2} x a[1]) + ({3} x a[2]) + 			 a[3]
+	* b[2] = a[2] /\ [1 1 2 3]		b[0] =  			a[0]	+ 			 a[1]  + ({2} x a[2]) + ({3} x a[3])
+	* b[3] = a[3]    [3 1 1 2]		b[0] = ({3} x a[0]) + 			 a[1]  + 				a[2]  + ({2} x a[3])
   */
 void MixColumns(unsigned char * state_in) {
 		int i=0;
 
 		for(i=0;i<4;i++) {
-
+				ret_state[4*i] 		 = (gf_mul[state_in[4*i][1]) ^ (gf_mul[state_in[(4*i)+1][2]) ^ ([state_in[(4*i)+2]) 				 ^ (state_in[(4*i)+3]);
+				ret_state[(4*i)+1] = (state_in[4*i]) 					 ^ (gf_mul[state_in[(4*i)+1][1]) ^ (gf_mul[state_in[(4*i)+2][2]) ^ (state_in[(4*i)+3]);
+				ret_state[(4*i)+2] = (state_in[4*i]) 					 ^ ([state_in[(4*i)+1]) 				 ^ (gf_mul[state_in[(4*i)+2][1]) ^ (gf_mul[state_in[(4*i)+3][2]);
+				ret_state[(4*i)+3] = (gf_mul[state_in[4*i][2]) ^ ([state_in[(4*i)+1]) 				 ^ (state_in[(4*i)+2]) 					 ^ (gf_mul[state_in[(4*i)+3][1]);
 		}
 }
 
@@ -238,7 +241,6 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		printf("Input Key (Row-Major Order):");
 		StatePrint(key_bytes);
 
-		// TO-DO : Fill in the actual algorithm after unit testing each helper function
 		// Add original key
 		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
 		msg_state_in = msg_state_out;
@@ -266,7 +268,14 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				msg_state_in = msg_state_out;
 
 				// MixColumns
-				// TO-DO
+				for(j=0;j<4;j++) {
+						temp_sub_word_in = {msg_state_in[j*4],msg_state_in[(j*4)+1],msg_state_in[(j*4)+2],msg_state_in[(j*4)+3]}; // take each word of the current message state
+						MixColumns(temp_sub_word_in, temp_sub_word_out); // Substitute bytes
+						msg_state_in[j*4] = temp_sub_word_out[0]; // set replaced bytes back into state
+						msg_state_in[(j*4)+1] = temp_sub_word_out[1];
+						msg_state_in[(j*4)+2] = temp_sub_word_out[2];
+						msg_state_in[(j*4)+3] = temp_sub_word_out[3];
+				}
 
 				// AddRoundKey
 				AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
@@ -296,17 +305,22 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 											key_schedule[172],key_schedule[173],key_schedule[174],key_schedule[175],
 											};
 		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
-		msg_state_in = msg_state_out;
+		msg_state_in = msg_state_out; // msg_state_out now holds the encrypted text
 
-		// NOTE : At this point, msg_state_out should be the fully encrypted Ciphertext
+		printf("Encrypted Msg (Row-Major Order):");
+		StatePrint(msg_state_out);
 
-		// Set msg_enc to take values from msg_state_out
+		// Set key
+		key[0] = ((unsiged int)(key_schedule[3]) << 24) | ((unsiged int)(key_schedule[2]) << 16) | ((unsiged int)(key_schedule[1]) << 8) | ((unsiged int)(key_schedule[0]));
+		key[1] = ((unsiged int)(key_schedule[7]) << 24) | ((unsiged int)(key_schedule[6]) << 16) | ((unsiged int)(key_schedule[5]) << 8) | ((unsiged int)(key_schedule[4]));
+		key[2] = ((unsiged int)(key_schedule[11]) << 24) | ((unsiged int)(key_schedule[10]) << 16) | ((unsiged int)(key_schedule[9]) << 8) | ((unsiged int)(key_schedule[8]));
+		key[3] = ((unsiged int)(key_schedule[15]) << 24) | ((unsiged int)(key_schedule[14]) << 16) | ((unsiged int)(key_schedule[13]) << 8) | ((unsiged int)(key_schedule[12]));
+		// Set encrypted message
+		msg_enc[0] = ((unsiged int)(msg_state_out[3]) << 24) | ((unsiged int)(msg_state_out[2]) << 16) | ((unsiged int)(msg_state_out[1]) << 8) | ((unsiged int)(msg_state_out[0]));
+		msg_enc[1] = ((unsiged int)(msg_state_out[7]) << 24) | ((unsiged int)(msg_state_out[6]) << 16) | ((unsiged int)(msg_state_out[5]) << 8) | ((unsiged int)(msg_state_out[4]));
+		msg_enc[2] = ((unsiged int)(msg_state_out[11]) << 24) | ((unsiged int)(msg_state_out[10]) << 16) | ((unsiged int)(msg_state_out[9]) << 8) | ((unsiged int)(msg_state_out[8]));
+		msg_enc[3] = ((unsiged int)(msg_state_out[15]) << 24) | ((unsiged int)(msg_state_out[14]) << 16) | ((unsiged int)(msg_state_out[13]) << 8) | ((unsiged int)(msg_state_out[12]));
 
-		// Convert encrypted messgage back from hex into character string
-		for(i=0;i<16;i++) {
-				// msg_enc[2*i] = charToHex();
-				// msg_enc[(2*i)+1] = charToHex();
-		}
 }
 
 /** decrypt
