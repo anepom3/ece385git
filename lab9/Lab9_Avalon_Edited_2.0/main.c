@@ -157,50 +157,32 @@ void SubBytes(unsigned char * word_in, unsigned char * word_out) {
 /** ShiftRows
 	* Each row in the updating State is shifted by some offsets
 	*
-	* Input: int state_in[4] 	 - original 4-word state
+	* Input: unsigned char * state_in 	 - original 4-word state in bytes
 	*
-	* Output: int ret_state[4] - new state after operation occurs
+	* Output: unsigned char * ret_state - new state after operation occurs in bytes
 	*
 	* [0, 4, 8,  12]	 			[0, 4, 8, 12]
 	* [1, 5, 9,  12]	---\	[5, 9, 13, 1]
 	* [2, 6, 10, 12]	---/  [10, 14, 2, 6]
 	* [3, 7, 11, 12]	 			[15, 3, 7, 11]
   */
-unsigned int[4] ShiftRows(unsigned int state_in[4], unsigned int[4] ret_state) {
-		unsigned int ret_state[4];
-		unsigned char shift_bytes[16]; // 16 bytes of state to shift
-		int i=0;
-
-		// Separate bytes of input state in column-major order
-		for(i=0;i<4;i++) {
-				shift_bytes[(4*i)+0] = (unsigned char)(state_in[i] & 0xFF);
-				shift_bytes[(4*i)+1] = (unsigned char)((state_in[i] >> 8) & 0xFF);
-				shift_bytes[(4*i)+2] = (unsigned char)((state_in[i] >> 16) & 0xFF);
-				shift_bytes[(4*i)+3] = (unsigned char)((state_in[i] >> 24) & 0xFF);
-		}
-
-		// Set output state to be properly shifted
-		ret_state[0] = ((unsigned int)(shift_bytes[15]) << 24) |
-									 ((unsigned int)(shift_bytes[10]) << 16) |
-									 ((unsigned int)(shift_bytes[5]) << 8) |
-									 ((unsigned int)(shift_bytes[0]));
-
-		ret_state[1] = ((unsigned int)(shift_bytes[3]) << 24) |
-									 ((unsigned int)(shift_bytes[14]) << 16) |
-									 ((unsigned int)(shift_bytes[9]) << 8) |
-									 ((unsigned int)(shift_bytes[4]));
-
-		ret_state[2] = ((unsigned int)(shift_bytes[7]) << 24) |
-									 ((unsigned int)(shift_bytes[2]) << 16) |
-									 ((unsigned int)(shift_bytes[13]) << 8) |
-									 ((unsigned int)(shift_bytes[8]));
-
-		ret_state[3] = ((unsigned int)(shift_bytes[11]) << 24) |
-									 ((unsigned int)(shift_bytes[6]) << 16) |
-									 ((unsigned int)(shift_bytes[1]) << 8) |
-									 ((unsigned int)(shift_bytes[12]));
-
-		return ret_state;
+void ShiftRows(unsigned char * state_in, unsigned char * ret_state) {
+		ret_state[0] = state_in[0];
+		ret_state[1] = state_in[5];
+		ret_state[2] = state_in[10];
+		ret_state[3] = state_in[15];
+		ret_state[4] = state_in[4];
+		ret_state[5] = state_in[9];
+		ret_state[6] = state_in[14];
+		ret_state[7] = state_in[3];
+		ret_state[8] = state_in[8];
+		ret_state[9] = state_in[13];
+		ret_state[10] = state_in[2];
+		ret_state[11] = state_in[7];
+		ret_state[12] = state_in[12];
+		ret_state[13] = state_in[1];
+		ret_state[14] = state_in[6];
+		ret_state[15] = state_in[11];
 }
 
 /** MixColumns
@@ -208,24 +190,21 @@ unsigned int[4] ShiftRows(unsigned int state_in[4], unsigned int[4] ret_state) {
 	* invertible linear transformations over GF such that the four Bytes
 	* of each Word are linearly combined to form a new Word
 	*
-	* Input: int state_in[4] 	 - original 4-word key
+	* Input: unsigned char * state_in 	 - original 4-word key in bytes
 	*
-	* Output: int ret_state[4] - new state after operation occurs
+	* Output: unsigned char * ret_state - new state after operation occurs in bytes
 	*
 	* b[0] = a[0]    [1 1 1 1]		b[0] = ({2} x a[0]) + ({3} x a[1]) + 				a[2]  + 			 a[3]
 	* b[1] = a[1] \/ [1 1 1 1]		b[0] =  			a[0]	+ ({2} x a[1]) + ({3} x a[2]) + 			 a[3]
 	* b[2] = a[2] /\ [1 1 1 1]		b[0] =  			a[0]	+ 			 a[1]  + ({2} x a[2]) + ({3} x a[3])
 	* b[3] = a[3]    [1 1 1 1]		b[0] = ({3} x a[0]) + 			 a[1]  + 				a[2]  + ({2} x a[3])
   */
-unsigned int[4] MixColumns(unsigned int state_in[4]) {
-		unsigned int ret_state[4];
+void MixColumns(unsigned char * state_in) {
 		int i=0;
 
 		for(i=0;i<4;i++) {
 
 		}
-
-		return ret_state;
 }
 
 /** encrypt
@@ -242,6 +221,13 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		int i=0;
 		unsigned char msg_bytes[16];
 		unsigned char key_bytes[16];
+		unsinged char key_schedule[176]; // key-schedule
+		unsigned char temp_round_key = key_bytes; // round key to add
+		unsigned char msg_state_in[16] = msg_bytes; // state of message to pass into helper functions
+		unsigned char msg_state_out[16]; // state of message that is returned from functions
+		unsigned char temp_sub_word_in[4]; // temp holder for words of state for input of SubBytes
+		unsigned char temp_sub_word_out[4]; // temp holder for words of state for output of SubBytes
+
 		// Convert input message and key into hex
 		for(i=0;i<16;i++) {
 				msg_bytes[i] = charsToHex(msg_ascii[2*i], msg_ascii[(2*i)+1]);
@@ -253,7 +239,68 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		StatePrint(key_bytes);
 
 		// TO-DO : Fill in the actual algorithm after unit testing each helper function
+		// Add original key
+		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
+		msg_state_in = msg_state_out;
 
+		for(i=1;i<10;i++) { // 9 rounds (keys 2-10)
+				// set next round key
+				temp_round_key = {key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],
+													key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],
+													key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],
+													key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],key_schedule[(16*i)+1],
+													};
+
+				// SubBytes
+				for(j=0;j<4;j++) {
+						temp_sub_word_in = {msg_state_in[j*4],msg_state_in[(j*4)+1],msg_state_in[(j*4)+2],msg_state_in[(j*4)+3]}; // take each word of the current message state
+						SubBytes(temp_sub_word_in, temp_sub_word_out); // Substitute bytes
+						msg_state_in[j*4] = temp_sub_word_out[0]; // set replaced bytes back into state
+						msg_state_in[(j*4)+1] = temp_sub_word_out[1];
+						msg_state_in[(j*4)+2] = temp_sub_word_out[2];
+						msg_state_in[(j*4)+3] = temp_sub_word_out[3];
+				}
+
+				// ShiftRows
+				ShiftRows(msg_state_in, msg_state_out);
+				msg_state_in = msg_state_out;
+
+				// MixColumns
+				// TO-DO
+
+				// AddRoundKey
+				AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
+				msg_state_in = msg_state_out;
+		}
+
+		// Last Round
+		// SubBytes
+		for(j=0;j<4;j++) {
+				temp_sub_word_in = {msg_state_in[j*4],msg_state_in[(j*4)+1],msg_state_in[(j*4)+2],msg_state_in[(j*4)+3]}; // take each word of the current message state
+				SubBytes(temp_sub_word_in, temp_sub_word_out); // Substitute bytes
+				msg_state_in[j*4] = temp_sub_word_out[0]; // set replaced bytes back into state
+				msg_state_in[(j*4)+1] = temp_sub_word_out[1];
+				msg_state_in[(j*4)+2] = temp_sub_word_out[2];
+				msg_state_in[(j*4)+3] = temp_sub_word_out[3];
+		}
+
+		// ShiftRows
+		ShiftRows(msg_state_in, msg_state_out);
+		msg_state_in = msg_state_out;
+
+		// AddRoundKey
+		// set last round key
+		temp_round_key = {key_schedule[160],key_schedule[161],key_schedule[162],key_schedule[163],
+											key_schedule[164],key_schedule[165],key_schedule[166],key_schedule[167],
+											key_schedule[168],key_schedule[169],key_schedule[170],key_schedule[171],
+											key_schedule[172],key_schedule[173],key_schedule[174],key_schedule[175],
+											};
+		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
+		msg_state_in = msg_state_out;
+
+		// NOTE : At this point, msg_state_out should be the fully encrypted Ciphertext
+
+		// Set msg_enc to take values from msg_state_out
 
 		// Convert encrypted messgage back from hex into character string
 		for(i=0;i<16;i++) {
