@@ -103,46 +103,62 @@ void SubBytes(unsigned char * word_in, unsigned char * word_out) {
 	*
 	* Output: unsigned char * key_schedule - 11 4-word keys for schcedule split into 8bit chars
   */
-void KeyExpansion(unsigned char * key_in, unsigned char * key_schedule) {
-		int i=0;
-		unsigned char temp[4];
-		unsigned char temp_sub[4];
+	void KeyExpansion(unsigned char * key_in, unsigned char * key_schedule) {
+			int i=0;
+			unsigned char temp[4];
+			unsigned char temp_sub[4];
 
 
-		// First key is the original key
-		for(i=0;i<16;i++) {
-				key_schedule[i] = key_in[i];
-		}
+			// First key is the original key
+			for(i=0;i<16;i++) {
+					key_schedule[i] = key_in[i];
+			}
 
-		// Make 10 other keys
-		for(i=4;i<44;i++) { // 4-44 is the 40 words of the other 10 keys
-				// set temp word
-				temp[0] = key_schedule[(4*i)-16];
-				temp[1] = key_schedule[(4*i)-16+1];
-				temp[2] = key_schedule[(4*i)-16+2];
-				temp[3] = key_schedule[(4*i)-16+3];
+			// for(i=0;i<4;i++) {
+			// 	printf("Key_word[%02d]:\t[%02x, %02x, %02x, %02x]\n",i,key_schedule[4*i],key_schedule[(4*i)+1],key_schedule[(4*i)+2],key_schedule[(4*i)+3]);
+			// }
 
-				if((i % 4) == 0) { // every 4th key, re-randomize
-						// Rotate Word {0,1,2,3} --> {1,2,3,0}
-						temp_sub[0] = temp[1];
-						temp_sub[1] = temp[2];
-						temp_sub[2] = temp[3];
-						temp_sub[3] = temp[0];
-						// Substitute bytes if words using table
-						SubBytes(temp_sub, temp);
-						// xor with Round-key constant
-						temp[0] ^= (unsigned char)(Rcon[i/4] & 0xFF);
-						temp[1] ^= (unsigned char)((Rcon[i/4] >> 8) & 0xFF);
-						temp[2] ^= (unsigned char)((Rcon[i/4] >> 16) & 0xFF);
-						temp[3] ^= (unsigned char)((Rcon[i/4] >> 24) & 0xFF);
-				}
+			// Make 10 other keys
+			for(i=4;i<44;i++) { // 4-44 is the 40 words of the other 10 keys
+				// printf("\tMaking Key[%02d]\n",i);
+					// set temp word to previous word
+					temp[0] = key_schedule[(4*i)-4];
+					temp[1] = key_schedule[(4*i)-4+1];
+					temp[2] = key_schedule[(4*i)-4+2];
+					temp[3] = key_schedule[(4*i)-4+3];
+					// printf("\t\tInitial Word: [%02x, %02x, %02x, %02x]\n", temp[0],temp[1], temp[2], temp[3]);
 
-				key_schedule[4*i] = key_schedule[i-16] ^ temp[0];
-				key_schedule[(4*i)+1] = key_schedule[i-16] ^ temp[1];
-				key_schedule[(4*i)+2] = key_schedule[i-16] ^ temp[2];
-				key_schedule[(4*i)+3] = key_schedule[i-16] ^ temp[3];
-		}
-}
+
+					if((i % 4) == 0) { // every 4th key, re-randomize
+							// Rotate Word {0,1,2,3} --> {1,2,3,0}
+							temp_sub[0] = temp[1];
+							temp_sub[1] = temp[2];
+							temp_sub[2] = temp[3];
+							temp_sub[3] = temp[0];
+							// printf("\t\tAfter RotWord: [%02x, %02x, %02x, %02x]\n", temp_sub[0],temp_sub[1], temp_sub[2], temp_sub[3]);
+							// Substitute bytes if words using table
+							SubBytes(temp_sub, temp);
+							// printf("\t\tAfter SubBytes: [%02x, %02x, %02x, %02x]\n", temp[0],temp[1], temp[2], temp[3]);
+							// xor with Round-key constant
+							temp[3] ^= (unsigned char)(Rcon[i/4] & 0xFF);
+							temp[2] ^= (unsigned char)((Rcon[i/4] >> 8) & 0xFF);
+							temp[1] ^= (unsigned char)((Rcon[i/4] >> 16) & 0xFF);
+							temp[0] ^= (unsigned char)((Rcon[i/4] >> 24) & 0xFF);
+							// printf("\t\tRCon: [%02x, %02x, %02x, %02x]\n",(unsigned char)((Rcon[i/4] >> 24) & 0xFF),(unsigned char)((Rcon[i/4] >> 16) & 0xFF),(unsigned char)((Rcon[i/4] >> 8) & 0xFF),(unsigned char)(Rcon[i/4] & 0xFF));
+							// printf("\t\tAfter RCon: [%02x, %02x, %02x, %02x]\n", temp[0],temp[1], temp[2], temp[3]);
+
+					}
+
+					// printf("\t\tXOR Word    : [%02x, %02x, %02x, %02x]\n", key_schedule[(4*i)-16],key_schedule[(4*i)-16+1],key_schedule[(4*i)-16+2],key_schedule[(4*i)-16+3]);
+
+					key_schedule[4*i] = key_schedule[(4*i)-16] ^ temp[0];
+					key_schedule[(4*i)+1] = key_schedule[(4*i)-16+1] ^ temp[1];
+					key_schedule[(4*i)+2] = key_schedule[(4*i)-16+2] ^ temp[2];
+					key_schedule[(4*i)+3] = key_schedule[(4*i)-16+3] ^ temp[3];
+
+					// printf("Key_word[%02d]:\t[%02x, %02x, %02x, %02x]\n",i,key_schedule[4*i],key_schedule[(4*i)+1],key_schedule[(4*i)+2],key_schedule[(4*i)+3]);
+			}
+	}
 
 /** AddRoundKey
 	* A Round Key of 4-Word matrix is applied to the
@@ -218,7 +234,7 @@ void MixColumns(unsigned char * state_in , unsigned char * ret_state) {
 				d = state_in[(4*i)+3];
 				ret_state[4*i] 		 = (gf_mul[a][0]) ^ (gf_mul[b][1]) ^ (c) ^ (d);
 				ret_state[(4*i)+1] = (a) ^ (gf_mul[b][0]) ^ (gf_mul[c][1]) ^ (d);
-				ret_state[(4*i)+2] = (a) ^ (b) ^ (gf_mul[c][0]) ^ (gf_mul[c][1]);
+				ret_state[(4*i)+2] = (a) ^ (b) ^ (gf_mul[c][0]) ^ (gf_mul[d][1]);
 				ret_state[(4*i)+3] = (gf_mul[a][1]) ^ (b) ^ (c) ^ (gf_mul[d][0]);
 		}
 }
@@ -252,10 +268,13 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				temp_round_key[i] = key_bytes[i];
 				msg_state_in[i] = msg_bytes[i];
 		}
-		printf("Input Msg (Row-Major Order):");
+		printf("Input Msg:");
 		StatePrint(msg_bytes);
-		printf("Input Key (Row-Major Order):");
+		printf("Input Key:");
 		StatePrint(key_bytes);
+
+		// Perform Key Key Expansion
+		KeyExpansion(key_bytes,key_schedule);
 
 		// Add original key
 		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
@@ -280,6 +299,9 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				temp_round_key[14] = key_schedule[(16*i)+14];
 				temp_round_key[15] = key_schedule[(16*i)+15];
 
+				// printf("State at start of round %d:",i);
+				// StatePrint(msg_state_in);
+
 				// SubBytes
 				for(j=0;j<4;j++) {
 						temp_sub_word_in[0] = msg_state_in[j*4]; // take each word of the current message state
@@ -293,9 +315,15 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 						msg_state_in[(j*4)+3] = temp_sub_word_out[3];
 				}
 
+				// printf("After SubBytes:");
+				// StatePrint(msg_state_in);
+
 				// ShiftRows
 				ShiftRows(msg_state_in, msg_state_out);
 				CleanUpState(msg_state_out, msg_state_in);
+
+				// printf("After ShiftRows:");
+				// StatePrint(msg_state_in);
 
 				// MixColumns
 				for(j=0;j<4;j++) {
@@ -310,10 +338,19 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 						msg_state_in[(j*4)+3] = temp_sub_word_out[3];
 				}
 
+				// printf("After MixColumns:");
+				// StatePrint(msg_state_in);
+
+				// printf("Round Key[%d]:",i);
+				// StatePrint(temp_round_key);
+
 				// AddRoundKey
 				AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
 				CleanUpState(msg_state_out, msg_state_in);
 		}
+
+		printf("State at start of final round %d:",i);
+		StatePrint(msg_state_in);
 
 		// Last Round
 		// SubBytes
@@ -329,9 +366,15 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				msg_state_in[(j*4)+3] = temp_sub_word_out[3];
 		}
 
+		printf("After SubBytes:");
+		StatePrint(msg_state_in);
+
 		// ShiftRows
 		ShiftRows(msg_state_in, msg_state_out);
 		CleanUpState(msg_state_out, msg_state_in);
+
+		printf("After ShiftRows:");
+		StatePrint(msg_state_in);
 
 		// AddRoundKey
 		// set last round key
@@ -352,10 +395,13 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		temp_round_key[14] = key_schedule[174];
 		temp_round_key[15] = key_schedule[175];
 
+		printf("Round Key[10]:");
+		StatePrint(temp_round_key);
+
 		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
 		CleanUpState(msg_state_out, msg_state_in); // msg_state_out now holds the encrypted text
 
-		printf("Encrypted Msg (Row-Major Order):");
+		printf("Encrypted Msg:");
 		StatePrint(msg_state_out);
 
 		// Set key
@@ -389,6 +435,7 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		msg_enc[1] = ((unsigned int)(msg_state_out[4]) << 24) | ((unsigned int)(msg_state_out[5]) << 16) | ((unsigned int)(msg_state_out[6]) << 8) | ((unsigned int)(msg_state_out[7]));
 		msg_enc[2] = ((unsigned int)(msg_state_out[8]) << 24) | ((unsigned int)(msg_state_out[9]) << 16) | ((unsigned int)(msg_state_out[10]) << 8) | ((unsigned int)(msg_state_out[11]));
 		msg_enc[3] = ((unsigned int)(msg_state_out[12]) << 24) | ((unsigned int)(msg_state_out[13]) << 16) | ((unsigned int)(msg_state_out[14]) << 8) | ((unsigned int)(msg_state_out[15]));
+		printf("Encrypted Msg: %08x%08x%08x%08x",msg_enc[0],msg_enc[1],msg_enc[2],msg_enc[3]);
 
 }
 
