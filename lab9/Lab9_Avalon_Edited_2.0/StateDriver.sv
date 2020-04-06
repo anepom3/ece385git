@@ -5,6 +5,7 @@ module StateDriver (
                       Reset,
                       Start_h, // Start Decryption flag from reg[14]
                     input logic [1407:0] KeySchedule,
+                    input logic [127:0] key_in,
 
                     output logic update_state, // 0 - do nothing to state of message; 1 - take output value and place into state
                     output logic [1:0] WORD_SEL,
@@ -16,18 +17,20 @@ module StateDriver (
     enum logic [4:0] { Rest,
                        Done,
                        // TO-DO: Fill in all needed states for decryption
+                       Key_Expansion_0,
                        Add_Round_Key_Init,
-                       Inv_Shift_Rows_Loop,
-                       Inv_Sub_Bytes_Loop,
-                       Add_Round_Key_Loop,
-                       Inv_Mix_Columns_Loop,
+                       Inv_Shift_Rows_Loop, //State wise (whole 128 - bits all at once)
+                       Inv_Sub_Bytes_Loop, // Byte wise (but can parallelize this to be state wise; no bytes are dependent on each other)
+                       Add_Round_Key_Loop, // Word wise or state wise
+                       Inv_Mix_Columns_Loop_0, //Word wise and 1 instantiation of Inv_Mix_Columns module
+                       Inv_Mix_Columns_Loop_1,
+                       Inv_Mix_Columns_Loop_2,
+                       Inv_Mix_Columns_Loop_3,
                        Inv_Shift_Rows_End,
                        Inv_Sub_Bytes_End,
                        Add_Round_Key_End
                      } State, Next_State;
 
-    logic [2:0] word_cycle; // cycles through 4 words for each operation
-    logic [2:0] word_cycle_next; // next word for operation
     logic [3:0] loop_count; // counts the 9 loops of the main decryption loop
     logic [3:0] loop_count_next; // next loop value
 
@@ -36,13 +39,10 @@ module StateDriver (
     begin
       if (Reset)
   			State <= Rest;
-        word_cycle <= 3'b000;
-        word_cycle_next <= 3'b000;
         loop_count <= 4'b0000;
         loop_count_next <= 4'b0000;
   		else
   			State <= Next_State;
-        word_cycle <= word_cycle_next;
         loop_count <= loop_count_next;
     end
 
@@ -52,9 +52,8 @@ module StateDriver (
       Next_State = State;
 
       // Default control signal values
-      word_cycle_next = word_cycle; // hold value if nothing changes
       loop_count_next = loop_count; // hold value if nothing changes
-      cur_key = 32'h00000000;
+      out_key = 128'd0;
       WORD_SEL = 2'b00;
       OUTPUT_SEL = 2'b00;
       update_state = 1'b1; // generally active, only set low manually during 'Rest' and 'Done' states
@@ -64,38 +63,36 @@ module StateDriver (
       case (State)
         Rest:
           if(Start_h)
-            Next_State = Add_Round_Key_Init;
+            Next_State = Key_Expansion_0;
 
         /* Decryption States */
+        Key_Expansion_0: // How many KeyExpansion states are needed???
+          Next_State = Add_Round_Key_Init;
         Add_Round_Key_Init:
-          if(word_cycle == 3'b011)
-            Next_State = Inv_Shift_Rows_Loop;
+          Next_State = Inv_Shift_Rows_Loop;
         Inv_Shift_Rows_Loop:
-          if(word_cycle == 3'b011)
-            Next_State = Inv_Sub_Bytes_Loop;
+          Next_State = Inv_Sub_Bytes_Loop;
         Inv_Sub_Bytes_Loop:
-          if(word_cycle == 3'b011)
-            Next_State = Add_Round_Key_Loop;
+          Next_State = Add_Round_Key_Loop;
         Add_Round_Key_Loop:
-          if(word_cycle == 3'b011)
-            Next_State = Inv_Mix_Columns_Loop;
-        Inv_Mix_Columns_Loop:
-          if(word_cycle == 3'b011)
-          begin
-            if(loop_count >= 4'b1001)
-              Next_State = Inv_Shift_Rows_End;
-            else
-              Next_State = Inv_Shift_Rows_Loop;
-          end
+          Next_State = Inv_Mix_Columns_Loop_0;
+        Inv_Mix_Columns_Loop_0:
+          Next_State = Inv_Mix_Columns_Loop_1;
+        Inv_Mix_Columns_Loop_1:
+          Next_State = Inv_Mix_Columns_Loop_2;
+        Inv_Mix_Columns_Loop_2:
+          Next_State = Inv_Mix_Columns_Loop_3;
+        Inv_Mix_Columns_Loop_3:
+          if(loop_count >= 4'b1000) // check if it the last loop (Might need to be 1001)
+            Next_State = Inv_Shift_Rows_End;
+          else
+            Next_State = Inv_Mix_Columns_Loop_0;
         Inv_Shift_Rows_End:
-          if(word_cycle == 3'b011)
-            Next_State = Inv_Sub_Bytes_End;
+          Next_State = Inv_Sub_Bytes_End;
         Inv_Sub_Bytes_End:
-          if(word_cycle == 3'b011)
-            Next_State = Add_Round_Key_End;
+          Next_State = Add_Round_Key_End;
         Add_Round_Key_End:
-          if(word_cycle == 3'b011)
-            Next_State = Done;
+          Next_State = Done;
 
         Done:
           if(~Start_h)
@@ -107,83 +104,48 @@ module StateDriver (
       // Assign Control signals based on State
       case (State)
         Rest:
-          word_cycle_next = 3'd0;
           loop_count_next = 4'd0;
           update_state = 1'b0; // just load state back into itself
 
+        Key_Expansion_0:
+          //Key_Expansion_0 signal values
+          update_state = 1'b0; // just load state back into itself
+          out_key = key_in;
         Add_Round_Key_Init:
-          out_key = KeySchedule [(1407 - (32 * word_cycle)):(1408 - (32 * word_cycle) - 32)];
-          WORD_SEL = word_cycle [1:0];
+          out_key = KeySchedule [1407:1280]; // 1) [1407:1376], 2) [1375:1344], 3) [1343:1312], 4) [1311:1280] <-- 4 32bit keys
           OUTPUT_SEL = 2'b00;
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
-
         Inv_Shift_Rows_Loop:
-          WORD_SEL = word_cycle [1:0];
           OUTPUT_SEL = 2'b01;
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
-
         Inv_Sub_Bytes_Loop:
-          WORD_SEL = word_cycle [1:0];
           OUTPUT_SEL = 2'b10;
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
-
         Add_Round_Key_Loop:
-          WORD_SEL = word_cycle [1:0];
           OUTPUT_SEL = 2'b00;
-          out_key = KeySchedule [((1407 - (128 * loop_count)) - (32 * word_cycle)):((1408 - (128 * loop_count)) - (32 * word_cycle) - 32)];
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
-
-        Inv_Mix_Columns_Loop: // Include check for if it was the last loop
-          WORD_SEL = word_cycle [1:0];
+          out_key = KeySchedule [(1407 - (128 * (loop_count+1))):((1280 - (128 * (loop_count+1)))]; // loop_count correct?
+        Inv_Mix_Columns_Loop_0:
+          WORD_SEL = 2'b00;
           OUTPUT_SEL = 2'b11;
-          if(word_cycle == 3'b011)
-          begin
-            word_cycle_next = 3'b000; // set to 0 for next operation
-            if(loop_count >= 4'b1001)
-              loop_count = 4'b0000; // reset to 0 if loop are done and going to end
-            else
-              loop_count = loop_count + 1;
-          end
-
+        Inv_Mix_Columns_Loop_1:
+          WORD_SEL = 2'b01;
+          OUTPUT_SEL = 2'b11;
+        Inv_Mix_Columns_Loop_2:
+          WORD_SEL = 2'b10;
+          OUTPUT_SEL = 2'b11;
+        Inv_Mix_Columns_Loop_3:
+          WORD_SEL = 2'b11;
+          OUTPUT_SEL = 2'b11;
+          if(loop_count >= 4'b1000) // check if it the last loop
+            loop_count_next = 4'b0000;
+          else
+            loop_count_next = loop_count + 1;
         Inv_Shift_Rows_End:
-          WORD_SEL = word_cycle [1:0];
           OUTPUT_SEL = 2'b01;
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
-
         Inv_Sub_Bytes_End:
-          WORD_SEL = word_cycle [1:0];
           OUTPUT_SEL = 2'b10;
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
-
         Add_Round_Key_End:
-          WORD_SEL = word_cycle [1:0];
           OUTPUT_SEL = 2'b00;
-          out_key = KeySchedule [(127 - (32 * word_cycle)):(128 - (32 * word_cycle) - 32)]; // last 128-bits are final key
-          if(word_cycle == 3'b011)
-            word_cycle_next = 3'b000; // set to 0 for next operation
-          else
-            word_cycle_next = word_cycle + 1;
+          out_key = KeySchedule [127:0]; // last 128-bits are final key
 
         Done:
-          word_cycle_next = 3'd0;
           loop_count_next = 4'd0;
           update_state = 1'b0; // just load state back into itself
         default: ;
