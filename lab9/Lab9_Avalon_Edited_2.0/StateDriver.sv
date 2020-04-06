@@ -1,6 +1,4 @@
 // StateDriver
-// Input : System Clock, input Byte
-// Output: SubBytes transformation of the Byte
 
 module StateDriver (
                     input logic Clk,
