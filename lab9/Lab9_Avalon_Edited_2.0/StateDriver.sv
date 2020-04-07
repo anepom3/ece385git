@@ -78,11 +78,26 @@ module StateDriver (
             Next_State = Key_Expansion_0;
 
         /* Decryption States */
-        Key_Expansion_0: // How many KeyExpansion states are needed???
+        Key_Expansion_0:
           Next_State = Key_Expansion_1;
         Key_Expansion_1:
-          Next_State = Key_Expansion_2; // finish this and below
-        // Add in rest of Key Expansion states
+          Next_State = Key_Expansion_2;
+        Key_Expansion_2:
+          Next_State = Key_Expansion_3;
+        Key_Expansion_3:
+          Next_State = Key_Expansion_4;
+        Key_Expansion_4:
+          Next_State = Key_Expansion_5;
+        Key_Expansion_5:
+          Next_State = Key_Expansion_6;
+        Key_Expansion_6:
+          Next_State = Key_Expansion_7;
+        Key_Expansion_7:
+          Next_State = Key_Expansion_8;
+        Key_Expansion_8:
+          Next_State = Key_Expansion_9;
+        Key_Expansion_9:
+          Next_State = Add_Round_Key_Init;
         Add_Round_Key_Init:
           Next_State = Inv_Shift_Rows_Loop;
         Inv_Shift_Rows_Loop:
@@ -122,11 +137,10 @@ module StateDriver (
           loop_count_next = 4'd0;
           update_state = 1'b0; // just load state back into itself
 
-        Key_Expansion_0:
-          //Key_Expansion_0 signal values
+        Key_Expansion_0,Key_Expansion_1,Key_Expansion_2,Key_Expansion_3,Key_Expansion_4,Key_Expansion_5,Key_Expansion_6,Key_Expansion_7,Key_Expansion_8,Key_Expansion_9:
+          //Key_Expansion signal values
           update_state = 1'b1; // load state back into itself with signal below
           initialize = 1'b1; // bring initial encrypted message in
-        // Add in rest of Key Expansion states
         Add_Round_Key_Init:
           out_key = KeySchedule [1407:1280]; // 1) [1407:1376], 2) [1375:1344], 3) [1343:1312], 4) [1311:1280] <-- 4 32bit keys
           OUTPUT_SEL = 2'b00;
