@@ -64,7 +64,7 @@ logic [127:0] AES_MSG_ENC_comb;
 logic [127:0] AES_MSG_DEC_comb;
 // Instantiating Decryption AES module
 module AES (.CLK, .RESET,
-						.AES_START(AES_START_OUT[31]), .AES_DONE(AES_DONE_OUT[31]),
+						.AES_START(AES_START_OUT[0]), .AES_DONE(AES_DONE_OUT[0]),
 	 					.AES_KEY(AES_KEY_comb), .AES_MSG_ENC(AES_MSG_ENC_comb),
 						.AES_MSG_DEC(AES_MSG_DEC_comb));
 
