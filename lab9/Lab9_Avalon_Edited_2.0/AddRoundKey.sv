@@ -12,7 +12,7 @@ University of Illinois ECE Department
 module AddRoundKey (
   input logic [127:0] key,
   input logic [127:0] in,
-  output logic [127:0] out,
+  output logic [127:0] out
   );
 
   assign out = in ^ key; // out = in XOR key

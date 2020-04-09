@@ -8,7 +8,7 @@ module REG #(N=32) (// Inputs
 
 always_ff @ (posedge CLK ) begin
   if(RESET)
-    DOUT <= N'h0000;
+    DOUT <= 32'h0000;
   else if (LD)
     DOUT <= DIN;
 end

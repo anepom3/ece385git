@@ -6,23 +6,9 @@ timeprecision 1ns;
 
 // These signals are internal because the processor will be
 // instantiated as a submodule in testbench.
-// Avalon Clock Input
-  logic CLK;
-
-	// Avalon Reset Input
-  logic RESET;
-
-	// Avalon-MM Slave Signals
-	logic AVL_READ;					// Avalon-MM Read
-	logic AVL_WRITE;					// Avalon-MM Write
-	logic AVL_CS;						// Avalon-MM Chip Select
-	logic [3:0] AVL_BYTE_EN;		// Avalon-MM Byte Enable
-	logic [3:0] AVL_ADDR;			// Avalon-MM Address
-	logic [31:0] AVL_WRITEDATA;	// Avalon-MM Write Data
-	logic [31:0] AVL_READDATA;	// Avalon-MM Read Data
-
-	// Exported Conduit
-	logic [31:0] EXPORT_DATA;		// Exported Conduit Signal to LEDs
+logic clk;
+logic [127:0]  Cipherkey;
+logic [1407:0] KeySchedule;
 
 // A counter to count the instances where simulation results
 // do no match with expected results
@@ -30,16 +16,16 @@ timeprecision 1ns;
 
 // Instantiating the DUT
 // Make sure the module and signal names match with those in your design
-avalon_aes_interface aes_interface(.*);
+KeyExpansion keyexpansion(.*);
 
 // Toggle the clock
 // #1 means wait for a delay of 1 timeunit
 always begin : CLOCK_GENERATION
-#1 CLK = ~CLK;
+#1 clk = ~clk;
 end
 
 initial begin: CLOCK_INITIALIZATION
-    CLK = 0;
+    clk = 0;
 end
 
 // Testing begins here
@@ -47,8 +33,10 @@ end
 // Everything happens sequentially inside an initial block
 // as in a software program
 initial begin: TEST_VECTORS
+Cipherkey = 128'h000102030405060708090a0b0c0d0e0f;
+KeySchedule = 1408'd0;
 
-#500;
+#50;
 
 end
 
