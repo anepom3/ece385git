@@ -59,5 +59,6 @@ StateUpdateBuffer state_update_buffer(.Clk(CLK), .update_state(update_state), .i
 																			.OUTPUT_SEL(OUTPUT_SEL),
 																			.state_out(state_out)
 																		);
+assign AES_MSG_DEC = state_out;
 
 endmodule

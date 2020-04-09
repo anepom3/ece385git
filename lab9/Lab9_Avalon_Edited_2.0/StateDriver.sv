@@ -42,22 +42,19 @@ module StateDriver (
                        Add_Round_Key_End
                      } State, Next_State;
 
-    logic [3:0] loop_count; // counts the 9 loops of the main decryption loop
-    logic [3:0] loop_count_next; // next loop value
+    logic [3:0] Loop_count; // counts the 9 loops of the main decryption loop
+    logic [3:0] Loop_count_next; // next loop value
 
 
     always_ff @ (posedge Clk)
     begin
       if (Reset) begin// Move to rest state and reset appropriate signals.
   			State <= Rest;
-        loop_count <= 4'b0000;
-        loop_count_next <= 4'b0000;
-        update_state <= 1'b0;
-        initialize <= 1'b0;
+        Loop_count <= 4'b0000;
       end
-  		else begin // Otherwise proceed to next state and loop_count
+  		else begin // Otherwise proceed to next state and Loop_count
   			State <= Next_State;
-        loop_count <= loop_count_next;
+        Loop_count <= Loop_count_next;
       end
     end
 
@@ -67,7 +64,7 @@ module StateDriver (
       Next_State = State;
 
       // Default control signal values
-      loop_count_next = loop_count; // hold value if nothing changes
+      Loop_count_next = Loop_count; // hold value if nothing changes
       out_key = 128'd0;
       WORD_SEL = 2'b00; // Selects the first word of the current state message
       OUTPUT_SEL = 2'b00; // 00 -Add_Round_Key, 01 - Inv_Shift_Rows, 10 - Inv_Sub_Bytes, 11 - Inv_Mix_Columns
@@ -102,7 +99,7 @@ module StateDriver (
         Key_Expansion_8:
           Next_State = Key_Expansion_9;
         Key_Expansion_9:
-          Next_State = Add_Round_Key_Init;
+          Next_State = Done;
         Add_Round_Key_Init:
           Next_State = Inv_Shift_Rows_Loop;
         // Begins the 9 Decryption Rounds.
@@ -120,7 +117,7 @@ module StateDriver (
         Inv_Mix_Columns_Loop_2:
           Next_State = Inv_Mix_Columns_Loop_3;
         Inv_Mix_Columns_Loop_3:
-          if(loop_count >= 4'b1000) // b'1000 = 8, check if it the last loop (Might need to be 1001 = 9)
+          if(Loop_count >= 4'b1000) // b'1000 = 8, check if it the last loop (Might need to be 1001 = 9)
             Next_State = Inv_Shift_Rows_End;
           else
             // Next_State = Inv_Mix_Columns_Loop_0;
@@ -144,7 +141,7 @@ module StateDriver (
       case (State)
         Rest:
         begin
-          loop_count_next = 4'd0;
+          Loop_count_next = 4'd0;
           update_state = 1'b0; // just load state back into itself
         end
         Key_Expansion_0:
@@ -217,7 +214,7 @@ module StateDriver (
         Add_Round_Key_Loop:
         begin
           OUTPUT_SEL = 2'b00;
-          case(loop_count)
+          case(Loop_count)
             4'b0000:out_key = KeySchedule[1279:1152];
             4'b0001:out_key = KeySchedule[1151:1024];
             4'b0010:out_key = KeySchedule[1023:896];
@@ -249,10 +246,10 @@ module StateDriver (
         begin
           WORD_SEL = 2'b11;
           OUTPUT_SEL = 2'b11;
-          if(loop_count >= 4'b1000) // check if it the last loop
-            loop_count_next = 4'b0000;
+          if(Loop_count >= 4'b1000) // check if it the last loop
+            Loop_count_next = 4'b0000;
           else
-            loop_count_next = loop_count + 1;
+            Loop_count_next = Loop_count + 1;
         end
         Inv_Shift_Rows_End:
           OUTPUT_SEL = 2'b01;
@@ -266,12 +263,11 @@ module StateDriver (
 
         Done:
         begin
-          loop_count_next = 4'd0;
+          Loop_count_next = 4'd0;
           update_state = 1'b0; // just load state back into itself
           Done_h = 1'b1;
         end
         default: ;
-
       endcase
     end
 

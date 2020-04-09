@@ -163,6 +163,14 @@
          type = "String";
       }
    }
+   element lab9_soc
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Cyclone IV E";
+         type = "String";
+      }
+   }
    element timer_0
    {
       datum _sortIndex
@@ -217,7 +225,7 @@
  <module
    name="AES_Decryption_Core_0"
    kind="AES_Decryption_Core"
-   version="2.1"
+   version="2.2"
    enabled="1" />
  <module name="CLK" kind="clock_source" version="18.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
@@ -435,7 +443,7 @@
    version="18.0"
    enabled="1">
   <parameter name="allowInSystemMemoryContentEditor" value="false" />
-  <parameter name="autoInitializationFileName">$${FILENAME}_ONCHIP_MEMORY</parameter>
+  <parameter name="autoInitializationFileName">lab9_soc_ONCHIP_MEMORY</parameter>
   <parameter name="blockType" value="AUTO" />
   <parameter name="copyInitFile" value="false" />
   <parameter name="dataWidth" value="32" />
@@ -475,7 +483,7 @@
   <parameter name="casLatency" value="3" />
   <parameter name="clockRate" value="50000000" />
   <parameter name="columnWidth" value="10" />
-  <parameter name="componentName" value="$${FILENAME}_SDRAM" />
+  <parameter name="componentName" value="lab9_soc_SDRAM" />
   <parameter name="dataWidth" value="32" />
   <parameter name="generateSimulationModel" value="false" />
   <parameter name="initNOPDelay" value="0.0" />

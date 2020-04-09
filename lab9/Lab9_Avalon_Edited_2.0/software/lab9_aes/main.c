@@ -15,7 +15,8 @@ University of Illinois ECE Department
 
 // Pointer to base address of AES module, make sure it matches Qsys
 volatile unsigned int * AES_PTR = (unsigned int *) 0x00000100;
-
+volatile unsigned int * msg_enc_global;
+volatile unsigned int * msg_dec_global;
 // Execution mode: 0 for testing, 1 for benchmarking
 int run_mode = 0;
 
@@ -247,7 +248,7 @@ void MixColumns(unsigned char * state_in , unsigned char * ret_state) {
  *  Output:  msg_enc - Pointer to 4x 32-bit int array that contains the encrypted message
  *               key - Pointer to 4x 32-bit int array that contains the input key
  */
-void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int * msg_enc , unsigned int * key)
+unsigned int encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int * msg_enc , unsigned int * key)
 {
 		// Implement this function
 		int i=0;
@@ -261,6 +262,8 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		unsigned char temp_sub_word_in[4]; // temp holder for words of state for input of SubBytes
 		unsigned char temp_sub_word_out[4]; // temp holder for words of state for output of SubBytes
 
+		printf("\n Within encryption function, msg_enc_PTR = %08x --> 0x%08x\n\n",&(msg_enc[0]), *(msg_enc));
+
 		// Convert input message and key into hex
 		for(i=0;i<16;i++) {
 				msg_bytes[i] = charsToHex(msg_ascii[2*i], msg_ascii[(2*i)+1]);
@@ -268,10 +271,10 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				temp_round_key[i] = key_bytes[i];
 				msg_state_in[i] = msg_bytes[i];
 		}
-		printf("Input Msg:");
-		StatePrint(msg_bytes);
-		printf("Input Key:");
-		StatePrint(key_bytes);
+//		printf("Input Msg:");
+//		StatePrint(msg_bytes);
+//		printf("Input Key:");
+//		StatePrint(key_bytes);
 
 		// Perform Key Key Expansion
 		KeyExpansion(key_bytes,key_schedule);
@@ -349,8 +352,8 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				CleanUpState(msg_state_out, msg_state_in);
 		}
 
-		printf("State at start of final round %d:",i);
-		StatePrint(msg_state_in);
+//		printf("State at start of final round %d:",i);
+//		StatePrint(msg_state_in);
 
 		// Last Round
 		// SubBytes
@@ -366,15 +369,15 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 				msg_state_in[(j*4)+3] = temp_sub_word_out[3];
 		}
 
-		printf("After SubBytes:");
-		StatePrint(msg_state_in);
+//		printf("After SubBytes:");
+//		StatePrint(msg_state_in);
 
 		// ShiftRows
 		ShiftRows(msg_state_in, msg_state_out);
 		CleanUpState(msg_state_out, msg_state_in);
 
-		printf("After ShiftRows:");
-		StatePrint(msg_state_in);
+//		printf("After ShiftRows:");
+//		StatePrint(msg_state_in);
 
 		// AddRoundKey
 		// set last round key
@@ -395,14 +398,14 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		temp_round_key[14] = key_schedule[174];
 		temp_round_key[15] = key_schedule[175];
 
-		printf("Round Key[10]:");
-		StatePrint(temp_round_key);
+//		printf("Round Key[10]:");
+//		StatePrint(temp_round_key);
 
 		AddRoundKey(msg_state_in, temp_round_key, msg_state_out);
 		CleanUpState(msg_state_out, msg_state_in); // msg_state_out now holds the encrypted text
 
-		printf("Encrypted Msg:");
-		StatePrint(msg_state_out);
+//		printf("Encrypted Msg:");
+//		StatePrint(msg_state_out);
 
 		// Set key
 		key[0] = ((unsigned int)(key_schedule[0]) << 24) | ((unsigned int)(key_schedule[1]) << 16) | ((unsigned int)(key_schedule[2]) << 8) | ((unsigned int)(key_schedule[3]));
@@ -410,54 +413,56 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 		key[2] = ((unsigned int)(key_schedule[8]) << 24) | ((unsigned int)(key_schedule[9]) << 16) | ((unsigned int)(key_schedule[10]) << 8) | ((unsigned int)(key_schedule[11]));
 		key[3] = ((unsigned int)(key_schedule[12]) << 24) | ((unsigned int)(key_schedule[13]) << 16) | ((unsigned int)(key_schedule[14]) << 8) | ((unsigned int)(key_schedule[15]));
 
-//		key[1] = 0xDEADBEEF;
-//		key[2] = 0xDEADBEEF;
-
 		AES_PTR[0] = key[0];
 		AES_PTR[1] = key[1];
 		AES_PTR[2] = key[2];
 		AES_PTR[3] = key[3];
 
-		for (i = 0; i < 4; i++){
-			printf("key[%d]: 0x%08x\n", i,key[i]);
-		}
-		printf("\n");
-		printf("Register File: AES_PTR = %08x --> 0x%08x\n\n",AES_PTR, *(AES_PTR));
-		for (i = 0; i < 16; i++){
-			printf("REG%d = Hexadecimal: 0x%08x\n", i, AES_PTR[i]);
-		}
-//		if(AES_PTR[10] != 0xDEADBEEF){
-//			printf("Error!");
+//		for (i = 0; i < 4; i++){
+//			printf("key[%d]: 0x%08x\n", i,key[i]);
 //		}
 
 
 		// Set encrypted message
-		printf("Register File: msg_enc_PTR = %08x --> 0x%08x\n\n",msg_enc, *(msg_enc));
-
-		printf("\n Test to see what Encrpted message is before assignment: \n");
-						for(i = 0; i < 4; i++){
-							printf("%08x", msg_enc[i]);
-						}
-		printf("\n");
+//		printf("\n Test to see what Encrpted message is before assignment: \n");
+//						for(i = 0; i < 4; i++){
+//							printf("%08x", msg_enc[i]);
+//						}
+//		printf("\n");
 
 
-		msg_enc[0] = ((unsigned int)(msg_state_out[0]) << 24) | ((unsigned int)(msg_state_out[1]) << 16) | ((unsigned int)(msg_state_out[2]) << 8) | ((unsigned int)(msg_state_out[3]));
-		msg_enc[1] = ((unsigned int)(msg_state_out[4]) << 24) | ((unsigned int)(msg_state_out[5]) << 16) | ((unsigned int)(msg_state_out[6]) << 8) | ((unsigned int)(msg_state_out[7]));
-		msg_enc[2] = ((unsigned int)(msg_state_out[8]) << 24) | ((unsigned int)(msg_state_out[9]) << 16) | ((unsigned int)(msg_state_out[10]) << 8) | ((unsigned int)(msg_state_out[11]));
-		msg_enc[3] = ((unsigned int)(msg_state_out[12]) << 24) | ((unsigned int)(msg_state_out[13]) << 16) | ((unsigned int)(msg_state_out[14]) << 8) | ((unsigned int)(msg_state_out[15]));
+		msg_enc[0] = ((unsigned int)(msg_state_out[0]) << 24) + ((unsigned int)(msg_state_out[1]) << 16) + ((unsigned int)(msg_state_out[2]) << 8) + ((unsigned int)(msg_state_out[3]));
+		msg_enc[1] = ((unsigned int)(msg_state_out[4]) << 24) + ((unsigned int)(msg_state_out[5]) << 16) + ((unsigned int)(msg_state_out[6]) << 8) + ((unsigned int)(msg_state_out[7]));
+		msg_enc[2] = ((unsigned int)(msg_state_out[8]) << 24) + ((unsigned int)(msg_state_out[9]) << 16) + ((unsigned int)(msg_state_out[10]) << 8) + ((unsigned int)(msg_state_out[11]));
+		msg_enc[3] = ((unsigned int)(msg_state_out[12]) << 24) + ((unsigned int)(msg_state_out[13]) << 16) + ((unsigned int)(msg_state_out[14]) << 8) + ((unsigned int)(msg_state_out[15]));
 
-//		AES_PTR[4] = msg_enc[0];
-//		AES_PTR[5] = msg_enc[1];
-//		AES_PTR[6] = msg_enc[2];
-//		AES_PTR[7] = msg_enc[3];
+		msg_enc_global[0] = ((unsigned int)(msg_state_out[0]) << 24) + ((unsigned int)(msg_state_out[1]) << 16) + ((unsigned int)(msg_state_out[2]) << 8) + ((unsigned int)(msg_state_out[3]));
+		msg_enc_global[1] = ((unsigned int)(msg_state_out[4]) << 24) + ((unsigned int)(msg_state_out[5]) << 16) + ((unsigned int)(msg_state_out[6]) << 8) + ((unsigned int)(msg_state_out[7]));
+		msg_enc_global[2] = ((unsigned int)(msg_state_out[8]) << 24) + ((unsigned int)(msg_state_out[9]) << 16) + ((unsigned int)(msg_state_out[10]) << 8) + ((unsigned int)(msg_state_out[11]));
+		msg_enc_global[3] = ((unsigned int)(msg_state_out[12]) << 24) + ((unsigned int)(msg_state_out[13]) << 16) + ((unsigned int)(msg_state_out[14]) << 8) + ((unsigned int)(msg_state_out[15]));
 
-		//printf("Encrypted Msg: %08x%08x%08x%08x",msg_enc[0],msg_enc[1],msg_enc[2],msg_enc[3]);
+		AES_PTR[4] = msg_enc[0];
+		AES_PTR[5] = msg_enc[1];
+		AES_PTR[6] = msg_enc[2];
+		AES_PTR[7] = msg_enc[3];
 
-		printf("\nEncrpted message is: \n");
-			for(i = 0; i < 4; i++){
-				printf("%08x", msg_enc[i]);
-			}
-		printf("\n");
+//		printf("Encrypted Msg: %08x%08x%08x%08x",msg_enc[0],msg_enc[1],msg_enc[2],msg_enc[3]);
+//		printf("\n");
+		printf("\n Within encryption function, msg_enc_PTR = %08x --> 0x%08x\n\n",&(msg_enc[0]), *(msg_enc));
+		printf("\n Within encryption function, msg_enc_global_PTR = %08x --> 0x%08x\n\n",&(msg_enc_global[0]), *(msg_enc_global));
+
+//
+//		printf("Register File: AES_PTR = %08x --> 0x%08x\n\n",AES_PTR, *(AES_PTR));
+//		for (i = 0; i < 16; i++){
+//			printf("REG%d = Hexadecimal: 0x%08x\n", i, AES_PTR[i]);
+//		}
+//		printf("\n");
+//		printf("\nEncrpted message is: \n");
+//			for(i = 0; i < 4; i++){
+//				printf("%08x", msg_enc[i]);
+//			}
+//		printf("\n");
+		return msg_enc[0];
 }
 
 /** decrypt
@@ -470,12 +475,41 @@ void encrypt(unsigned char * msg_ascii, unsigned char * key_ascii, unsigned int 
 void decrypt(unsigned int * msg_enc, unsigned int * msg_dec, unsigned int * key)
 {
 	// Implement this function
+	AES_PTR[14] = 0x0000000000000001;
+	while(1){
+		if(AES_PTR[15] == 0x0000000000000001)
+			break;
+	}
+	for (int i = 0; i < 16; i++){
+				printf("REG%d = Hexadecimal: 0x%08x\n", i, AES_PTR[i]);
+			}
+	printf("\n");
+
+	msg_dec_global[0] = AES_PTR[8];
+	msg_dec_global[1] = AES_PTR[9];
+	msg_dec_global[2] = AES_PTR[10];
+	msg_dec_global[3] = AES_PTR[11];
 }
 
 /** main
  *  Allows the user to enter the message, key, and select execution mode
  *
  */
+//Encrypted Message
+//
+//daec3055df058e1c39e814ea76f6747e
+//
+//Key
+//
+//000102030405060708090a0b0c0d0e0f
+//
+//Last Expanded Round Key
+//
+//13111d7fe3944a17f307a78b4d2b30c5
+//
+//Decrypted Message
+//
+//ece298dcece298dcece298dcece298dc
 int main()
 {
 	// Input Message and Key as 32x 8-bit ASCII Characters ([33] is for NULL terminator)
@@ -485,7 +519,8 @@ int main()
 	unsigned int key[4];
 	unsigned int msg_enc[4];
 	unsigned int msg_dec[4];
-
+	msg_enc_global = & (msg_enc[0]);
+	msg_dec_global = & (msg_dec[0]);
 	printf("Select execution mode: 0 for testing, 1 for benchmarking: ");
 	scanf("%d", &run_mode);
 
@@ -503,17 +538,9 @@ int main()
 			printf("\nEnter Key:\n");
 			scanf("%s", key_ascii);
 			printf("\n");
-			printf("\n Test Encrpted message is: \n");
-				for(i = 0; i < 4; i++){
-					printf("%08x", msg_enc[i]);
-				}
-			printf("\n");
-			msg_enc[0] = 0xffffffff;
-			msg_enc[1] = 0xffffffff;
-			msg_enc[2] = 0xffffffff;
-			msg_enc[3] = 0xffffffff;
-			printf("Register File: msg_enc_PTR = %08x --> 0x%08x\n\n",&(msg_enc[0]), *(msg_enc));
-			encrypt(msg_ascii, key_ascii, &(msg_enc[0]), key);
+
+			printf("Before encryption function, msg_enc_PTR = %08x --> 0x%08x\n\n",&(msg_enc[0]), *(msg_enc));
+			msg_enc[0] = encrypt(msg_ascii, key_ascii, msg_enc, key);
 			printf("\nEncrpted message is: \n");
 			for(i = 0; i < 4; i++){
 				printf("%08x", msg_enc[i]);
