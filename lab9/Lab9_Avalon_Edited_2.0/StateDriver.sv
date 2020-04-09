@@ -94,16 +94,15 @@ module StateDriver (
         Key_Expansion_4:
           Next_State = Key_Expansion_5;
         Key_Expansion_5:
-            Next_State = Key_Expansion_6;
+          Next_State = Key_Expansion_6;
         Key_Expansion_6:
-            Next_State = Key_Expansion_7;
+          Next_State = Key_Expansion_7;
         Key_Expansion_7:
-            Next_State = Key_Expansion_8;
+          Next_State = Key_Expansion_8;
         Key_Expansion_8:
-            Next_State = Key_Expansion_9;
+          Next_State = Key_Expansion_9;
         Key_Expansion_9:
-            Next_State = Add_Round_Key_Init;
-        // Begins Decryption Algorithm (ref. IAES.9, Figure 9.)
+          Next_State = Add_Round_Key_Init;
         Add_Round_Key_Init:
           Next_State = Inv_Shift_Rows_Loop;
         // Begins the 9 Decryption Rounds.
