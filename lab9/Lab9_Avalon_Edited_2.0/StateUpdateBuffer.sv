@@ -22,7 +22,7 @@ begin
     if(update_state) // Update word from operation into state
       begin
           if(initialize)
-            state_out = initial_state; // Takes intial encrypted message
+            state_out <= initial_state; // Takes intial encrypted message
           else begin
             case (OUTPUT_SEL) // Select which operation is operating
                 2'b00: state_out <= Add_Round_Key_Val;
@@ -41,7 +41,7 @@ begin
         end
     end
   else
-    state_out = state_in; // Do not update state
+    state_out <= state_in; // Do not update state
 end
 
 endmodule // StateUpdateBuffer

@@ -225,7 +225,7 @@
  <module
    name="AES_Decryption_Core_0"
    kind="AES_Decryption_Core"
-   version="2.2"
+   version="2.4"
    enabled="1" />
  <module name="CLK" kind="clock_source" version="18.0" enabled="1">
   <parameter name="clockFrequency" value="50000000" />

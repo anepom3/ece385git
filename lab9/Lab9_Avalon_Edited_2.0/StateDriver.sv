@@ -99,7 +99,7 @@ module StateDriver (
         Key_Expansion_8:
           Next_State = Key_Expansion_9;
         Key_Expansion_9:
-          Next_State = Done;
+          Next_State = Add_Round_Key_Init;
         Add_Round_Key_Init:
           Next_State = Inv_Shift_Rows_Loop;
         // Begins the 9 Decryption Rounds.
@@ -204,7 +204,7 @@ module StateDriver (
         end
         Add_Round_Key_Init:
         begin
-          out_key = KeySchedule [1407:1280]; // 1) [1407:1376], 2) [1375:1344], 3) [1343:1312], 4) [1311:1280] <-- 4 32bit keys
+          out_key = KeySchedule [127:0]; // 1) [1407:1376], 2) [1375:1344], 3) [1343:1312], 4) [1311:1280] <-- 4 32bit keys
           OUTPUT_SEL = 2'b00;
         end
         Inv_Shift_Rows_Loop:
@@ -215,16 +215,16 @@ module StateDriver (
         begin
           OUTPUT_SEL = 2'b00;
           case(Loop_count)
-            4'b0000:out_key = KeySchedule[1279:1152];
-            4'b0001:out_key = KeySchedule[1151:1024];
-            4'b0010:out_key = KeySchedule[1023:896];
-            4'b0011:out_key = KeySchedule[895:768];
-            4'b0100:out_key = KeySchedule[767:640];
-            4'b0101:out_key = KeySchedule[639:512];
-            4'b0110:out_key = KeySchedule[511:384];
-            4'b0111:out_key = KeySchedule[383:256];
-            4'b1000:out_key = KeySchedule[255:128];
-            default: out_key = KeySchedule[127:0];
+            4'b0000:out_key = KeySchedule [255:128];
+            4'b0001:out_key = KeySchedule [383:256];
+            4'b0010:out_key = KeySchedule [511:384];
+            4'b0011:out_key = KeySchedule [639:512];
+            4'b0100:out_key = KeySchedule [767:640];
+            4'b0101:out_key = KeySchedule [895:768];
+            4'b0110:out_key = KeySchedule [1023:896];
+            4'b0111:out_key = KeySchedule [1151:1024];
+            4'b1000:out_key = KeySchedule [1279:1152];
+            default: out_key = KeySchedule [1407:1280];
           endcase
         end
         Inv_Mix_Columns_Loop_0:
@@ -258,7 +258,7 @@ module StateDriver (
         Add_Round_Key_End:
         begin
           OUTPUT_SEL = 2'b00;
-          out_key = KeySchedule [127:0]; // last 128-bits are final key
+          out_key = KeySchedule [1407:1280]; // last 128-bits are final key
         end
 
         Done:
