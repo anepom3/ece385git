@@ -16,7 +16,7 @@
 // color_mapper: Decide which color to be output to VGA for each pixel.
 module  color_mapper ( input        [9:0] DrawX, DrawY,       // Current pixel coordinates
                        input        [9:0] ShooterX, ShooterY, // Current location of shooter (upper left pixel)
-                       input        [1:0] ShooterDir,         // Direction Shooter is facing
+                       input        [1:0] ShooterFace,         // Direction Shooter is facing
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );
 
@@ -52,7 +52,7 @@ module  color_mapper ( input        [9:0] DrawX, DrawY,       // Current pixel c
                 if((DrawX >= ShooterX) && (DrawX < ShooterX + 32) && (DrawY >= ShooterY) && (DrawY < ShooterY + 32))
                 begin
                     // get pixel of shooter from on-chip memory???
-                    case (ShooterDir)
+                    case (ShooterFace)
                       2'b00: // up
                       begin
                         Red_t = ;
