@@ -53,33 +53,33 @@ module  color_mapper ( input        [9:0] DrawX, DrawY,       // Current pixel c
                 begin
                     // get pixel of shooter from on-chip memory???
                     case (ShooterFace)
-                      2'b00: // up
+                      2'b00: // up --> black
                       begin
-                        Red_t = ;
-                        Green_t = ;
-                        Blue_t = ;
+                        Red_t = 8'hff;
+                        Green_t = 8'hff;
+                        Blue_t = 8'hff;
                       end
-                      2'b01: // right
+                      2'b01: // right --> red
                       begin
-                        Red_t = ;
-                        Green_t = ;
-                        Blue_t = ;
+                        Red_t = 8'hff;
+                        Green_t = 8'h00;
+                        Blue_t = 8'h00;
                       end
-                      2'b10: // down
+                      2'b10: // down --> green
                       begin
-                        Red_t = ;
-                        Green_t = ;
-                        Blue_t = ;
+                        Red_t = 8'h00;
+                        Green_t = 8'hff;
+                        Blue_t = 8'h00;
                       end
-                      2'b11: // left
+                      2'b11: // left --> purple
                       begin
-                        Red_t = ;
-                        Green_t = ;
-                        Blue_t = ;
+                        Red_t = 8'hff;
+                        Green_t = 8'h00;
+                        Blue_t = 8'hff;
                       end
                       default: ;
                     endcase
-                    if(~((Red_t == 8'h01) && (Green_t == 8'h01) && (Blue_t == 8'h01))) //check if transparent background pixel of image
+                    if(~((Red_t == 8'h00) && (Green_t == 8'h00) && (Blue_t == 8'h00))) //check if transparent background pixel of image
                     begin
                         Red = Red_t;
                         Green = Green_t;
