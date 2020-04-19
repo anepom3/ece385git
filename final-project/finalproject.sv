@@ -16,7 +16,7 @@
 
 module finalproject( input               CLOCK_50,
              input        [3:0]  KEY,          //bit 0 is set up as Reset
-             output logic [6:0]  HEX0, HEX1,
+             output logic [6:0]  HEX0, HEX1, HEX2, HEX3,
              // VGA Interface
              output logic [7:0]  VGA_R,        //VGA Red
                                  VGA_G,        //VGA Green
@@ -48,8 +48,12 @@ module finalproject( input               CLOCK_50,
                     );
 
     logic Reset_h, Clk;
-    logic [7:0] keycode;
-
+    logic [7:0] keycode_0;
+	  logic [7:0] keycode_1;
+    logic [9:0] ShooterX_comb, ShooterY_comb;
+    logic [2:0] ShooterMove_comb;
+    logic [1:0] ShooterFace_comb;
+    logic is_shot_comb;
     assign Clk = CLOCK_50;
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
@@ -97,7 +101,8 @@ module finalproject( input               CLOCK_50,
                              .sdram_wire_ras_n(DRAM_RAS_N),
                              .sdram_wire_we_n(DRAM_WE_N),
                              .sdram_clk_clk(DRAM_CLK),
-                             .keycode_export(keycode),
+                             .keycode_0_export(keycode_0),
+									           .keycode_1_export(keycode_1),
                              .otg_hpi_address_export(hpi_addr),
                              .otg_hpi_data_in_port(hpi_data_in),
                              .otg_hpi_data_out_port(hpi_data_out),
@@ -118,19 +123,23 @@ module finalproject( input               CLOCK_50,
                                            .DrawX(DrawX_comb), .DrawY(DrawY_comb));
     //
     // Which signal should be frame_clk?
-    ball ball_instance(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
-                       .DrawX(DrawX_comb), .DrawY(DrawY_comb),
-                       .keycode(keycode),
-                       .is_ball(is_ball_comb));
+    Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
+                         .ShooterFace(ShooterFace_comb), .ShooterMove(ShooterMove_comb),
+                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb));
 
-    color_mapper color_instance(.is_ball(is_ball_comb),
+    KeycodeHandler keycodehandler_inst(.keycode0(keycode_0), .keycode1(keycode_1),
+                                        .ShooterMove(ShooterMove_comb), .is_shot(is_shot_comb));
+
+    color_mapper color_instance(.ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
+                                .ShooterFace(ShooterFace_comb),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
                                 .VGA_R, .VGA_G, .VGA_B);
 
     // Display keycode on hex display
-    HexDriver hex_inst_0 (keycode[3:0], HEX0);
-    HexDriver hex_inst_1 (keycode[7:4], HEX1);
-
+    HexDriver hex_inst_0 (keycode_0[3:0], HEX0);
+    HexDriver hex_inst_1 (keycode_0[7:4], HEX1);
+    HexDriver hex_inst_2 (keycode_1[3:0], HEX2);
+    HexDriver hex_inst_3 (keycode_1[7:4], HEX3);
     /**************************************************************************************
         ATTENTION! Please answer the following quesiton in your lab report! Points will be allocated for the answers!
         Hidden Question #1/2:
