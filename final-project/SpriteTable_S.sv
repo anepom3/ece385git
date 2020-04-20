@@ -11,12 +11,13 @@ module SpriteTable_S (
 
   always_comb
   begin
-    read_address_comb = 10'd0;
+    // read_address_comb = 10'd0;
+    read_address_comb = ((DrawY - ShooterY) << 5) + (DrawX - ShooterX); // try hard coding if doesn't work
     if((DrawX >= ShooterX) && (DrawX < ShooterX + 32) && (DrawY >= ShooterY) && (DrawY < ShooterY + 32)) // get shooter pixel
     begin
       // ADD IN SHOOTERFACE CHECK AND OTHER 3 SHOOTER SPRITES!!!
       is_shooter = 1;
-      read_address_comb = (32 * (DrawY - ShooterY)) + (DrawX - ShooterX);
+      // read_address_comb = ((DrawY - ShooterY) << 5) + (DrawX - ShooterX);
       // if(ShooterFace == 2'b00)
       // begin
         SpriteR = SpriteColor[7:0];
