@@ -16,7 +16,7 @@ module SpriteTable_S (
     begin
       // ADD IN SHOOTERFACE CHECK AND OTHER 3 SHOOTER SPRITES!!!
       is_shooter = 1;
-      read_address_comb = (32 * (DrawX - ShooterX)) + (DrawY - ShooterY);
+      read_address_comb = (32 * (DrawY - ShooterY)) + (DrawX - ShooterX);
       // if(ShooterFace == 2'b00)
       // begin
         SpriteR = SpriteColor[7:0];

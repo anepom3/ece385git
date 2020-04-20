@@ -52,87 +52,13 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                 // check if pixel is part of shooter image
                 if(is_shooter)
                 begin
-                  Red = SpriteR;
-                  Green = SpriteG;
-                  Blue = SpriteB;
+                  //if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
+                  //begin
+                    Red = SpriteR;
+                    Green = SpriteG;
+                    Blue = SpriteB;
+                  //end
                 end
-                // if((DrawX >= ShooterX) && (DrawX < ShooterX + 32) && (DrawY >= ShooterY) && (DrawY < ShooterY + 32))
-                // begin
-                //   Red = 8'hff;
-                //   Green = 8'hff;
-                //   Blue = 8'hff;
-                //   if (ShooterFace == 2'b00)
-                //   begin
-                //     if ((SpriteR == 8'h00) && (SpriteB == 8'h00) && (SpriteG == 8'h00))
-                //     begin
-                //       Red = SpriteR;
-                //       Green = SpriteG;
-                //       Blue = SpriteB;
-                //     end
-                //   end
-                //   else if (ShooterFace == 2'b01)
-                //   begin
-                //     if ((SpriteR == 8'h00) && (SpriteB == 8'h00) && (SpriteG == 8'h00))
-                //     begin
-                //       Red = SpriteR;
-                //       Green = SpriteG;
-                //       Blue = SpriteB;
-                //     end
-                //   end
-                //   else if (ShooterFace == 2'b10)
-                //   begin
-                //     if ((SpriteR == 8'h00) && (SpriteB == 8'h00) && (SpriteG == 8'h00))
-                //     begin
-                //       Red = SpriteR;
-                //       Green = SpriteG;
-                //       Blue = SpriteB;
-                //     end
-                //   end
-                //   else if (ShooterFace == 2'b11)
-                //   begin
-                //     if ((SpriteR == 8'h00) && (SpriteB == 8'h00) && (SpriteG == 8'h00))
-                //     begin
-                //       Red = SpriteR;
-                //       Green = SpriteG;
-                //       Blue = SpriteB;
-                //     end
-                //
-                //   end
-                    // get pixel of shooter from on-chip memory???
-                    // case (ShooterFace)
-                    //   2'b00: // up --> black
-                    //   begin
-                    //     Red_t = 8'hff;
-                    //     Green_t = 8'hff;
-                    //     Blue_t = 8'hff;
-                    //   end
-                    //   2'b01: // right --> red
-                    //   begin
-                    //     Red_t = 8'hff;
-                    //     Green_t = 8'h00;
-                    //     Blue_t = 8'h00;
-                    //   end
-                    //   2'b10: // down --> green
-                    //   begin
-                    //     Red_t = 8'h00;
-                    //     Green_t = 8'hff;
-                    //     Blue_t = 8'h00;
-                    //   end
-                    //   2'b11: // left --> purple
-                    //   begin
-                    //     Red_t = 8'hff;
-                    //     Green_t = 8'h00;
-                    //     Blue_t = 8'hff;
-                    //   end
-                    //   default: ;
-                    // endcase
-                    // if(~((Red_t == 8'h00) && (Green_t == 8'h00) && (Blue_t == 8'h00))) //check if transparent background pixel of image
-                    // begin
-                    //     Red = Red_t;
-                    //     Green = Green_t;
-                    //     Blue = Blue_t;
-                    // end
-                //end
             end
         end
     end
