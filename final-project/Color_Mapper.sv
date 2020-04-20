@@ -61,7 +61,10 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                 end
             end
         end
+      Red = SpriteR;
+      Green = SpriteG;
+      Blue = SpriteB;
     end
 
-    SpriteTable_S SpriteTable_S_inst(.Clk, .ShooterFace, .ShooterX, .ShooterY, .DrawX, .DrawY, .is_shooter, .SpriteR, .SpriteG, .SpriteB);
+    SpriteTable_S SpriteTable_S_inst(.Clk, .ShooterFace, .ShooterX(10'd0), .ShooterY(10'd0), .DrawX, .DrawY, .is_shooter, .SpriteR, .SpriteG, .SpriteB);
 endmodule
