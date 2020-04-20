@@ -16,7 +16,7 @@ module KeycodeHandler (
           8'h04: ShooterMove = 3'b100; // a = left
           8'h07: ShooterMove = 3'b010; // d = right
           8'h16: ShooterMove = 3'b011; // s = down
-          8'h1c: ShooterMove = 3'b001; // w = up
+          8'h1a: ShooterMove = 3'b001; // w = up
           default: ;
         endcase
       end
@@ -27,7 +27,7 @@ module KeycodeHandler (
           8'h04: ShooterMove = 3'b100; // a = left
           8'h07: ShooterMove = 3'b010; // d = right
           8'h16: ShooterMove = 3'b011; // s = down
-          8'h1c: ShooterMove = 3'b001; // w = up
+          8'h1a: ShooterMove = 3'b001; // w = up
           default: ;
         endcase
       end

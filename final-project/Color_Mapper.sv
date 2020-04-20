@@ -23,7 +23,7 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
 
     logic [7:0] Red, Green, Blue;
     logic [7:0] SpriteR, SpriteG, SpriteB;
-
+    logic is_shooter;
     // Output colors to VGA
     assign VGA_R = Red;
     assign VGA_G = Green;
@@ -132,10 +132,10 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                     //     Green = Green_t;
                     //     Blue = Blue_t;
                     // end
-                end
+                //end
             end
         end
     end
 
-    SpriteTable_S SpriteTable_S_inst(.Clk, .ShooterFace, .ShooterX, .ShooterY, .DrawX, .DrawY, .is_shooter, .SpriteR, .SpriteG, .SpriteB)
+    SpriteTable_S SpriteTable_S_inst(.Clk, .ShooterFace, .ShooterX, .ShooterY, .DrawX, .DrawY, .is_shooter, .SpriteR, .SpriteG, .SpriteB);
 endmodule

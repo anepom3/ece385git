@@ -6,10 +6,10 @@
 
 module  S_Up_RAM
 (
-//		input [4:0] data_In,
-//		input [18:0] write_address,
+		input [23:0] data_In,
+		input [9:0] write_address,
     input [9:0] read_address,
-//		input we,
+		input we,
     input Clk,
 
 		output logic [23:0] data_Out // 24-bit RGB color
@@ -25,8 +25,8 @@ end
 
 
 always_ff @ (posedge Clk) begin
-	//if (we)
-		//mem[write_address] <= data_In;
+	if (we)
+		mem[write_address] <= data_In;
 	data_Out<= mem[read_address];
 end
 

@@ -24,7 +24,7 @@ timeprecision 1ns;
 
 // Instantiating the DUT
 // Make sure the module and signal names match with those in your design
-AES AES(.*);
+AES aes_inst(.*);
 
 // Toggle the clock
 // #1 means wait for a delay of 1 timeunit
@@ -44,8 +44,8 @@ initial begin: TEST_VECTORS
 
 AES_KEY = 128'h000102030405060708090a0b0c0d0e0f; // Encryption/Decryption Key
 AES_MSG_ENC = 128'hdaec3055df058e1c39e814ea76f6747e; // Encrypted Message
-AES_MSG_DEC = 128'd0; // Clear Decrypted message to start
-// RESET = 1'b0;
+//AES_MSG_DEC = 128'd0; // Clear Decrypted message to start
+RESET = 1'b0;
 // AES_START = 1'b0;
 
 // Start Decryption

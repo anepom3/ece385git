@@ -17,31 +17,30 @@ module SpriteTable_S (
       // ADD IN SHOOTERFACE CHECK AND OTHER 3 SHOOTER SPRITES!!!
       is_shooter = 1;
       read_address_comb = (32 * (DrawX - ShooterX)) + (DrawY - ShooterY);
-      if(ShooterFcae == 2'b00)
-      begin
+      // if(ShooterFace == 2'b00)
+      // begin
         SpriteR = SpriteColor[7:0];
         SpriteG = SpriteColor[15:8];
-        SpriteB = SpriteColor[23:6];
-      end
-      else
-      begin
-        SpriteR = 8'h00;
-        SpriteG = 8'h00;
-        SpriteB = 8'h00;
-      end
+        SpriteB = SpriteColor[23:16];
+      // end
+      // else
+      // begin
+      //   SpriteR = 8'h00;
+      //   SpriteG = 8'h00;
+      //   SpriteB = 8'h00;
+      // end
+    end
+    else
+    begin
+      is_shooter = 0;
+      SpriteR = 8'hff;
+      SpriteG = 8'hff;
+      SpriteB = 8'hff;
     end
   end
-  else
-  begin
-    is_shooter = 0;
-    SpriteR = 8'hff;
-    SpriteG = 8'hff;
-    SpriteB = 8'hff;
-  end
 
 
-
-  S_Up_RAM S_Up_RAM_inst(.read_address(read_address_comb), .Clk(Clk), .data_Out(SpriteColor));
+  S_Up_RAM S_Up_RAM_inst(.data_In(24'd0), .we(1'b0), .write_address(10'd0), .read_address(read_address_comb), .Clk(Clk), .data_Out(SpriteColor));
 
   // Make other 3 sprite image renderings and make RAM modules for them
   //  S_Down_RAM S_Down_RAM_inst(.read_address(read_address_comb), .Clk(Clk), .data_Out(SpriteColor));
