@@ -21,6 +21,8 @@ logic [23:0] mem [0:1023];
 initial
 begin
 	 $readmemh("sprite_bytes/ShooterUP32x32.txt", mem);
+   // for(int i = 0; i < 1024; i ++)
+   //  $display("array[%d] = %x", i, mem[i]);
 end
 
 

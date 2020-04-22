@@ -6,12 +6,12 @@ module SpriteTable_S (
                          output logic [7:0] SpriteR, SpriteG, SpriteB
   );
 
-  logic [9:0] read_address_comb;
+  logic [9:0] read_address_comb; //10'd935
   logic [23:0] SpriteColor; // make 4 of these for each direction
 
   always_comb
   begin
-    // read_address_comb = 10'd0;
+    // read_address_comb = 10'd235;
     read_address_comb = ((DrawY - ShooterY) << 5) + (DrawX - ShooterX); // try hard coding if doesn't work
     if((DrawX >= ShooterX) && (DrawX < ShooterX + 32) && (DrawY >= ShooterY) && (DrawY < ShooterY + 32)) // get shooter pixel
     begin
@@ -20,9 +20,9 @@ module SpriteTable_S (
       // read_address_comb = ((DrawY - ShooterY) << 5) + (DrawX - ShooterX);
       // if(ShooterFace == 2'b00)
       // begin
-        SpriteR = SpriteColor[7:0];
+        SpriteR = SpriteColor[23:16];
         SpriteG = SpriteColor[15:8];
-        SpriteB = SpriteColor[23:16];
+        SpriteB = SpriteColor[7:0];
       // end
       // else
       // begin

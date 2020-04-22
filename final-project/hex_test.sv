@@ -1,16 +1,17 @@
 module hex_test(
                input CLOCK_50,
+					input			 [9:0]  SW,
                input        [3:0]  KEY,          //bit 0 is set up as Reset
                output logic [6:0]  HEX0, HEX1, HEX2, HEX3,
                                    HEX4, HEX5);
 
 logic Reset_h, Clk;
-
+logic [9:0] SW_hold;
 logic [9:0] read_address_comb;
 logic [23:0] data_comb;
 logic ADD;
 
-
+assign read_address_comb = SW_hold;
 assign Clk = CLOCK_50;
 
 always_ff @ (posedge Clk) begin
@@ -19,8 +20,9 @@ end
 
 S_Up_RAM up_ram_inst(.Clk, .we(1'b0), .data_In(24'b0), .write_address(10'b0),
                      .read_address(read_address_comb), .data_Out(data_comb));
-REG reg_inst(.Clk, .Reset_h, .ADD, .Data_Out(read_address_comb));
-sync button_sync (.Clk, .d(~KEY[1]), .q(ADD));
+//REG reg_inst(.Clk, .Reset_h, .ADD, .Data_Out(read_address_comb));
+//sync button_sync (.Clk, .d(~KEY[1]), .q(ADD));
+sync SW_sync[9:0] (Clk, SW, SW_hold);
 
 // Display keycode on hex display
 HexDriver hex_inst_0 (data_comb[3:0], HEX0);

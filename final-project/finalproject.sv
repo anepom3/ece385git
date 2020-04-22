@@ -130,7 +130,7 @@ module finalproject( input               CLOCK_50,
     KeycodeHandler keycodehandler_inst(.keycode0(keycode_0), .keycode1(keycode_1),
                                         .ShooterMove(ShooterMove_comb), .is_shot(is_shot_comb));
 
-    color_mapper color_instance(.ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
+    color_mapper color_instance(.Clk(Clk), .ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
                                 .ShooterFace(ShooterFace_comb),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
                                 .VGA_R, .VGA_G, .VGA_B);
