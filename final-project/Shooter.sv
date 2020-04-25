@@ -5,12 +5,11 @@ module Shooter (input logic Clk, Reset, frame_clk,
                 output logic [1:0] ShooterFace
   );
 
-  parameter [9:0] Shooter_Size = 10'd32;
-  parameter [9:0] Shooter_X_Center = 10'd320;  // Center position on the X axis
-  parameter [9:0] Shooter_Y_Center = 10'd255;  // Center position on the Y axis
+  parameter [9:0] Shooter_X_Center = 10'd303;  // Center position on the X axis (640/2 = 320-16 = 304-1 = 303)
+  parameter [9:0] Shooter_Y_Center = 10'd198;  // Center position on the Y axis (480/2 = 240-25 = 215-16 = 199-1 = 198)
   parameter [9:0] Shooter_X_Min = 10'd32;       // Leftmost point on the X axis (20 + 12)
-  parameter [9:0] Shooter_X_Max = 10'd585;     // Rightmost point on the X axis (649 - 20 - 12 - 32)
-  parameter [9:0] Shooter_Y_Min = 10'd62;       // Topmost point on the Y axis (50 + 12)
+  parameter [9:0] Shooter_X_Max = 10'd575;     // Rightmost point on the X axis (639 - 20 - 12 - 32)
+  parameter [9:0] Shooter_Y_Min = 10'd64;       // Topmost point on the Y axis (50 + 12)
   parameter [9:0] Shooter_Y_Max = 10'd415;     // Bottommost point on the Y axis (479 - 20 - 12 - 32)
   parameter [9:0] Shooter_X_Step = 10'd1;      // Step size on the X axis
   parameter [9:0] Shooter_Y_Step = 10'd1;      // Step size on the Y axis
@@ -65,7 +64,6 @@ module Shooter (input logic Clk, Reset, frame_clk,
       if (frame_clk_rising_edge)
       begin
 
-
           // ShooterMove
           // 0 - no movement
           // 1 - up; 2 - right
@@ -107,18 +105,15 @@ module Shooter (input logic Clk, Reset, frame_clk,
             end
           endcase
 
-         // Be careful when using comparators with "logic" datatype because compiler treats
-         //   both sides of the operator as UNSIGNED numbers.
-         // e.g. Shooter_Y_Pos - Shooter_Size <= Shooter_Y_Min
-         // If Shooter_Y_Pos is 0, then Shooter_Y_Pos - Shooter_Size will not be -4, but rather a large positive number.
-         if( Shooter_Y_Pos + Shooter_Size >= Shooter_Y_Max )  // Shooter is at the bottom edge, BOUNCE!
-             Shooter_Y_Motion_in = (~(Shooter_Y_Step) + 1'b1);  // 2's complement.
-         else if ( Shooter_Y_Pos <= Shooter_Y_Min + Shooter_Size )  // Shooter is at the top edge, BOUNCE!
+
+         if( Shooter_Y_Pos >= Shooter_Y_Max )  // Shooter is at the bottom edge, STOP!
+             Shooter_Y_Motion_in = (~(Shooter_Y_Step) + 1'b1);  // stay still at the edge
+         else if ( Shooter_Y_Pos <= Shooter_Y_Min )  // Shooter is at the top edge, STOP!
              Shooter_Y_Motion_in = Shooter_Y_Step;
          // TODO: Add other boundary detections and handle keypress here.
-         if( Shooter_X_Pos + Shooter_Size >= Shooter_X_Max )  // Shooter is at the bottom edge, BOUNCE!
-             Shooter_X_Motion_in = (~(Shooter_X_Step) + 1'b1);  // 2's complement.
-         else if ( Shooter_X_Pos <= Shooter_X_Min + Shooter_Size )  // Shooter is at the top edge, BOUNCE!
+         if( Shooter_X_Pos >= Shooter_X_Max )  // Shooter is at the bottom edge, STOP!
+             Shooter_X_Motion_in = (~(Shooter_X_Step) + 1'b1);  // stay still at the edge
+         else if ( Shooter_X_Pos <= Shooter_X_Min )  // Shooter is at the top edge, STOP!
              Shooter_X_Motion_in = Shooter_X_Step;
 
           // Update the Shooter's position with its motion

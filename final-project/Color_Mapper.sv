@@ -37,13 +37,13 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
         Green = 8'h69;
         Blue = 8'h0e;
         // Map of room for game
-        if((DrawX > 10'd19) && (DrawX < 10'd620) && (DrawY > 10'd49) && (DrawY < 10'd460))
+        if((DrawX > 10'd19) && (DrawX < 10'd620) && (DrawY > 10'd51) && (DrawY < 10'd460))
         begin
             // black edge of map (black)
             Red = 8'h00;
             Green = 8'h00;
             Blue = 8'h00;
-            if((DrawX > 10'd31) && (DrawX < 10'd608) && (DrawY > 10'd61) && (DrawY < 10'd448))
+            if((DrawX > 10'd31) && (DrawX < 10'd608) && (DrawY > 10'd63) && (DrawY < 10'd448))
             begin
                 // Floor of map (blue)
                 Red = 8'h00;
