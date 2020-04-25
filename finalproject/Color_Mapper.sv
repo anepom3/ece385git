@@ -14,14 +14,16 @@
 //-------------------------------------------------------------------------
 
 // color_mapper: Decide which color to be output to VGA for each pixel.
-module  color_mapper ( input        [9:0] DrawX, DrawY,       // Current pixel coordinates
+module  color_mapper ( input              Clk,
+                       input        [9:0] DrawX, DrawY,       // Current pixel coordinates
                        input        [9:0] ShooterX, ShooterY, // Current location of shooter (upper left pixel)
                        input        [1:0] ShooterFace,         // Direction Shooter is facing
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );
 
     logic [7:0] Red, Green, Blue;
-    logic [7:0] Red_t, Green_t, Blue_t;
+    logic [9:0] pixel_addr;
+    logic [23:0] s_sprite_color;
 
     // Output colors to VGA
     assign VGA_R = Red;
@@ -31,6 +33,7 @@ module  color_mapper ( input        [9:0] DrawX, DrawY,       // Current pixel c
     // Assign color based on is_ball signal
     always_comb
     begin
+        pixel_addr = ((DrawY - ShooterY) << 5) + (DrawX - ShooterX); // set address for sprite pixel data
         // Background color (orangish similar to ECEB)
         Red = 8'hf3;
         Green = 8'h69;
@@ -51,42 +54,17 @@ module  color_mapper ( input        [9:0] DrawX, DrawY,       // Current pixel c
                 // check if pixel is part of shooter image
                 if((DrawX >= ShooterX) && (DrawX < ShooterX + 32) && (DrawY >= ShooterY) && (DrawY < ShooterY + 32))
                 begin
-                    // get pixel of shooter from on-chip memory???
-                    case (ShooterFace)
-                      2'b00: // up --> black
-                      begin
-                        Red_t = 8'hff;
-                        Green_t = 8'hff;
-                        Blue_t = 8'hff;
-                      end
-                      2'b01: // right --> red
-                      begin
-                        Red_t = 8'hff;
-                        Green_t = 8'h00;
-                        Blue_t = 8'h00;
-                      end
-                      2'b10: // down --> green
-                      begin
-                        Red_t = 8'h00;
-                        Green_t = 8'hff;
-                        Blue_t = 8'h00;
-                      end
-                      2'b11: // left --> purple
-                      begin
-                        Red_t = 8'hff;
-                        Green_t = 8'h00;
-                        Blue_t = 8'hff;
-                      end
-                      default: ;
-                    endcase
-                    if(~((Red_t == 8'h00) && (Green_t == 8'h00) && (Blue_t == 8'h00))) //check if transparent background pixel of image
+                    // get pixel of shooter from ShooterSprite.sv module
+                    if(s_sprite_color != 24'hffffff)) //check if transparent background pixel of image
                     begin
-                        Red = Red_t;
-                        Green = Green_t;
-                        Blue = Blue_t;
+                        Red = s_sprite_color[23:16];
+                        Green = s_sprite_color[15:8];
+                        Blue = s_sprite_color[7:0];
                     end
                 end
             end
         end
     end
+
+    ShooterSprite ShooterSprite_inst(.Clk(Clk), .in(pixel_addr), .out(s_sprite_color));
 endmodule
