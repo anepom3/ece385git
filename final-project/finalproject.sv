@@ -47,16 +47,30 @@ module finalproject( input               CLOCK_50,
                                  DRAM_CLK      //SDRAM Clock
                     );
 
-    logic Reset_h, Clk;
+    logic Reset_h, Clk, Play;
     logic [7:0] keycode_0;
 	  logic [7:0] keycode_1;
     logic [9:0] ShooterX_comb, ShooterY_comb;
     logic [2:0] ShooterMove_comb;
     logic [1:0] ShooterFace_comb;
+    logic [9:0] ZombieX_comb, ZombieY_comb;
+    logic [2:0] ZombieMove_comb;
+    logic [1:0] ZombieFace_comb;
+    logic is_zombie_comb;// hit
     logic is_shot_comb;
+    logic is_ball_comb;
+    // logic [9:0] BulletX, BulletY;
+    // logic [1:0] Bullet_Direction;
+    // logic Bullet_Live, remove_bullet;
+    logic [0:14][0:19][0:1] barrier;
+    logic [3:0] level;
+    logic [1:0] event_screen;
+    logic [3:0] enemies, player_health;
     assign Clk = CLOCK_50;
+    assign ZombieMove_comb = ShooterMove_comb;
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
+        Play <= ~(KEY[1]);
     end
 
     logic [1:0] hpi_addr;
@@ -64,7 +78,7 @@ module finalproject( input               CLOCK_50,
     logic hpi_r, hpi_w, hpi_cs, hpi_reset;
 
 	 logic [9:0] DrawX_comb, DrawY_comb;
-   logic is_ball_comb;
+
 
     // Interface between NIOS II and EZ-OTG chip
     hpi_io_intf hpi_io_inst(
@@ -121,20 +135,50 @@ module finalproject( input               CLOCK_50,
                                            .VGA_HS, .VGA_VS,
                                            .VGA_BLANK_N, .VGA_SYNC_N,
                                            .DrawX(DrawX_comb), .DrawY(DrawY_comb));
-    //
     // Which signal should be frame_clk?
-    Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
+    Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterFace(ShooterFace_comb), .ShooterMove(ShooterMove_comb),
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb));
+
+    Zombie zombie_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                         .ZombieFace(ZombieFace_comb), .ZombieMove(ZombieMove_comb),
+                         .ZombieX(ZombieX_comb), .ZombieY(ZombieY_comb));
+    // Bullet bullet_inst (.Clk, .Reset(Reset_h), .frame_clk(VGA_VS),
+    //                .fire_bullet(is_shot_comb),
+    //                .remove_bullet,
+    //                .ShooterFace(ShooterFace_comb),
+    //                .ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
+    //                .barrier(barrier),
+    //                .BulletX, .BulletY,
+    //                .Bullet_Direction,
+    //                .Bullet_Live
+    //  );
+
+    ball ball_inst (.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX_comb),
+                    .DrawY(DrawY_comb),
+                    .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                    .ZombieX(ZombieX_comb), .ZombieY(ZombieY_comb), .barrier(barrier),
+                    .ShooterFace(ShooterFace_comb), .is_shot(is_shot_comb),
+                    .hit(is_zombie_comb), .is_ball(is_ball_comb));
 
     KeycodeHandler keycodehandler_inst(.keycode0(keycode_0), .keycode1(keycode_1),
                                         .ShooterMove(ShooterMove_comb), .is_shot(is_shot_comb));
 
     color_mapper color_instance(.Clk(Clk), .ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
                                 .ShooterFace(ShooterFace_comb),
+                                .ZombieX(ZombieX_comb),.ZombieY(ZombieY_comb),
+                                .ZombieFace(ZombieFace_comb),
+                                .hit(is_zombie_comb),
+                                .is_ball(is_ball_comb),
+                                .barrier(barrier), .event_screen(event_screen),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
                                 .VGA_R, .VGA_G, .VGA_B);
+    Barrier barriers (.level_sel(level), .barrier(barrier));
 
+    Game_state states( .Clk, .Reset_h, .Play,
+                       .level,
+                       .event_screen,
+                       .enemies, .player_health);
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode_0[3:0], HEX0);
     HexDriver hex_inst_1 (keycode_0[7:4], HEX1);
