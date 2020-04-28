@@ -53,9 +53,10 @@ module finalproject( input               CLOCK_50,
     logic [9:0] ShooterX_comb, ShooterY_comb;
     logic [2:0] ShooterMove_comb;
     logic [1:0] ShooterFace_comb;
-    logic [9:0] ZombieX_comb, ZombieY_comb;
-    logic [2:0] ZombieMove_comb;
-    logic [1:0] ZombieFace_comb;
+    logic [9:0] ZombieX0_comb, ZombieY0_comb, ZombieX1_comb, ZombieY1_comb, ZombieX2_comb, ZombieY2_comb;
+    logic [1:0] Zombie0Face_comb, Zombie1Face_comb, Zombie2Face_comb;
+    logic zombie_0_live, zombie_1_live, zombie_2_live;
+    // logic zombie_0_live, zombie_0_live, zombie_0_live, zombie_0_live, zombie_0_live;
     logic is_zombie_comb;// hit
     logic is_shot_comb;
     logic is_ball_comb;
@@ -140,10 +141,29 @@ module finalproject( input               CLOCK_50,
                          .ShooterFace(ShooterFace_comb), .ShooterMove(ShooterMove_comb),
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb));
 
-    Zombie zombie_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+    Zombie zombie_0_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
-                         .ZombieFace(ZombieFace_comb), .ZombieMove(ZombieMove_comb),
-                         .ZombieX(ZombieX_comb), .ZombieY(ZombieY_comb));
+                         .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd96),
+                         .delay_spawn(10'd1), .Zombie_Speed(10'd1),
+                         .is_dead(1'b0), .is_alive(zombie_0_live),
+                         .ZombieFace(Zombie0Face_comb),
+                         .ZombieX(ZombieX0_comb), .ZombieY(ZombieY0_comb));
+
+    Zombie zombie_1_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd96),
+                        .delay_spawn(10'd1), .Zombie_Speed(10'd4),
+                        .is_dead(1'b0), .is_alive(zombie_1_live),
+                        .ZombieFace(Zombie1Face_comb),
+                        .ZombieX(ZombieX1_comb), .ZombieY(ZombieY1_comb));
+
+    Zombie zombie_2_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                         .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd384),
+                         .delay_spawn(10'd600), .Zombie_Speed(10'd1),
+                         .is_dead(1'b0), .is_alive(zombie_2_live),
+                         .ZombieFace(Zombie2Face_comb),
+                         .ZombieX(ZombieX2_comb), .ZombieY(ZombieY2_comb));
     // Bullet bullet_inst (.Clk, .Reset(Reset_h), .frame_clk(VGA_VS),
     //                .fire_bullet(is_shot_comb),
     //                .remove_bullet,
@@ -167,8 +187,10 @@ module finalproject( input               CLOCK_50,
 
     color_mapper color_instance(.Clk(Clk), .ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
                                 .ShooterFace(ShooterFace_comb),
-                                .ZombieX(ZombieX_comb),.ZombieY(ZombieY_comb),
-                                .ZombieFace(ZombieFace_comb),
+                                .Zombie0X(ZombieX0_comb),.Zombie0Y(ZombieY0_comb),
+                                .Zombie1X(ZombieX1_comb),.Zombie1Y(ZombieY1_comb),
+                                .Zombie2X(ZombieX2_comb),.Zombie2Y(ZombieY2_comb),
+                                .ZombieFace(Zombie0Face_comb), .ZombieFace(Zombie1Face_comb), .ZombieFace(Zombie2Face_comb),
                                 .hit(is_zombie_comb),
                                 .is_ball(is_ball_comb),
                                 .barrier(barrier), .event_screen(event_screen),

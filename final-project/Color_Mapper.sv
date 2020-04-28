@@ -18,8 +18,13 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                        input  logic [9:0] DrawX, DrawY,       // Current pixel coordinates
                        input  logic [9:0] ShooterX, ShooterY, // Current location of shooter (upper left pixel)
                        input  logic [1:0] ShooterFace,         // Direction Shooter is facing
-                       input  logic [9:0] ZombieX, ZombieY, // Current location of shooter (upper left pixel)
-                       input  logic [1:0] ZombieFace,         // Direction Shooter is facing
+                       input  logic [9:0] Zombie0X, Zombie0Y, // Current location of shooter (upper left pixel)
+                       input  logic [1:0] Zombie0Face,         // Direction Shooter is facing
+                       input  logic [9:0] Zombie1X, Zombie1Y, // Current location of shooter (upper left pixel)
+                       input  logic [1:0] Zombie1Face,         // Direction Shooter is facing
+                       input  logic [9:0] Zombie2X, Zombie2Y, // Current location of shooter (upper left pixel)
+                       input  logic [1:0] Zombie2Face,         // Direction Shooter is facing
+
                        input  logic [0:14][0:19][0:1] barrier,     // barrier
                        input  logic [1:0] event_screen,
                        input  logic is_ball,
@@ -59,23 +64,22 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                 Green = 8'h00;
                 Blue = 8'hff;
                 // check if pixel is part of shooter image
-                if(is_shooter)
+                if(is_zombie)
                 begin
-                  //if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
-                  //begin
-                    Red = SpriteR;
-                    Green = SpriteG;
-                    Blue = SpriteB;
-                  //end
-                end
-                else if(is_zombie)
-                begin
-                  //if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
-                  //begin
+                  if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
+                  begin
                     Red = ZombieR;
                     Green = ZombieG;
                     Blue = ZombieB;
-                  //end
+                  end
+                end
+                else if(is_shooter)
+                begin
+                  if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
+                  begin
+                    Red = SpriteR;
+                    Green = SpriteG;
+                    Blue = SpriteB;
                 end
                 else if(is_ball & !is_zombie)
                 begin
@@ -106,6 +110,9 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
 
     SpriteTable_S SpriteTable_S_inst(.Clk(Clk), .ShooterFace(ShooterFace), .ShooterX(ShooterX), .ShooterY(ShooterY), .DrawX(DrawX), .DrawY(DrawY),
                                      .is_shooter(is_shooter), .SpriteR(SpriteR), .SpriteG(SpriteG), .SpriteB(SpriteB));
-   SpriteTable_Z SpriteTable_Z_inst(.Clk(Clk), .ZombieFace(ZombieFace), .ZombieX(ZombieX), .ZombieY(ZombieY), .DrawX(DrawX), .DrawY(DrawY),
+   SpriteTable_Z SpriteTable_Z_inst(.Clk(Clk), .DrawX(DrawX), .DrawY(DrawY),
+                                    .Zombie0Face(Zombie0Face), .Zombie0X(Zombie0X), .Zombie0Y(Zombie0Y),
+                                    .Zombie1Face(Zombie1Face), .Zombie1X(Zombie1X), .Zombie1Y(Zombie1Y),
+                                    .Zombie2Face(Zombie2Face), .Zombie2X(Zombie2X), .Zombie2Y(Zombie2Y),
                                     .is_zombie(is_zombie), .SpriteR(ZombieR), .SpriteG(ZombieG), .SpriteB(ZombieB));
 endmodule
