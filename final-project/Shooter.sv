@@ -1,13 +1,13 @@
 // Shooter module
 module Shooter (input logic Clk, Reset, frame_clk,
                 input logic [2:0] ShooterMove,
-                input logic [0:14][0:19][0:1] barrier, 
+                input logic [0:14][0:19][0:1] barrier,
                 output logic [9:0] ShooterX, ShooterY,
                 output logic [1:0] ShooterFace
   );
 
-  parameter [9:0] Shooter_X_Center = 10'd303;  // Center position on the X axis (640/2 = 320-16 = 304-1 = 303)
-  parameter [9:0] Shooter_Y_Center = 10'd198;  // Center position on the Y axis (480/2 = 240-25 = 215-16 = 199-1 = 198)
+  parameter [9:0] Shooter_X_Center = 10'd303;  // Center position on the X axis (640/2 = 320-16 = 304)
+  parameter [9:0] Shooter_Y_Center = 10'd224;  // Center position on the Y axis (480/2 = 240-16 = 224)
   parameter [9:0] Shooter_X_Min = 10'd32;       // Leftmost point on the X axis (20 + 12)
   parameter [9:0] Shooter_X_Max = 10'd575;     // Rightmost point on the X axis (639 - 20 - 12 - 32)
   parameter [9:0] Shooter_Y_Min = 10'd64;       // Topmost point on the Y axis (50 + 12)
