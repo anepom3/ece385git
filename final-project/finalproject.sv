@@ -141,6 +141,7 @@ module finalproject( input               CLOCK_50,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb));
 
     Zombie zombie_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ZombieFace(ZombieFace_comb), .ZombieMove(ZombieMove_comb),
                          .ZombieX(ZombieX_comb), .ZombieY(ZombieY_comb));
     // Bullet bullet_inst (.Clk, .Reset(Reset_h), .frame_clk(VGA_VS),
