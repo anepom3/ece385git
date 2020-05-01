@@ -38,7 +38,6 @@ module Game_state (input logic Clk, Reset_h, Play,
       case(State)
         Title:
           begin
-            Next_State = State;
             if(Play)
               Next_State = Level_1;
           end

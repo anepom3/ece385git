@@ -12,8 +12,8 @@ module Shooter (input logic Clk, Reset, frame_clk,
   parameter [9:0] Shooter_X_Max = 10'd575;     // Rightmost point on the X axis (639 - 20 - 12 - 32)
   parameter [9:0] Shooter_Y_Min = 10'd64;       // Topmost point on the Y axis (50 + 12)
   parameter [9:0] Shooter_Y_Max = 10'd415;     // Bottommost point on the Y axis (479 - 20 - 12 - 32)
-  parameter [9:0] Shooter_X_Step = 10'd2;      // Step size on the X axis
-  parameter [9:0] Shooter_Y_Step = 10'd2;      // Step size on the Y axis
+  parameter [9:0] Shooter_X_Step = 10'd5;      // Step size on the X axis
+  parameter [9:0] Shooter_Y_Step = 10'd5;      // Step size on the Y axis
 
   logic [9:0] Shooter_X_Pos, Shooter_X_Motion, Shooter_Y_Pos, Shooter_Y_Motion;
   logic [9:0] Shooter_X_Pos_in, Shooter_X_Motion_in, Shooter_Y_Pos_in, Shooter_Y_Motion_in;
@@ -93,7 +93,7 @@ module Shooter (input logic Clk, Reset, frame_clk,
               Shooter_X_Motion_in = 10'd0;
               ShooterFace_in = 2'b10;
             end
-            3'b100: // right
+            3'b100: // left
             begin
               Shooter_Y_Motion_in = 10'd0;
               Shooter_X_Motion_in = (~(Shooter_X_Step) + 1'b1);
@@ -111,7 +111,6 @@ module Shooter (input logic Clk, Reset, frame_clk,
              Shooter_Y_Motion_in = (~(Shooter_Y_Step) + 1'b1);  // stay still at the edge
          else if ( Shooter_Y_Pos <= Shooter_Y_Min )  // Shooter is at the top edge, STOP!
              Shooter_Y_Motion_in = Shooter_Y_Step;
-         // TODO: Add other boundary detections and handle keypress here.
          if( Shooter_X_Pos >= Shooter_X_Max )  // Shooter is at the bottom edge, STOP!
              Shooter_X_Motion_in = (~(Shooter_X_Step) + 1'b1);  // stay still at the edge
          else if ( Shooter_X_Pos <= Shooter_X_Min )  // Shooter is at the top edge, STOP!

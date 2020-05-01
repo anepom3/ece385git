@@ -52,23 +52,24 @@ module finalproject( input               CLOCK_50,
 	  logic [7:0] keycode_1;
     logic [9:0] ShooterX_comb, ShooterY_comb;
     logic [2:0] ShooterMove_comb;
+    logic [9:0] BulletX_comb, BulletY_comb;
     logic [1:0] ShooterFace_comb;
     logic [9:0] ZombieX0_comb, ZombieY0_comb, ZombieX1_comb, ZombieY1_comb, ZombieX2_comb, ZombieY2_comb;
     logic [1:0] Zombie0Face_comb, Zombie1Face_comb, Zombie2Face_comb;
     logic zombie_0_live, zombie_1_live, zombie_2_live;
-    // logic zombie_0_live, zombie_0_live, zombie_0_live, zombie_0_live, zombie_0_live;
-    logic is_zombie_comb;// hit
+    logic zombie_dead_0,zombie_dead_1,zombie_dead_2;
+
     logic is_shot_comb;
     logic is_ball_comb;
-    // logic [9:0] BulletX, BulletY;
-    // logic [1:0] Bullet_Direction;
-    // logic Bullet_Live, remove_bullet;
+    logic remove_bullet_comb;
+    logic bullet_status;
+
     logic [0:14][0:19][0:1] barrier;
     logic [3:0] level;
     logic [1:0] event_screen;
     logic [3:0] enemies, player_health;
     assign Clk = CLOCK_50;
-    assign ZombieMove_comb = ShooterMove_comb;
+
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
         Play <= ~(KEY[1]);
@@ -79,7 +80,6 @@ module finalproject( input               CLOCK_50,
     logic hpi_r, hpi_w, hpi_cs, hpi_reset;
 
 	 logic [9:0] DrawX_comb, DrawY_comb;
-
 
     // Interface between NIOS II and EZ-OTG chip
     hpi_io_intf hpi_io_inst(
@@ -131,56 +131,70 @@ module finalproject( input               CLOCK_50,
     // You will have to generate it on your own in simulation.
     vga_clk vga_clk_instance(.inclk0(Clk), .c0(VGA_CLK));
 
-    // // TODO: Fill in the connections for the rest of the modules
+    // VGA controller sends necessary signals to the system.
     VGA_controller vga_controller_instance(.Clk(Clk), .Reset(Reset_h), .VGA_CLK(VGA_CLK),
                                            .VGA_HS, .VGA_VS,
                                            .VGA_BLANK_N, .VGA_SYNC_N,
                                            .DrawX(DrawX_comb), .DrawY(DrawY_comb));
-    // Which signal should be frame_clk?
-    Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
-                         .ShooterFace(ShooterFace_comb), .ShooterMove(ShooterMove_comb),
-                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb));
+
+    // VGA vertical sync is used as frame clk.
+    Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
+                         .ShooterMove(ShooterMove_comb),.barrier,
+
+                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                         .ShooterFace(ShooterFace_comb));
 
     Zombie zombie_0_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd96),
-                         .delay_spawn(10'd1), .Zombie_Speed(10'd1),
-                         .is_dead(1'b0), .is_alive(zombie_0_live),
-                         .ZombieFace(Zombie0Face_comb),
-                         .ZombieX(ZombieX0_comb), .ZombieY(ZombieY0_comb));
-
+                         .delay_spawn(10'd2), .Zombie_Speed(10'd1),
+                         .is_dead(zombie_dead_0),
+                         .ZombieX(ZombieX0_comb), .ZombieY(ZombieY0_comb),
+                         .ZombieFace(Zombie0Face_comb), .is_alive(zombie_0_live));
     Zombie zombie_1_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                         .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd96),
-                        .delay_spawn(10'd1), .Zombie_Speed(10'd4),
-                        .is_dead(1'b0), .is_alive(zombie_1_live),
-                        .ZombieFace(Zombie1Face_comb),
-                        .ZombieX(ZombieX1_comb), .ZombieY(ZombieY1_comb));
-
+                        .delay_spawn(10'd2), .Zombie_Speed(10'd4),
+                        .is_dead(zombie_dead_1),
+                        .ZombieX(ZombieX1_comb), .ZombieY(ZombieY1_comb),
+                        .ZombieFace(Zombie1Face_comb), .is_alive(zombie_1_live));
     Zombie zombie_2_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd384),
                          .delay_spawn(10'd600), .Zombie_Speed(10'd1),
-                         .is_dead(1'b0), .is_alive(zombie_2_live),
-                         .ZombieFace(Zombie2Face_comb),
-                         .ZombieX(ZombieX2_comb), .ZombieY(ZombieY2_comb));
-    // Bullet bullet_inst (.Clk, .Reset(Reset_h), .frame_clk(VGA_VS),
-    //                .fire_bullet(is_shot_comb),
-    //                .remove_bullet,
-    //                .ShooterFace(ShooterFace_comb),
-    //                .ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
-    //                .barrier(barrier),
-    //                .BulletX, .BulletY,
-    //                .Bullet_Direction,
-    //                .Bullet_Live
-    //  );
+                         .is_dead(zombie_dead_2),
+                         .ZombieX(ZombieX2_comb), .ZombieY(ZombieY2_comb),
+                         .ZombieFace(Zombie2Face_comb), .is_alive(zombie_2_live));
 
-    ball ball_inst (.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX_comb),
-                    .DrawY(DrawY_comb),
+    ball ball_inst (.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
+                    .DrawX(DrawX_comb), .DrawY(DrawY_comb),
                     .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
-                    .ZombieX(ZombieX_comb), .ZombieY(ZombieY_comb), .barrier(barrier),
-                    .ShooterFace(ShooterFace_comb), .is_shot(is_shot_comb),
-                    .hit(is_zombie_comb), .is_ball(is_ball_comb));
+                    .ShooterFace(ShooterFace_comb),
+                    .barrier(barrier),  .is_shot(is_shot_comb),
+                    .remove_bullet(remove_bullet_comb),
+
+                    // Outputs
+                    .BallX(BulletX_comb), .BallY(BulletY_comb),
+                    .is_ball(is_ball_comb), .bullet_status
+                    );
+
+    collisions collisions_handler(.ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                                  .ZombieX_0(ZombieX0_comb), .ZombieY_0(ZombieY0_comb),
+                                  .ZombieX_1(ZombieX1_comb), .ZombieY_1(ZombieY1_comb),
+                                  .ZombieX_2(ZombieX2_comb), .ZombieY_2(ZombieY2_comb),
+
+                                  .BulletX(BulletX_comb), .BulletY(BulletY_comb),
+
+                                  .barrier(barrier), .is_shot(is_shot_comb), .bullet_status,
+
+                                  // Outputs
+                                   .remove_bullet(remove_bullet_comb),
+                                  .zombie_dead_0(zombie_dead_0), .zombie_dead_1(zombie_dead_1),.zombie_dead_2(zombie_dead_2),
+                                  .zombie_dead_3(),.zombie_dead_4(),.zombie_dead_5(),
+                                  .zombie_dead_6(),.zombie_dead_7(),.zombie_dead_8(),
+                                  .zombie_dead_9(),
+
+                                  .shooter_take_damage());
 
     KeycodeHandler keycodehandler_inst(.keycode0(keycode_0), .keycode1(keycode_1),
                                         .ShooterMove(ShooterMove_comb), .is_shot(is_shot_comb));
@@ -190,18 +204,21 @@ module finalproject( input               CLOCK_50,
                                 .Zombie0X(ZombieX0_comb),.Zombie0Y(ZombieY0_comb),
                                 .Zombie1X(ZombieX1_comb),.Zombie1Y(ZombieY1_comb),
                                 .Zombie2X(ZombieX2_comb),.Zombie2Y(ZombieY2_comb),
-                                .ZombieFace(Zombie0Face_comb), .ZombieFace(Zombie1Face_comb), .ZombieFace(Zombie2Face_comb),
-                                .hit(is_zombie_comb),
-                                .is_ball(is_ball_comb),
-                                .barrier(barrier), .event_screen(event_screen),
+                                .Zombie0Face(Zombie0Face_comb),
+                                .Zombie1Face(Zombie1Face_comb),
+                                .Zombie2Face(Zombie2Face_comb),
+                                .is_ball(is_ball_comb), .barrier(barrier),
+                                .event_screen(event_screen),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
-                                .VGA_R, .VGA_G, .VGA_B);
-    Barrier barriers (.level_sel(level), .barrier(barrier));
 
-    Game_state states( .Clk, .Reset_h, .Play,
-                       .level,
-                       .event_screen,
-                       .enemies, .player_health);
+                                .VGA_R, .VGA_G, .VGA_B);
+    Barrier barriers (.level_sel(1'b0), .barrier(barrier));
+
+    // Game_state states( .*);
+    //                    /*.Clk, .Reset_h, .Play,
+    //                    .level,
+    //                    .event_screen,
+    //                    .enemies, .player_health);*/
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode_0[3:0], HEX0);
     HexDriver hex_inst_1 (keycode_0[7:4], HEX1);

@@ -1,6 +1,6 @@
 module SpriteTable_Z (
                          input Clk,
-                         input [1:0] Zombie0Face, Zombie1Face, Zombie2Face;
+                         input [1:0] Zombie0Face, Zombie1Face, Zombie2Face,
                          input [9:0] Zombie0X, Zombie0Y, Zombie1X, Zombie1Y, Zombie2X, Zombie2Y,
                          input [9:0] DrawX, DrawY,
                          output logic is_zombie,
@@ -9,13 +9,15 @@ module SpriteTable_Z (
 
   logic [9:0] read_address_comb;
   logic [23:0] SpriteColorU, SpriteColorD, SpriteColorL, SpriteColorR; // make 4 of these for each direction
-  logic [1:0] face_sel
+  logic [1:0] face_sel;
 
   always_comb
   begin // begin of always comb
 	 SpriteR = 8'hff;
 	 SpriteG = 8'hff;
 	 SpriteB = 8'hff;
+   face_sel = 2'b00;
+   read_address_comb = 10'd0;
     if((DrawX >= Zombie0X) && (DrawX < Zombie0X + 32) && (DrawY >= Zombie0Y) && (DrawY < Zombie0Y + 32))
     begin
       read_address_comb = ((DrawY - Zombie0Y) << 5) + (DrawX - Zombie0X);

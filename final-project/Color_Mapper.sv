@@ -49,8 +49,7 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
         Red = 8'hf3;
         Green = 8'h69;
         Blue = 8'h0e;
-        hit = 1'b0;
-        // Map of room for game
+        // // Map of room for game
         if((DrawX > 10'd19) && (DrawX < 10'd620) && (DrawY > 10'd51) && (DrawY < 10'd460))
         begin
             // black edge of map (black)
@@ -63,49 +62,41 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                 Red = 8'h00;
                 Green = 8'h00;
                 Blue = 8'hff;
-                // check if pixel is part of shooter image
-                if(is_zombie)
-                begin
-                  if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
-                  begin
-                    Red = ZombieR;
-                    Green = ZombieG;
-                    Blue = ZombieB;
-                  end
-                end
-                else if(is_shooter)
-                begin
-                  if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
-                  begin
-                    Red = SpriteR;
-                    Green = SpriteG;
-                    Blue = SpriteB;
-                end
-                else if(is_ball & !is_zombie)
-                begin
-                  Red = 8'hff;
-                  Green = 8'h00;
-                  Blue = 8'h00;
-                  hit = 1'b0;
-                end
-                else if(is_ball & is_zombie)
-                begin
-                  Red = 8'hff;
-                  Green = 8'h00;
-                  Blue = 8'h00;
-                  hit = 1'b1;
-                end
             end
         end
-		  if(barrier[DrawY>>5][DrawX>>5]) // render grey if barrier
+        // check if pixel is part of a sprite image
+
+        if(is_ball)
+        begin
+          Red = 8'hff;
+          Green = 8'h00;
+          Blue = 8'h00;
+        end
+        if(is_shooter)
+        begin
+          if(~((SpriteR == 8'hff) && (SpriteG == 8'hff) && (SpriteB == 8'hff)))
+          begin
+            Red = SpriteR;
+            Green = SpriteG;
+            Blue = SpriteB;
+          end
+        end
+        if(is_zombie)
+        begin
+          if(~((ZombieR == 8'hff) && (ZombieG == 8'hff) && (ZombieB == 8'hff)))
+          begin
+            Red = ZombieR;
+            Green = ZombieG;
+            Blue = ZombieB;
+          end
+        end
+        if(barrier[DrawY>>5][DrawX>>5]) // render grey if barrier
         begin
           Red = 8'h80;
           Green = 8'h80;
           Blue = 8'h80;
         end
-      // Red = SpriteR;
-      // Green = SpriteG;
-      // Blue = SpriteB;
+
     end
 
     SpriteTable_S SpriteTable_S_inst(.Clk(Clk), .ShooterFace(ShooterFace), .ShooterX(ShooterX), .ShooterY(ShooterY), .DrawX(DrawX), .DrawY(DrawY),
