@@ -68,6 +68,9 @@ module finalproject( input               CLOCK_50,
     logic [3:0] level;
     logic [1:0] event_screen;
     logic [3:0] enemies, player_health;
+    logic new_level;
+    logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed;
+    logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn;
     assign Clk = CLOCK_50;
 
     always_ff @ (posedge Clk) begin
@@ -218,20 +221,17 @@ module finalproject( input               CLOCK_50,
                                 .VGA_R, .VGA_G, .VGA_B);
     Barrier barriers (.level_sel(1'b0), .barrier(barrier));
 
-    // Game_state states( .*);
-    //                    /*.Clk, .Reset_h, .Play,
-    //                    .level,
-    //                    .event_screen,
-    //                    .enemies, .player_health);*/
+    Game_state states(
+                      .Clk, .Reset_h, .Play,
+                      .enemies(1'b1), .player_health(4'd1),
+                      .level,
+                      .event_screen,
+                      .new_level);
+
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode_0[3:0], HEX0);
     HexDriver hex_inst_1 (keycode_0[7:4], HEX1);
     HexDriver hex_inst_2 (keycode_1[3:0], HEX2);
     HexDriver hex_inst_3 (keycode_1[7:4], HEX3);
-    /**************************************************************************************
-        ATTENTION! Please answer the following quesiton in your lab report! Points will be allocated for the answers!
-        Hidden Question #1/2:
-        What are the advantages and/or disadvantages of using a USB interface over PS/2 interface to
-             connect to the keyboard? List any two.  Give an answer in your Post-Lab.
-    **************************************************************************************/
+
 endmodule

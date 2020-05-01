@@ -34,19 +34,11 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
     logic [7:0] Red, Green, Blue;
     logic [7:0] SpriteR, SpriteG, SpriteB;
     logic [7:0] ZombieR, ZombieG, ZombieB;
+    logic [7:0] fontR, fontG, fontB;
     logic is_shooter;
     logic is_zombie;
+    logic is_font;
 
-    // Font Test logics
-    logic shape_on;
-    logic [10:0] shape_x = 11'd300;
-    logic [10:0] shape_y = 11'd300;
-    logic [10:0] shape_size_x = 11'd8;
-    logic [10:0] shape_size_y = 11'd16;
-
-    logic [10:0] sprite_addr;
-    logic [7:0]  sprite_data;
-    font_rom font_rom_inst (.addr(sprite_addr), .data(sprite_data));
     // Output colors to VGA
     assign VGA_R = Red;
     assign VGA_G = Green;
@@ -55,7 +47,20 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
     // Assign color based on is_ball signal
     always_comb
     begin
-        sprite_addr = 11'b0;
+      //default values
+      Red = 8'h00;
+      Green = 8'h00;
+      Blue = 8'h00;
+
+      if(event_screen == 2'd0) //  Title Screen
+      begin
+        Red = 8'hff;
+        Green = DrawY[7:0];
+        Blue = DrawX[7:0];
+      end
+
+      if(event_screen == 2'd1) // Gameplay screen
+      begin // begin of in-game screen printing
         // Background color (orangish similar to ECEB)
         Red = 8'hf3;
         Green = 8'h69;
@@ -107,17 +112,28 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
           Green = 8'h80;
           Blue = 8'h80;
         end
-        if(DrawX >= shape_x && DrawX < shape_x+shape_size_x &&
-           DrawY >= shape_y && DrawY < shape_y+shape_size_y)
+        if(is_font)
         begin
-          sprite_addr = (DrawY-shape_y + 16 * 11'h48);
-            if(sprite_data[DrawX - shape_x] == 1'b1)
-            begin
-              Red = 8'h00;
-              Green = 8'hff;
-              Blue = 8'hff;
-            end
+          Red = fontR;
+          Green = fontG;
+          Blue = fontB;
         end
+      end // end of in-game screen printing
+
+      if(event_screen == 2'd2) // End Game (Win) Screen
+      begin
+        Red = DrawX[7:0];
+        Green = 8'hff;
+        Blue = DrawY[7:0];
+      end
+
+      if(event_screen == 2'd3) // End Game (Lose) Screen
+      begin
+        Red = 8'hff;
+        Green = 8'hff;
+        Blue = 8'hff;
+      end
+
     end
     SpriteTable_S SpriteTable_S_inst(.Clk(Clk), .ShooterFace(ShooterFace), .ShooterX(ShooterX), .ShooterY(ShooterY), .DrawX(DrawX), .DrawY(DrawY),
                                      .is_shooter(is_shooter), .SpriteR(SpriteR), .SpriteG(SpriteG), .SpriteB(SpriteB));
@@ -127,4 +143,14 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                                     .Zombie2Face(Zombie2Face), .Zombie2X(Zombie2X), .Zombie2Y(Zombie2Y),
                                     .zombie_0_live, .zombie_1_live, .zombie_2_live,
                                     .is_zombie(is_zombie), .SpriteR(ZombieR), .SpriteG(ZombieG), .SpriteB(ZombieB));
+
+   SpriteTable_F SpriteTable_F_inst (
+                        // inputs
+                        .Clk(Clk), .DrawX(DrawX), .DrawY(DrawY),
+                        .fontX(10'd256),.fontY(10'd16), // String's starting x,y coordinates
+                        .level(8'b1), // 1 indexed
+                        // Outputs
+                        .is_font,
+                        .fontR, .fontG, .fontB
+                        );
 endmodule
