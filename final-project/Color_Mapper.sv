@@ -24,11 +24,10 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                        input  logic [1:0] Zombie1Face,         // Direction Shooter is facing
                        input  logic [9:0] Zombie2X, Zombie2Y, // Current location of shooter (upper left pixel)
                        input  logic [1:0] Zombie2Face,         // Direction Shooter is facing
-
+                       input  logic zombie_0_live, zombie_1_live, zombie_2_live,
                        input  logic [0:14][0:19][0:1] barrier,     // barrier
                        input  logic [1:0] event_screen,
                        input  logic is_ball,
-                       output logic hit,
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );
 
@@ -105,5 +104,6 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                                     .Zombie0Face(Zombie0Face), .Zombie0X(Zombie0X), .Zombie0Y(Zombie0Y),
                                     .Zombie1Face(Zombie1Face), .Zombie1X(Zombie1X), .Zombie1Y(Zombie1Y),
                                     .Zombie2Face(Zombie2Face), .Zombie2X(Zombie2X), .Zombie2Y(Zombie2Y),
+                                    .zombie_0_live, .zombie_1_live, .zombie_2_live,
                                     .is_zombie(is_zombie), .SpriteR(ZombieR), .SpriteG(ZombieG), .SpriteB(ZombieB));
 endmodule

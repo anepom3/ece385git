@@ -2,6 +2,7 @@ module SpriteTable_Z (
                          input Clk,
                          input [1:0] Zombie0Face, Zombie1Face, Zombie2Face,
                          input [9:0] Zombie0X, Zombie0Y, Zombie1X, Zombie1Y, Zombie2X, Zombie2Y,
+                         input zombie_0_live, zombie_1_live, zombie_2_live,
                          input [9:0] DrawX, DrawY,
                          output logic is_zombie,
                          output logic [7:0] SpriteR, SpriteG, SpriteB
@@ -18,22 +19,26 @@ module SpriteTable_Z (
 	 SpriteB = 8'hff;
    face_sel = 2'b00;
    read_address_comb = 10'd0;
+   is_zombie = 1'b0;
     if((DrawX >= Zombie0X) && (DrawX < Zombie0X + 32) && (DrawY >= Zombie0Y) && (DrawY < Zombie0Y + 32))
     begin
       read_address_comb = ((DrawY - Zombie0Y) << 5) + (DrawX - Zombie0X);
-      is_zombie = 1;
+      if(zombie_0_live)
+        is_zombie = 1'b1;
       face_sel = Zombie0Face;
     end
     else if((DrawX >= Zombie1X) && (DrawX < Zombie1X + 32) && (DrawY >= Zombie1Y) && (DrawY < Zombie1Y + 32))
     begin
       read_address_comb = ((DrawY - Zombie1Y) << 5) + (DrawX - Zombie1X);
-      is_zombie = 1;
+      if(zombie_1_live)
+        is_zombie = 1'b1;
       face_sel = Zombie1Face;
     end
     else if((DrawX >= Zombie2X) && (DrawX < Zombie2X + 32) && (DrawY >= Zombie2Y) && (DrawY < Zombie2Y + 32))
     begin
       read_address_comb = ((DrawY - Zombie2Y) << 5) + (DrawX - Zombie2X);
-      is_zombie = 1;
+      if(zombie_2_live)
+        is_zombie = 1'b1;
       face_sel = Zombie2Face;
     end
     else

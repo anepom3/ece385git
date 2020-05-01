@@ -86,20 +86,20 @@ module Zombie ( input logic Clk, Reset, frame_clk,
     ZombieFace_in = ZombieFace;
     is_alive_comb_in = is_alive_comb;
     Spawn_Countdown_in = Spawn_Countdown; // Causes it to stay at 0
-    if((Spawn_Countdown > 10'd0) && !is_alive_comb)
-    begin
-      Spawn_Countdown_in = Spawn_Countdown - 1;
-      if(Spawn_Countdown == 10'd1)
-        begin
-          Zombie_X_Pos_in = Zombie_Spawn_X;
-          Zombie_Y_Pos_in = Zombie_Spawn_Y;
-          is_alive_comb_in = 1;
-        end
-    end
 
     // Update position and motion only at rising edge of frame clock
     if (frame_clk_rising_edge) // ~60Hz block of execution
     begin // begin of rising edge of frame_clk
+      if((Spawn_Countdown > 10'd0) && !is_alive_comb)
+      begin
+        Spawn_Countdown_in = Spawn_Countdown - 10'd1;
+        if(Spawn_Countdown == 10'd1)
+          begin
+            Zombie_X_Pos_in = Zombie_Spawn_X;
+            Zombie_Y_Pos_in = Zombie_Spawn_Y;
+            is_alive_comb_in = 1'b1;
+          end
+      end
       if(is_dead) // if zombie has died, move to off screen and stop printing it
       begin
         Zombie_X_Pos_in = 10'd0;
