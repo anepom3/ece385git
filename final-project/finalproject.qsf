@@ -211,6 +211,7 @@ set_location_assignment PIN_R6 -to DRAM_ADDR[0]
 set_location_assignment PIN_D5 -to OTG_INT
 set_location_assignment PIN_B3 -to OTG_RD_N
 set_location_assignment PIN_A4 -to OTG_WR_N
+set_global_assignment -name SYSTEMVERILOG_FILE font_rom.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ram_Z_UP.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ram_Z_RIGHT.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ram_Z_LEFT.sv
