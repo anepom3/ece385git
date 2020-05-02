@@ -209,7 +209,7 @@ module Game_state (input logic Clk, Reset_h, Play,
       endcase
 
       if(Next_State != State)
-        new_level = 1;
+        new_level = 1'b1;
     end
 
 endmodule

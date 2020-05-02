@@ -5,7 +5,8 @@ module Zombie ( input logic Clk, Reset, frame_clk,
                 input logic [9:0] Zombie_Spawn_X, Zombie_Spawn_Y,
                 input logic [9:0] delay_spawn, Zombie_Speed,
                 input logic is_dead, // from collisions.sv file
-
+                inout logic new_level,
+                output logic is_killed,
                 output logic [9:0] ZombieX, ZombieY,
                 output logic [1:0] ZombieFace,
                 output logic is_alive
@@ -54,6 +55,18 @@ module Zombie ( input logic Clk, Reset, frame_clk,
           ZombieFace <= 2'b00;
           is_alive_comb <= 1'b0; // Eventually should be 0
           Spawn_Countdown <= delay_spawn;
+          is_killed <= 1'b0;
+      end
+      else if (new_level)
+      begin
+          Zombie_X_Pos <= Zombie_X_Init;
+          Zombie_Y_Pos <= Zombie_Y_Init;
+          Zombie_X_Motion <= 10'd0;
+          Zombie_Y_Motion <= 10'd0;
+          ZombieFace <= 2'b00;
+          is_alive_comb <= 1'b0; // Eventually should be 0
+          Spawn_Countdown <= delay_spawn;
+          is_killed <= 1'b0;
       end
       else
       begin // Update registers.
@@ -64,6 +77,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
           ZombieFace <= ZombieFace_in;
           is_alive_comb <= is_alive_comb_in;
           Spawn_Countdown <= Spawn_Countdown_in;
+          is_killed <= is_killed_comb;
       end
   end
   //////// Do not modify the always_ff blocks. ////////
@@ -86,6 +100,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
     ZombieFace_in = ZombieFace;
     is_alive_comb_in = is_alive_comb;
     Spawn_Countdown_in = Spawn_Countdown; // Causes it to stay at 0
+    is_killed_comb = is_killed;
 
     // Update position and motion only at rising edge of frame clock
     if (frame_clk_rising_edge) // ~60Hz block of execution
@@ -102,6 +117,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
       end
       if(is_dead) // if zombie has died, move to off screen and stop printing it
       begin
+        is_killed_comb = 1'b1;
         Zombie_X_Pos_in = 10'd0;
         Zombie_Y_Pos_in = 10'd0;
         is_alive_comb_in = 1'b0;

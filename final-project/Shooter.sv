@@ -2,6 +2,7 @@
 module Shooter (input logic Clk, Reset, frame_clk,
                 input logic [2:0] ShooterMove,
                 input logic [0:14][0:19][0:1] barrier,
+                input logic new_level,
                 output logic [9:0] ShooterX, ShooterY,
                 output logic [1:0] ShooterFace
   );
@@ -39,6 +40,14 @@ module Shooter (input logic Clk, Reset, frame_clk,
           Shooter_X_Motion <= 10'd0;
           Shooter_Y_Motion <= 10'd0;
           ShooterFace <= 2'b00;
+      end
+      else if (new_level)
+      begin
+        Shooter_X_Pos <= Shooter_X_Center;
+        Shooter_Y_Pos <= Shooter_Y_Center;
+        Shooter_X_Motion <= 10'd0;
+        Shooter_Y_Motion <= 10'd0;
+        ShooterFace <= 2'b00;
       end
       else
       begin
