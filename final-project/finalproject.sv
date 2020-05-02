@@ -71,6 +71,10 @@ module finalproject( input               CLOCK_50,
     logic new_level;
     logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed;
     logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn;
+
+    logic enemies;
+    logic [7:0] score;
+
     assign Clk = CLOCK_50;
 
     always_ff @ (posedge Clk) begin
@@ -221,9 +225,12 @@ module finalproject( input               CLOCK_50,
                                 .VGA_R, .VGA_G, .VGA_B);
     Barrier barriers (.level_sel(1'b0), .barrier(barrier));
 
+    Enemies enemies_inst (.zombie_dead_0, .zombie_dead_1, zombie_dead_2,
+                          .enemies, .score);
+
     Game_state states(
                       .Clk, .Reset_h, .Play,
-                      .enemies(1'b1), .player_health(4'd1),
+                      .enemies, .player_health(4'd1),
                       .level,
                       .event_screen,
                       .new_level
