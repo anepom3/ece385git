@@ -5,7 +5,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
                 input logic [9:0] Zombie_Spawn_X, Zombie_Spawn_Y,
                 input logic [9:0] delay_spawn, Zombie_Speed,
                 input logic is_dead, // from collisions.sv file
-                inout logic new_level,
+                input logic new_level,
                 output logic is_killed,
                 output logic [9:0] ZombieX, ZombieY,
                 output logic [1:0] ZombieFace,
@@ -28,6 +28,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
   logic [9:0] Zombie_to_Shooter_X, Zombie_to_Shooter_Y;
   logic [1:0] ZombieFace_in;
   logic is_alive_comb, is_alive_comb_in;
+  logic is_killed_comb;
   // logic is_dead_comb;
   logic [9:0] Spawn_Countdown, Spawn_Countdown_in;
 
@@ -46,7 +47,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
   // Update registers
   always_ff @ (posedge Clk)
   begin
-      if (Reset)
+      if (Reset | new_level)
       begin
           Zombie_X_Pos <= Zombie_X_Init;
           Zombie_Y_Pos <= Zombie_Y_Init;
@@ -57,17 +58,17 @@ module Zombie ( input logic Clk, Reset, frame_clk,
           Spawn_Countdown <= delay_spawn;
           is_killed <= 1'b0;
       end
-      else if (new_level)
-      begin
-          Zombie_X_Pos <= Zombie_X_Init;
-          Zombie_Y_Pos <= Zombie_Y_Init;
-          Zombie_X_Motion <= 10'd0;
-          Zombie_Y_Motion <= 10'd0;
-          ZombieFace <= 2'b00;
-          is_alive_comb <= 1'b0; // Eventually should be 0
-          Spawn_Countdown <= delay_spawn;
-          is_killed <= 1'b0;
-      end
+      // else if (new_level)
+      // begin
+      //     Zombie_X_Pos <= Zombie_X_Init;
+      //     Zombie_Y_Pos <= Zombie_Y_Init;
+      //     Zombie_X_Motion <= 10'd0;
+      //     Zombie_Y_Motion <= 10'd0;
+      //     ZombieFace <= 2'b00;
+      //     is_alive_comb <= 1'b0; // Eventually should be 0
+      //     Spawn_Countdown <= delay_spawn;
+      //     is_killed <= 1'b0;
+      // end
       else
       begin // Update registers.
           Zombie_X_Pos <= Zombie_X_Pos_in;

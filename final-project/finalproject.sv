@@ -16,7 +16,7 @@
 
 module finalproject( input               CLOCK_50,
              input        [3:0]  KEY,          //bit 0 is set up as Reset
-             output logic [6:0]  HEX0, HEX1, HEX2, HEX3,
+             output logic [6:0]  HEX0, HEX1, HEX2, HEX3, HEX4, HEX5,
              // VGA Interface
              output logic [7:0]  VGA_R,        //VGA Red
                                  VGA_G,        //VGA Green
@@ -58,6 +58,7 @@ module finalproject( input               CLOCK_50,
     logic [1:0] Zombie0Face_comb, Zombie1Face_comb, Zombie2Face_comb;
     logic zombie_0_live, zombie_1_live, zombie_2_live;
     logic zombie_dead_0, zombie_dead_1, zombie_dead_2;
+    logic zombie_0_is_killed, zombie_1_is_killed, zombie_2_is_killed;
 
     logic is_shot_comb;
     logic is_ball_comb;
@@ -67,7 +68,7 @@ module finalproject( input               CLOCK_50,
     logic [0:14][0:19][0:1] barrier;
     logic [3:0] level;
     logic [1:0] event_screen;
-    logic [3:0] enemies, player_health;
+    logic [3:0] player_health;
     logic new_level;
     logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed;
     logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn;
@@ -147,29 +148,35 @@ module finalproject( input               CLOCK_50,
     // VGA vertical sync is used as frame clk.
     Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
                          .ShooterMove(ShooterMove_comb),.barrier,
-                         .new_level,
+
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ShooterFace(ShooterFace_comb));
-
+    // Top-left
     Zombie zombie_0_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd96),
-                         .delay_spawn(zombie_0_delay_spawn), .Zombie_Speed(zombie_0_speed),
-                         .new_level, .is_dead(zombie_dead_0),
+                         .delay_spawn(10'd100), .Zombie_Speed(10'd1),
+                         .new_level,
+                         .is_dead(zombie_dead_0), .is_killed(zombie_0_is_killed),
                          .ZombieX(ZombieX0_comb), .ZombieY(ZombieY0_comb),
                          .ZombieFace(Zombie0Face_comb), .is_alive(zombie_0_live));
+
+    // Top-right
     Zombie zombie_1_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                         .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd96),
-                        .delay_spawn(zombie_1_delay_spawn), .Zombie_Speed(zombie_1_speed),
-                        .new_level, .is_dead(zombie_dead_1),
+                        .new_level,
+                        .delay_spawn(10'd600), .Zombie_Speed(10'd2),
+                        .is_dead(zombie_dead_1), .is_killed(zombie_1_is_killed),
                         .ZombieX(ZombieX1_comb), .ZombieY(ZombieY1_comb),
                         .ZombieFace(Zombie1Face_comb), .is_alive(zombie_1_live));
+    // Bottom-left
     Zombie zombie_2_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd384),
+                         .new_level,
                          .delay_spawn(zombie_2_delay_spawn), .Zombie_Speed(zombie_2_speed),
-                         .new_level, .is_dead(zombie_dead_2),
+                         .is_dead(zombie_dead_2), .is_killed(zombie_2_is_killed),
                          .ZombieX(ZombieX2_comb), .ZombieY(ZombieY2_comb),
                          .ZombieFace(Zombie2Face_comb), .is_alive(zombie_2_live));
 
@@ -225,22 +232,26 @@ module finalproject( input               CLOCK_50,
                                 .VGA_R, .VGA_G, .VGA_B);
     Barrier barriers (.level_sel(1'b0), .barrier(barrier));
 
-    Enemies enemies_inst (.zombie_dead_0, .zombie_dead_1, zombie_dead_2,
-                          .enemies, .score);
+    // Enemies enemies_inst (.zombie_killed_0(zombie_0_is_killed), .zombie_killed_1(zombie_1_is_killed), .zombie_killed_2(zombie_2_is_killed),
+    //                       .enemies, .score);
+
+    assign enemies = ~(zombie_0_is_killed & zombie_1_is_killed & zombie_2_is_killed);
 
     Game_state states(
                       .Clk, .Reset_h, .Play,
                       .enemies, .player_health(4'd1),
                       .level,
                       .event_screen,
-                      .new_level
+                      .new_level,
                       .zombie_0_speed, .zombie_1_speed, .zombie_2_speed,
-                      .zombie_0_delay_spawn, .zombie_1_delay_spawn, .zombie_2_delay_spawn,);
+                      .zombie_0_delay_spawn, .zombie_1_delay_spawn, .zombie_2_delay_spawn);
 
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode_0[3:0], HEX0);
     HexDriver hex_inst_1 (keycode_0[7:4], HEX1);
     HexDriver hex_inst_2 (keycode_1[3:0], HEX2);
     HexDriver hex_inst_3 (keycode_1[7:4], HEX3);
+    HexDriver enemies_test ({3'b0,enemies}, HEX4);
+    HexDriver is_killed_test ({3'b0,1'b1}, HEX5);
 
 endmodule

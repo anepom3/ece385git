@@ -39,11 +39,11 @@ module Game_state (input logic Clk, Reset_h, Play,
       level = 4'd0; // Level 1 begins at level = 0001 (i.e. 1 index)
       event_screen = 2'd0; // 00 -Title, 01 - Play, 10 - Win, 11 - Game_Over
       new_level = 0;
-      zombie_0_delay_spawn=10'd0;
+      zombie_0_delay_spawn=10'd2;
       zombie_0_speed=10'd0;
-      zombie_1_delay_spawn=10'd0;
+      zombie_1_delay_spawn=10'd2;
       zombie_1_speed=10'd0;
-      zombie_2_delay_spawn=10'd0;
+      zombie_2_delay_spawn=10'd2;
       zombie_2_speed=10'd0;
 
 
@@ -127,7 +127,7 @@ module Game_state (input logic Clk, Reset_h, Play,
         Win:
           begin
             if(Play)
-              Next_State = Title;
+              Next_State = Level_1;
           end
         Game_Over:
           begin

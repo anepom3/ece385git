@@ -101,14 +101,10 @@ module region (input logic  [9:0] DrawX, DrawY,
               );
   parameter [10:0] shape_size_x = 11'd8;
   parameter [10:0] shape_size_y = 11'd16;
-  logic [9:0] lower_index;
-  logic [9:0] top_index;
 
   always_comb begin
     current_x = fontX + (index<<3); // index * 8
     region = 1'b0;
-    lower_index = index<<3;
-    top_index = (index<<3) + 11'd7;
     if(DrawX >= current_x && DrawX < current_x + shape_size_x &&
        DrawY >= fontY && DrawY < fontY + shape_size_y)
        begin
