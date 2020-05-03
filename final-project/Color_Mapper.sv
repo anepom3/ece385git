@@ -27,6 +27,7 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                        input  logic zombie_0_live, zombie_1_live, zombie_2_live,
                        input  logic [0:14][0:19][0:1] barrier,     // barrier
                        input  logic [1:0] event_screen,
+                       input  logic [3:0] level,
                        input  logic is_ball,
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );

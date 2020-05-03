@@ -1,4 +1,4 @@
-module Barrier ( input level_sel,
+module Barrier ( input [3:0] level_sel,
                  output logic [0:14][0:19][0:1] barrier // include [0:1] --> ...[0:19][0:1] barrier
   );
 
@@ -26,7 +26,7 @@ module Barrier ( input level_sel,
     //   };
 
     case (level_sel)
-      0:
+      4'd1:
       barrier <=
         '{
         '{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -45,7 +45,7 @@ module Barrier ( input level_sel,
         '{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         '{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
-      1:
+      4'd2:
         barrier <=
           '{
           '{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},

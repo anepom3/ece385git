@@ -57,14 +57,14 @@ module Game_state (input logic Clk, Reset_h, Play,
         Level_1:
           begin
             if(enemies == 0)
-              Next_State = Win;
+              Next_State = Level_2;
             else if(player_health == 4'b0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_2:
           begin
             if(enemies == 0)
-              Next_State = Level_3;
+              Next_State = Win;
             else if(player_health == 4'b0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
@@ -140,14 +140,22 @@ module Game_state (input logic Clk, Reset_h, Play,
 
       // Assign Control signals based on State
       case (State)
-        Title:;
+        Title:
+          begin
+            zombie_0_delay_spawn=10'd100;
+            zombie_0_speed=10'd1;
+            zombie_1_delay_spawn=10'd250;
+            zombie_1_speed=10'd1;
+            zombie_2_delay_spawn=10'd300;
+            zombie_2_speed=10'd1;
+          end
         Level_1:
           begin
             level = 4'd1;
             event_screen = 2'd1;
             zombie_0_delay_spawn=10'd100;
             zombie_0_speed=10'd1;
-            zombie_1_delay_spawn=10'd250;
+            zombie_1_delay_spawn=10'd400;
             zombie_1_speed=10'd1;
             zombie_2_delay_spawn=10'd600;
             zombie_2_speed=10'd1;

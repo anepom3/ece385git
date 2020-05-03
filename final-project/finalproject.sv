@@ -151,7 +151,7 @@ module finalproject( input               CLOCK_50,
 
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ShooterFace(ShooterFace_comb));
-    // Top-left
+    // Top-left 1.66s
     Zombie zombie_0_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd96),
@@ -161,16 +161,16 @@ module finalproject( input               CLOCK_50,
                          .ZombieX(ZombieX0_comb), .ZombieY(ZombieY0_comb),
                          .ZombieFace(Zombie0Face_comb), .is_alive(zombie_0_live));
 
-    // Top-right
+    // Top-right 4.1s
     Zombie zombie_1_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                         .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd96),
                         .new_level,
-                        .delay_spawn(10'd600), .Zombie_Speed(10'd2),
+                        .delay_spawn(zombie_1_delay_spawn), .Zombie_Speed(10'd2),
                         .is_dead(zombie_dead_1), .is_killed(zombie_1_is_killed),
                         .ZombieX(ZombieX1_comb), .ZombieY(ZombieY1_comb),
                         .ZombieFace(Zombie1Face_comb), .is_alive(zombie_1_live));
-    // Bottom-left
+    // Bottom-left 5s
     Zombie zombie_2_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd384),
@@ -227,10 +227,11 @@ module finalproject( input               CLOCK_50,
                                 .is_ball(is_ball_comb),
                                 .barrier(barrier),
                                 .event_screen(event_screen),
+                                .level(level),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
 
                                 .VGA_R, .VGA_G, .VGA_B);
-    Barrier barriers (.level_sel(1'b0), .barrier(barrier));
+    Barrier barriers (.level_sel(level), .barrier(barrier));
 
     // Enemies enemies_inst (.zombie_killed_0(zombie_0_is_killed), .zombie_killed_1(zombie_1_is_killed), .zombie_killed_2(zombie_2_is_killed),
     //                       .enemies, .score);

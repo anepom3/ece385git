@@ -3,7 +3,7 @@ module SpriteTable_F (
                       input logic Clk,
                       input logic [9:0] DrawX,DrawY,
                       input logic [9:0] fontX,fontY, // String's starting x,y coordinates
-                      input logic [7:0] level, // 1 indexed
+                      input logic [3:0] level, // 1 indexed
 
                       // Outputs
                       output logic is_font,
