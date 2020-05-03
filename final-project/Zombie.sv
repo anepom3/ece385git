@@ -58,17 +58,6 @@ module Zombie ( input logic Clk, Reset, frame_clk,
           Spawn_Countdown <= delay_spawn;
           is_killed <= 1'b0;
       end
-      // else if (new_level)
-      // begin
-      //     Zombie_X_Pos <= Zombie_X_Init;
-      //     Zombie_Y_Pos <= Zombie_Y_Init;
-      //     Zombie_X_Motion <= 10'd0;
-      //     Zombie_Y_Motion <= 10'd0;
-      //     ZombieFace <= 2'b00;
-      //     is_alive_comb <= 1'b0; // Eventually should be 0
-      //     Spawn_Countdown <= delay_spawn;
-      //     is_killed <= 1'b0;
-      // end
       else
       begin // Update registers.
           Zombie_X_Pos <= Zombie_X_Pos_in;

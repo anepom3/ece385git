@@ -148,7 +148,7 @@ module finalproject( input               CLOCK_50,
     // VGA vertical sync is used as frame clk.
     Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
                          .ShooterMove(ShooterMove_comb),.barrier,
-
+                         .new_level,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ShooterFace(ShooterFace_comb));
     // Top-left 1.66s
