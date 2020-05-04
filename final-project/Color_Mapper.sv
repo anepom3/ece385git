@@ -149,7 +149,7 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                         // inputs
                         .Clk(Clk), .DrawX(DrawX), .DrawY(DrawY),
                         .fontX(10'd256),.fontY(10'd16), // String's starting x,y coordinates
-                        .level(8'b1), // 1 indexed
+                        .level(level), // 1 indexed
                         // Outputs
                         .is_font,
                         .fontR, .fontG, .fontB

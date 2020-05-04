@@ -253,6 +253,8 @@ module zombie_shooter (input logic [9:0]   ShooterX, ShooterY,
 
   logic shooter_take_damage_comb;
 
+  assign shooter_take_damage = shooter_take_damage_comb;
+
   always_comb begin
 
     Zombie_BR_X = ZombieX + Full;
@@ -276,26 +278,46 @@ module zombie_shooter (input logic [9:0]   ShooterX, ShooterY,
     Inner_3_X = ShooterX + Half + 10'd1;
     Inner_3_Y = ShooterY + Half + 10'd1;
 
+
+    /*
+    **** **** **** **** **** **** **** ****
+    **** **** **** **** **** **** **** ****
+    **** **** **** **** **** **** **** ****
+    **** **** **** **** **** **** **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** 0000 0000 0000 0000 **** ****
+    **** **** **** **** **** **** **** ****
+    **** **** **** **** **** **** **** ****
+    **** **** **** **** **** **** **** ****
+    **** **** **** **** **** **** **** ****
+    */
     shooter_take_damage_comb = 1'b0;
+    if((Zombie_TL_X >= ShooterX - Half) && (Zombie_TL_X <= ShooterX + Half) && (Zombie_TL_Y >= ShooterY - Half) && (Zombie_TL_Y <= ShooterY + Half))
+    begin
+      shooter_take_damage_comb = 1'b1;
+    end
 
-    shooter_take_damage = shooter_take_damage_comb;
-
-
-    if((Zombie_BR_X == Inner_0_X) && (Zombie_BR_Y == Inner_0_Y))
-    begin
-      shooter_take_damage_comb = 1'b1;
-    end
-    if((Zombie_TR_X == Inner_2_X) && (Zombie_TR_Y == Inner_2_Y))
-    begin
-      shooter_take_damage_comb = 1'b1;
-    end
-    if((Zombie_BL_X == Inner_1_X) && (Zombie_BL_Y == Inner_1_Y))
-    begin
-      shooter_take_damage_comb = 1'b1;
-    end
-    if((Zombie_TL_X == Inner_3_X) && (Zombie_TL_Y == Inner_3_Y))
-    begin
-      shooter_take_damage_comb = 1'b1;
-    end
+    // if((Zombie_BR_X == Inner_0_X) && (Zombie_BR_Y == Inner_0_Y))
+    // begin
+    //   shooter_take_damage_comb = 1'b1;
+    // end
+    // if((Zombie_TR_X == Inner_2_X) && (Zombie_TR_Y == Inner_2_Y))
+    // begin
+    //   shooter_take_damage_comb = 1'b1;
+    // end
+    // if((Zombie_BL_X == Inner_1_X) && (Zombie_BL_Y == Inner_1_Y))
+    // begin
+    //   shooter_take_damage_comb = 1'b1;
+    // end
+    // if((Zombie_TL_X == Inner_3_X) && (Zombie_TL_Y == Inner_3_Y))
+    // begin
+    //   shooter_take_damage_comb = 1'b1;
+    // end
   end
 endmodule // zombie_shooter

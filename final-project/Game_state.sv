@@ -64,7 +64,7 @@ module Game_state (input logic Clk, Reset_h, Play,
         Level_2:
           begin
             if(enemies == 0)
-              Next_State = Win;
+              Next_State = Level_3;
             else if(player_health == 4'b0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
@@ -131,7 +131,6 @@ module Game_state (input logic Clk, Reset_h, Play,
           end
         Game_Over:
           begin
-            Next_State = Title;
             if(Play)
               Next_State = Level_1;
           end

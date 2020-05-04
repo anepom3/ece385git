@@ -82,7 +82,7 @@ module SpriteTable_F (
       end
       default: ;
     endcase
-    sprite_addr = (DrawY-fontY + 16 * current_char);
+    sprite_addr = (DrawY-fontY + 11'd16 * current_char);
     if(sprite_data[current_x - DrawX] == 1'b1)
     begin
       fontR = 8'hff;

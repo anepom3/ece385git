@@ -64,6 +64,7 @@ module finalproject( input               CLOCK_50,
     logic is_ball_comb;
     logic remove_bullet_comb;
     logic bullet_status;
+    logic shooter_take_damage_comb;
 
     logic [0:14][0:19][0:1] barrier;
     logic [3:0] level;
@@ -77,6 +78,7 @@ module finalproject( input               CLOCK_50,
     logic [7:0] score;
 
     assign Clk = CLOCK_50;
+
 
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
@@ -208,7 +210,7 @@ module finalproject( input               CLOCK_50,
                                   .zombie_dead_6(),.zombie_dead_7(),.zombie_dead_8(),
                                   .zombie_dead_9(),
 
-                                  .shooter_take_damage());
+                                  .shooter_take_damage(shooter_take_damage_comb));
 
     KeycodeHandler keycodehandler_inst(.keycode0(keycode_0), .keycode1(keycode_1),
                                         .ShooterMove(ShooterMove_comb), .is_shot(is_shot_comb));
@@ -238,6 +240,8 @@ module finalproject( input               CLOCK_50,
 
     assign enemies = ~(zombie_0_is_killed & zombie_1_is_killed & zombie_2_is_killed);
 
+    assign player_health = {3'b0, ~shooter_take_damage_comb};
+
     Game_state states(
                       .Clk, .Reset_h, .Play,
                       .enemies, .player_health(4'd1),
@@ -252,7 +256,7 @@ module finalproject( input               CLOCK_50,
     HexDriver hex_inst_1 (keycode_0[7:4], HEX1);
     HexDriver hex_inst_2 (keycode_1[3:0], HEX2);
     HexDriver hex_inst_3 (keycode_1[7:4], HEX3);
-    HexDriver enemies_test ({3'b0,enemies}, HEX4);
-    HexDriver is_killed_test ({3'b0,1'b1}, HEX5);
+    HexDriver enemies_test (player_health, HEX4);
+    HexDriver is_killed_test (level, HEX5);
 
 endmodule
