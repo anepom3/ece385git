@@ -13,6 +13,7 @@ module SpriteTable_F (
 
 
   logic [56:0] level_string;
+  logic [56:0] health_string;
 
   logic [7:0] current_char;
   logic [10:0] current_x;
