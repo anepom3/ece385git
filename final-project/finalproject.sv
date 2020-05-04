@@ -151,6 +151,7 @@ module finalproject( input               CLOCK_50,
     Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
                          .ShooterMove(ShooterMove_comb),.barrier,
                          .new_level,
+                         // .shooter_take_damage(shooter_take_damage_comb), .player_health(player_health),
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ShooterFace(ShooterFace_comb));
     // Top-left 1.66s
@@ -230,6 +231,7 @@ module finalproject( input               CLOCK_50,
                                 .barrier(barrier),
                                 .event_screen(event_screen),
                                 .level(level),
+                                .player_health(player_health),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
 
                                 .VGA_R, .VGA_G, .VGA_B);

@@ -207,7 +207,7 @@ module Game_state (input logic Clk, Reset_h, Play,
             level = 4'd5;
             event_screen = 2'd1;
             // Speed values for Level 5
-            zombie_0_speed=10'd4;
+            zombie_0_speed=10'd2;
             zombie_1_speed=10'd2;
             zombie_2_speed=10'd3;
             // Delay Spawn Times for Level 6
@@ -221,8 +221,8 @@ module Game_state (input logic Clk, Reset_h, Play,
             event_screen = 2'd1;
             // Speed values for Level 6
             zombie_0_speed=10'd3;
-            zombie_1_speed=10'd3;
-            zombie_2_speed=10'd3;
+            zombie_1_speed=10'd2;
+            zombie_2_speed=10'd1;
             // Delay Spawn Times for Level 7
             zombie_0_delay_spawn=10'd100;
             zombie_1_delay_spawn=10'd100;
@@ -234,7 +234,7 @@ module Game_state (input logic Clk, Reset_h, Play,
             event_screen = 2'd1;
             // Speed values for Level 7
             zombie_0_speed=10'd3;
-            zombie_1_speed=10'd4;
+            zombie_1_speed=10'd2;
             zombie_2_speed=10'd3;
             // Delay Spawn Times for Level 8
             zombie_0_delay_spawn=10'd100;
@@ -247,8 +247,8 @@ module Game_state (input logic Clk, Reset_h, Play,
             event_screen = 2'd1;
             // Speed values for Level 8
             zombie_0_speed=10'd3;
-            zombie_1_speed=10'd4;
-            zombie_2_speed=10'd5;
+            zombie_1_speed=10'd3;
+            zombie_2_speed=10'd3;
             // Delay Spawn Times for Level 9
             zombie_0_delay_spawn=10'd100;
             zombie_1_delay_spawn=10'd100;
@@ -259,13 +259,13 @@ module Game_state (input logic Clk, Reset_h, Play,
             level = 4'd9;
             event_screen = 2'd1;
             // Speed values for Level 9
-            zombie_0_speed=10'd5;
-            zombie_1_speed=10'd5;
-            zombie_2_speed=10'd5;
+            zombie_0_speed=10'd3;
+            zombie_1_speed=10'd3;
+            zombie_2_speed=10'd3;
             // Delay Spawn Times for Level 10 (DNE)
             zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd200;
-            zombie_2_delay_spawn=10'd300;
+            zombie_1_delay_spawn=10'd100;
+            zombie_2_delay_spawn=10'd100;
           end
         // Level_10:
         //   begin

@@ -4,6 +4,7 @@ module SpriteTable_F (
                       input logic [9:0] DrawX,DrawY,
                       input logic [9:0] fontX,fontY, // String's starting x,y coordinates
                       input logic [3:0] level, // 1 indexed
+                      input logic [3:0] player_health,
 
                       // Outputs
                       output logic is_font,
@@ -12,6 +13,7 @@ module SpriteTable_F (
 
 
   logic [56:0] level_string;
+  logic [56:0] health_string;
 
   logic [7:0] current_char;
   logic [10:0] current_x;
@@ -37,6 +39,7 @@ module SpriteTable_F (
 
   // Implementation
   always_comb begin
+    health_string = {8'h48,8'h65,8'h61,8'h6c,8'h74,8'h68,8'h30+player_health};
 	  level_string = {8'h4c,8'h65,8'h76,8'h65,8'h6c,8'h20,8'h30+level};
     current_x = fontX;
     current_char = level_string[7:0];
