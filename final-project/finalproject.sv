@@ -230,6 +230,7 @@ module finalproject( input               CLOCK_50,
                                 .barrier(barrier),
                                 .event_screen(event_screen),
                                 .level(level),
+                                .player_health(player_health),
                                 .DrawX(DrawX_comb), .DrawY(DrawY_comb),
 
                                 .VGA_R, .VGA_G, .VGA_B);

@@ -28,6 +28,7 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                        input  logic [0:14][0:19][0:1] barrier,     // barrier
                        input  logic [1:0] event_screen,
                        input  logic [3:0] level,
+                       input  logic [3:0] player_health,
                        input  logic is_ball,
                        output logic [7:0] VGA_R, VGA_G, VGA_B // VGA RGB output
                      );
@@ -56,8 +57,8 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
       if(event_screen == 2'd0) //  Title Screen
       begin
         Red = 8'hff;
-        Green = DrawY[7:0];
-        Blue = DrawX[7:0];
+        Green = DrawY[9:2];
+        Blue = DrawX[9:2];
       end
 
       if(event_screen == 2'd1) // Gameplay screen
@@ -123,9 +124,9 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
 
       if(event_screen == 2'd2) // End Game (Win) Screen
       begin
-        Red = DrawX[7:0];
+        Red = DrawX[9:2];
         Green = 8'hff;
-        Blue = DrawY[7:0];
+        Blue = DrawY[9:2];
       end
 
       if(event_screen == 2'd3) // End Game (Lose) Screen
@@ -150,6 +151,7 @@ module  color_mapper ( input Clk, // Clk goes to Sprite Rendering modules for On
                         .Clk(Clk), .DrawX(DrawX), .DrawY(DrawY),
                         .fontX(10'd256),.fontY(10'd16), // String's starting x,y coordinates
                         .level(level), // 1 indexed
+                        .player_health(player_health), // health remaining
                         // Outputs
                         .is_font,
                         .fontR, .fontG, .fontB
