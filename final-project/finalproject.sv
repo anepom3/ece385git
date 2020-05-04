@@ -71,6 +71,7 @@ module finalproject( input               CLOCK_50,
     logic [1:0] event_screen;
     logic [3:0] player_health;
     logic new_level;
+    logic new_game;
     logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed;
     logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn;
 
@@ -150,8 +151,8 @@ module finalproject( input               CLOCK_50,
     // VGA vertical sync is used as frame clk.
     Shooter shooter_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
                          .ShooterMove(ShooterMove_comb),.barrier,
-                         .new_level,
-                         // .shooter_take_damage(shooter_take_damage_comb), .player_health(player_health),
+                         .new_level, .new_game,
+                         .shooter_take_damage(shooter_take_damage_comb), .player_health(player_health),
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ShooterFace(ShooterFace_comb));
     // Top-left 1.66s
@@ -242,14 +243,14 @@ module finalproject( input               CLOCK_50,
 
     assign enemies = ~(zombie_0_is_killed & zombie_1_is_killed & zombie_2_is_killed);
 
-    assign player_health = {3'b0, ~shooter_take_damage_comb};
+    // assign player_health = {3'b0, ~shooter_take_damage_comb};
 
     Game_state states(
                       .Clk, .Reset_h, .Play,
                       .enemies, .player_health(player_health),
                       .level,
                       .event_screen,
-                      .new_level,
+                      .new_level, .new_game,
                       .zombie_0_speed, .zombie_1_speed, .zombie_2_speed,
                       .zombie_0_delay_spawn, .zombie_1_delay_spawn, .zombie_2_delay_spawn);
 

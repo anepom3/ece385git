@@ -5,6 +5,7 @@ module Game_state (input logic Clk, Reset_h, Play,
                    output logic [3:0] level,
                    output logic [1:0] event_screen,
                    output logic new_level,
+                   output logic new_game,
                    output logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed,
                    output logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn
                   );
@@ -39,6 +40,7 @@ module Game_state (input logic Clk, Reset_h, Play,
       level = 4'd0; // Level 1 begins at level = 0001 (i.e. 1 index)
       event_screen = 2'd0; // 00 -Title, 01 - Play, 10 - Win, 11 - Game_Over
       new_level = 0;
+      new_game = 1'b0;
       zombie_0_delay_spawn=10'd2;
       zombie_0_speed=10'd0;
       zombie_1_delay_spawn=10'd2;
@@ -58,63 +60,63 @@ module Game_state (input logic Clk, Reset_h, Play,
           begin
             if(enemies == 0)
               Next_State = Level_2;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_2:
           begin
             if(enemies == 0)
               Next_State = Level_3;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_3:
           begin
             if(enemies == 0)
               Next_State = Level_4;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_4:
           begin
             if(enemies == 0)
               Next_State = Level_5;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_5:
           begin
             if(enemies == 0)
               Next_State = Level_6;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_6:
           begin
             if(enemies == 0)
               Next_State = Level_7;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_7:
           begin
             if(enemies == 0)
               Next_State = Level_8;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_8:
           begin
             if(enemies == 0)
               Next_State = Level_9;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         Level_9:
           begin
             if(enemies == 0)
               Next_State = Win;
-            else if(player_health == 4'b0) // adjust # of bits based on player_health
+            if(player_health == 4'd0) // adjust # of bits based on player_health
               Next_State = Game_Over;
           end
         // Level_10:
@@ -281,16 +283,34 @@ module Game_state (input logic Clk, Reset_h, Play,
         Win:
           begin
             event_screen = 2'd2;
+            // Generic Starting speed
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            // Delay Spawn Times for Level 1
+            zombie_0_delay_spawn=10'd100;
+            zombie_1_delay_spawn=10'd400;
+            zombie_2_delay_spawn=10'd600;
           end
         Game_Over:
           begin
             event_screen = 2'd3;
+            // Generic Starting speed
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            // Delay Spawn Times for Level 1
+            zombie_0_delay_spawn=10'd100;
+            zombie_1_delay_spawn=10'd400;
+            zombie_2_delay_spawn=10'd600;
           end
         default: ;
       endcase
 
       if(Next_State != State)
         new_level = 1'b1;
+      if((Next_State == Level_1) && (State != Level_1))
+        new_game = 1'b1;
     end
 
 endmodule
