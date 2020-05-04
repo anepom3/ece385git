@@ -244,7 +244,7 @@ module finalproject( input               CLOCK_50,
 
     Game_state states(
                       .Clk, .Reset_h, .Play,
-                      .enemies, .player_health(4'd1),
+                      .enemies, .player_health(player_health),
                       .level,
                       .event_screen,
                       .new_level,
