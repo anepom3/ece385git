@@ -3,25 +3,32 @@ module Shooter (input logic Clk, Reset, frame_clk,
                 input logic [2:0] ShooterMove,
                 input logic [0:14][0:19][0:1] barrier,
                 input logic new_level,
+                // input logic shooter_take_damage,
+                // output logic [3:0] player_health,
                 output logic [9:0] ShooterX, ShooterY,
                 output logic [1:0] ShooterFace
   );
 
-  parameter [9:0] Shooter_X_Center = 10'd303;  // Center position on the X axis (640/2 = 320-16 = 304)
+  parameter [9:0] Shooter_X_Center = 10'd304;  // Center position on the X axis (640/2 = 320-16 = 304)
   parameter [9:0] Shooter_Y_Center = 10'd224;  // Center position on the Y axis (480/2 = 240-16 = 224)
   parameter [9:0] Shooter_X_Min = 10'd32;       // Leftmost point on the X axis (20 + 12)
   parameter [9:0] Shooter_X_Max = 10'd575;     // Rightmost point on the X axis (639 - 20 - 12 - 32)
   parameter [9:0] Shooter_Y_Min = 10'd64;       // Topmost point on the Y axis (50 + 12)
   parameter [9:0] Shooter_Y_Max = 10'd415;     // Bottommost point on the Y axis (479 - 20 - 12 - 32)
-  parameter [9:0] Shooter_X_Step = 10'd5;      // Step size on the X axis
-  parameter [9:0] Shooter_Y_Step = 10'd5;      // Step size on the Y axis
+  parameter [9:0] Shooter_X_Step = 10'd4;      // Step size on the X axis
+  parameter [9:0] Shooter_Y_Step = 10'd4;      // Step size on the Y axis
+  // parameter [9:0] damage_reset_countdown_init = 10'd60;
+
 
   logic [9:0] Shooter_X_Pos, Shooter_X_Motion, Shooter_Y_Pos, Shooter_Y_Motion;
   logic [9:0] Shooter_X_Pos_in, Shooter_X_Motion_in, Shooter_Y_Pos_in, Shooter_Y_Motion_in;
   logic [1:0] ShooterFace_in;
+  // logic [9:0] damage_reset_countdown, damage_reset_countdown_in;
+  // logic [3:0] player_health_comb, player_health_comb_in;
 
   assign ShooterX = Shooter_X_Pos;
   assign ShooterY = Shooter_Y_Pos;
+  // assign player_health = player_health_comb;
 
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
@@ -40,6 +47,8 @@ module Shooter (input logic Clk, Reset, frame_clk,
           Shooter_X_Motion <= 10'd0;
           Shooter_Y_Motion <= 10'd0;
           ShooterFace <= 2'b00;
+          // player_health_comb <= 4'd9;
+          // damage_reset_countdown <= damage_reset_countdown_init; // ~1 sec delay for damage
       end
       else
       begin
@@ -48,6 +57,8 @@ module Shooter (input logic Clk, Reset, frame_clk,
           Shooter_X_Motion <= Shooter_X_Motion_in;
           Shooter_Y_Motion <= Shooter_Y_Motion_in;
           ShooterFace <= ShooterFace_in;
+          // player_health_comb <= player_health_comb_in;
+          // damage_reset_countdown <= damage_reset_countdown_in;
       end
   end
   //////// Do not modify the always_ff blocks. ////////
@@ -61,10 +72,20 @@ module Shooter (input logic Clk, Reset, frame_clk,
       Shooter_X_Motion_in = Shooter_X_Motion;
       Shooter_Y_Motion_in = Shooter_Y_Motion;
       ShooterFace_in = ShooterFace;
+      // player_health_comb_in = player_health_comb;
+      // damage_reset_countdown_in = damage_reset_countdown;
 
       // Update position and motion only at rising edge of frame clock
       if (frame_clk_rising_edge)
       begin
+
+          // if(damage_reset_countdown_in != 10'd0)
+          //   damage_reset_countdown_in = damage_reset_countdown_in - 1;
+          // if((shooter_take_damage) && (damage_reset_countdown_in == 10'd0))
+          // begin
+          //   player_health_comb_in = player_health_comb_in - 1;
+          //   damage_reset_countdown_in = damage_reset_countdown_init;
+          // end
 
           // ShooterMove
           // 0 - no movement
