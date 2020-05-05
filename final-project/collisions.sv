@@ -144,7 +144,7 @@ module collisions (
         && (BulletY >= ZombieY_3) && (BulletY <= Zombie_Y_Max_3))
         begin
           remove_bullet = 1'b1;
-          zombie_dead_4 = 1'b1;
+          zombie_dead_3 = 1'b1;
         end
       // If Bullet is hitting zombie_4
       if((BulletX >= ZombieX_4) && (BulletX <= Zombie_X_Max_4)

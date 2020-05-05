@@ -205,7 +205,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
           // Barrier cases:
           if(Zombie_X_Motion == Zombie_X_Step) // Moving Right.
             begin
-              if((barrier[Zombie_Y_Pos>>5][(Zombie_X_Pos+Zombie_X_Motion+32)>>5] == 0) && (barrier[(Zombie_Y_Pos+32)>>5][(Zombie_X_Pos+Zombie_X_Motion+32)>>5] == 0))
+              if((barrier[Zombie_Y_Pos>>5][(Zombie_X_Pos+Zombie_X_Motion+31)>>5] == 0) && (barrier[(Zombie_Y_Pos+31)>>5][(Zombie_X_Pos+Zombie_X_Motion+31)>>5] == 0))
               begin
                 Zombie_X_Pos_in = Zombie_X_Pos + Zombie_X_Motion;
                 Zombie_Y_Pos_in = Zombie_Y_Pos + Zombie_Y_Motion;
@@ -213,7 +213,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
             end
             else if (Zombie_X_Motion == (~(Zombie_X_Step) + 1'b1)) // Moving Left.
             begin
-              if((barrier[Zombie_Y_Pos>>5][(Zombie_X_Pos+Zombie_X_Motion)>>5] == 0) && (barrier[(Zombie_Y_Pos+32)>>5][(Zombie_X_Pos+Zombie_X_Motion)>>5] == 0))
+              if((barrier[Zombie_Y_Pos>>5][(Zombie_X_Pos+Zombie_X_Motion)>>5] == 0) && (barrier[(Zombie_Y_Pos+31)>>5][(Zombie_X_Pos+Zombie_X_Motion)>>5] == 0))
               begin
                 Zombie_X_Pos_in = Zombie_X_Pos + Zombie_X_Motion;
                 Zombie_Y_Pos_in = Zombie_Y_Pos + Zombie_Y_Motion;
@@ -221,7 +221,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
             end
             else if(Zombie_Y_Motion == Zombie_Y_Step) // Moving Down.
             begin
-              if((barrier[(Zombie_Y_Pos+Zombie_Y_Motion+32)>>5][Zombie_X_Pos>>5] == 0) && (barrier[(Zombie_Y_Pos+Zombie_Y_Motion+32)>>5][(Zombie_X_Pos+32)>>5] == 0))
+              if((barrier[(Zombie_Y_Pos+Zombie_Y_Motion+31)>>5][Zombie_X_Pos>>5] == 0) && (barrier[(Zombie_Y_Pos+Zombie_Y_Motion+31)>>5][(Zombie_X_Pos+31)>>5] == 0))
               begin
                 Zombie_X_Pos_in = Zombie_X_Pos + Zombie_X_Motion;
                 Zombie_Y_Pos_in = Zombie_Y_Pos + Zombie_Y_Motion;
@@ -229,7 +229,7 @@ module Zombie ( input logic Clk, Reset, frame_clk,
             end
             else if(Zombie_Y_Motion == (~(Zombie_Y_Step) + 1'b1)) // Moving Up.
             begin
-              if((barrier[(Zombie_Y_Pos+Zombie_Y_Motion)>>5][Zombie_X_Pos>>5] == 0) && (barrier[(Zombie_Y_Pos+Zombie_Y_Motion)>>5][(Zombie_X_Pos+32)>>5] == 0))
+              if((barrier[(Zombie_Y_Pos+Zombie_Y_Motion)>>5][Zombie_X_Pos>>5] == 0) && (barrier[(Zombie_Y_Pos+Zombie_Y_Motion)>>5][(Zombie_X_Pos+31)>>5] == 0))
               begin
                 Zombie_X_Pos_in = Zombie_X_Pos + Zombie_X_Motion;
                 Zombie_Y_Pos_in = Zombie_Y_Pos + Zombie_Y_Motion;

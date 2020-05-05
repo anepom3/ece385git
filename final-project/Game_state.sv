@@ -1,4 +1,4 @@
-module Game_state (input logic Clk, Reset_h, Play,
+module Game_state (input logic Clk, Reset_h, Play, Level_9_B,
                    // Place other inputs and outputs
                    input logic enemies,
                    input logic [3:0] player_health,
@@ -6,8 +6,10 @@ module Game_state (input logic Clk, Reset_h, Play,
                    output logic [1:0] event_screen,
                    output logic new_level,
                    output logic new_game,
-                   output logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed,
-                   output logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn
+                   output logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed, zombie_3_speed, zombie_4_speed,
+                   output logic [9:0] zombie_5_speed, zombie_6_speed, zombie_7_speed, zombie_8_speed, zombie_9_speed,
+                   output logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn, zombie_3_delay_spawn, zombie_4_delay_spawn,
+                   output logic [9:0] zombie_5_delay_spawn, zombie_6_delay_spawn, zombie_7_delay_spawn, zombie_8_delay_spawn, zombie_9_delay_spawn
                   );
 
     enum logic [3:0] {// Add additional states as needed...
@@ -47,6 +49,20 @@ module Game_state (input logic Clk, Reset_h, Play,
       zombie_1_speed=10'd0;
       zombie_2_delay_spawn=10'd2;
       zombie_2_speed=10'd0;
+      zombie_3_delay_spawn=10'd2;
+      zombie_3_speed=10'd0;
+      zombie_4_delay_spawn=10'd2;
+      zombie_4_speed=10'd0;
+      zombie_5_delay_spawn=10'd2;
+      zombie_5_speed=10'd0;
+      zombie_6_delay_spawn=10'd2;
+      zombie_6_speed=10'd0;
+      zombie_7_delay_spawn=10'd2;
+      zombie_7_speed=10'd0;
+      zombie_8_delay_spawn=10'd2;
+      zombie_8_speed=10'd0;
+      zombie_9_delay_spawn=10'd2;
+      zombie_9_speed=10'd0;
 
 
       // Assign Next_State based on State
@@ -147,10 +163,24 @@ module Game_state (input logic Clk, Reset_h, Play,
             zombie_0_speed=10'd1;
             zombie_1_speed=10'd1;
             zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd1;
+            zombie_8_speed=10'd1;
+            zombie_9_speed=10'd1;
             // Delay Spawn Times for Level 1
             zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd400;
-            zombie_2_delay_spawn=10'd600;
+            zombie_1_delay_spawn=10'd200;
+            zombie_2_delay_spawn=10'd300;
+            zombie_3_delay_spawn=10'd400;
+            zombie_4_delay_spawn=10'd500;
+            zombie_5_delay_spawn=10'd600;
+            zombie_6_delay_spawn=10'd700;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd900;
+            zombie_9_delay_spawn=10'd1000;
           end
         Level_1:
           begin
@@ -159,11 +189,25 @@ module Game_state (input logic Clk, Reset_h, Play,
             // Speed values for Level 1
             zombie_0_speed=10'd1;
             zombie_1_speed=10'd1;
-            zombie_2_speed=10'd2;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd1;
+            zombie_8_speed=10'd1;
+            zombie_9_speed=10'd1;
             // Delay Spawn Times for Level 2
             zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd400;
-            zombie_2_delay_spawn=10'd200;
+            zombie_1_delay_spawn=10'd200;
+            zombie_2_delay_spawn=10'd300;
+            zombie_3_delay_spawn=10'd400;
+            zombie_4_delay_spawn=10'd500;
+            zombie_5_delay_spawn=10'd600;
+            zombie_6_delay_spawn=10'd700;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd900;
+            zombie_9_delay_spawn=10'd1000;
           end
         Level_2:
           begin
@@ -171,90 +215,188 @@ module Game_state (input logic Clk, Reset_h, Play,
             event_screen = 2'd1;
             // Speed values for Level 2
             zombie_0_speed=10'd1;
-            zombie_1_speed=10'd2;
-            zombie_2_speed=10'd2;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd1;
+            zombie_8_speed=10'd1;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 3
-            zombie_0_delay_spawn=10'd150;
-            zombie_1_delay_spawn=10'd100;
-            zombie_2_delay_spawn=10'd300;
+            zombie_0_delay_spawn=10'd300;
+            zombie_1_delay_spawn=10'd400;
+            zombie_2_delay_spawn=10'd1000;
+            zombie_3_delay_spawn=10'd700;
+            zombie_4_delay_spawn=10'd200;
+            zombie_5_delay_spawn=10'd100;
+            zombie_6_delay_spawn=10'd900;
+            zombie_7_delay_spawn=10'd600;
+            zombie_8_delay_spawn=10'd500;
+            zombie_9_delay_spawn=10'd800;
           end
         Level_3:
           begin
             level = 4'd3;
             event_screen = 2'd1;
             // Speed values for Level 3
-            zombie_0_speed=10'd2;
+            zombie_0_speed=10'd1;
             zombie_1_speed=10'd1;
-            zombie_2_speed=10'd3;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd1;
+            zombie_8_speed=10'd2;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 4
-            zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd100;
-            zombie_2_delay_spawn=10'd300;
+            zombie_0_delay_spawn=10'd700;
+            zombie_1_delay_spawn=10'd800;
+            zombie_2_delay_spawn=10'd400;
+            zombie_3_delay_spawn=10'd300;
+            zombie_4_delay_spawn=10'd100;
+            zombie_5_delay_spawn=10'd1000;
+            zombie_6_delay_spawn=10'd500;
+            zombie_7_delay_spawn=10'd900;
+            zombie_8_delay_spawn=10'd200;
+            zombie_9_delay_spawn=10'd600;
           end
         Level_4:
           begin
             level = 4'd4;
             event_screen = 2'd1;
             // Speed values for Level 4
-            zombie_0_speed=10'd2;
-            zombie_1_speed=10'd2;
-            zombie_2_speed=10'd2;
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd2;
+            zombie_8_speed=10'd2;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 5
-            zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd150;
-            zombie_2_delay_spawn=10'd200;
+            zombie_0_delay_spawn=10'd800;
+            zombie_1_delay_spawn=10'd1000;
+            zombie_2_delay_spawn=10'd500;
+            zombie_3_delay_spawn=10'd700;
+            zombie_4_delay_spawn=10'd300;
+            zombie_5_delay_spawn=10'd600;
+            zombie_6_delay_spawn=10'd400;
+            zombie_7_delay_spawn=10'd200;
+            zombie_8_delay_spawn=10'd900;
+            zombie_9_delay_spawn=10'd100;
           end
         Level_5:
           begin
             level = 4'd5;
             event_screen = 2'd1;
             // Speed values for Level 5
-            zombie_0_speed=10'd2;
-            zombie_1_speed=10'd2;
-            zombie_2_speed=10'd3;
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd2;
+            zombie_7_speed=10'd2;
+            zombie_8_speed=10'd2;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 6
-            zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd200;
-            zombie_2_delay_spawn=10'd300;
+            zombie_0_delay_spawn=10'd200;
+            zombie_1_delay_spawn=10'd600;
+            zombie_2_delay_spawn=10'd100;
+            zombie_3_delay_spawn=10'd500;
+            zombie_4_delay_spawn=10'd400;
+            zombie_5_delay_spawn=10'd1000;
+            zombie_6_delay_spawn=10'd900;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd700;
+            zombie_9_delay_spawn=10'd300;
           end
         Level_6:
           begin
             level = 4'd6;
             event_screen = 2'd1;
             // Speed values for Level 6
-            zombie_0_speed=10'd3;
-            zombie_1_speed=10'd2;
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
             zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd2;
+            zombie_6_speed=10'd2;
+            zombie_7_speed=10'd2;
+            zombie_8_speed=10'd2;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 7
-            zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd100;
-            zombie_2_delay_spawn=10'd100;
+            zombie_0_delay_spawn=10'd200;
+            zombie_1_delay_spawn=10'd300;
+            zombie_2_delay_spawn=10'd500;
+            zombie_3_delay_spawn=10'd900;
+            zombie_4_delay_spawn=10'd700;
+            zombie_5_delay_spawn=10'd800;
+            zombie_6_delay_spawn=10'd100;
+            zombie_7_delay_spawn=10'd600;
+            zombie_8_delay_spawn=10'd400;
+            zombie_9_delay_spawn=10'd1000;
           end
         Level_7:
           begin
             level = 4'd7;
             event_screen = 2'd1;
             // Speed values for Level 7
-            zombie_0_speed=10'd3;
-            zombie_1_speed=10'd2;
-            zombie_2_speed=10'd3;
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd2;
+            zombie_5_speed=10'd2;
+            zombie_6_speed=10'd2;
+            zombie_7_speed=10'd2;
+            zombie_8_speed=10'd2;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 8
-            zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd150;
-            zombie_2_delay_spawn=10'd250;
+            zombie_0_delay_spawn=10'd500;
+            zombie_1_delay_spawn=10'd100;
+            zombie_2_delay_spawn=10'd900;
+            zombie_3_delay_spawn=10'd400;
+            zombie_4_delay_spawn=10'd200;
+            zombie_5_delay_spawn=10'd1000;
+            zombie_6_delay_spawn=10'd700;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd600;
+            zombie_9_delay_spawn=10'd300;
           end
         Level_8:
           begin
             level = 4'd8;
             event_screen = 2'd1;
             // Speed values for Level 8
-            zombie_0_speed=10'd3;
-            zombie_1_speed=10'd3;
-            zombie_2_speed=10'd3;
+            zombie_0_speed=10'd1;
+            zombie_1_speed=10'd1;
+            zombie_2_speed=10'd1;
+            zombie_3_speed=10'd2;
+            zombie_4_speed=10'd2;
+            zombie_5_speed=10'd2;
+            zombie_6_speed=10'd2;
+            zombie_7_speed=10'd2;
+            zombie_8_speed=10'd2;
+            zombie_9_speed=10'd2;
             // Delay Spawn Times for Level 9
-            zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd100;
-            zombie_2_delay_spawn=10'd200;
+            zombie_0_delay_spawn=10'd400;
+            zombie_1_delay_spawn=10'd600;
+            zombie_2_delay_spawn=10'd800;
+            zombie_3_delay_spawn=10'd100;
+            zombie_4_delay_spawn=10'd1000;
+            zombie_5_delay_spawn=10'd700;
+            zombie_6_delay_spawn=10'd900;
+            zombie_7_delay_spawn=10'd500;
+            zombie_8_delay_spawn=10'd200;
+            zombie_9_delay_spawn=10'd300;
           end
         Level_9:
           begin
@@ -262,12 +404,26 @@ module Game_state (input logic Clk, Reset_h, Play,
             event_screen = 2'd1;
             // Speed values for Level 9
             zombie_0_speed=10'd3;
-            zombie_1_speed=10'd3;
+            zombie_1_speed=10'd2;
             zombie_2_speed=10'd3;
+            zombie_3_speed=10'd2;
+            zombie_4_speed=10'd3;
+            zombie_5_speed=10'd3;
+            zombie_6_speed=10'd2;
+            zombie_7_speed=10'd3;
+            zombie_8_speed=10'd3;
+            zombie_9_speed=10'd3;
             // Delay Spawn Times for Level 10 (DNE)
             zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd100;
-            zombie_2_delay_spawn=10'd100;
+            zombie_1_delay_spawn=10'd200;
+            zombie_2_delay_spawn=10'd300;
+            zombie_3_delay_spawn=10'd400;
+            zombie_4_delay_spawn=10'd500;
+            zombie_5_delay_spawn=10'd600;
+            zombie_6_delay_spawn=10'd700;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd900;
+            zombie_9_delay_spawn=10'd1000;
           end
         // Level_10:
         //   begin
@@ -287,10 +443,24 @@ module Game_state (input logic Clk, Reset_h, Play,
             zombie_0_speed=10'd1;
             zombie_1_speed=10'd1;
             zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd1;
+            zombie_8_speed=10'd1;
+            zombie_9_speed=10'd1;
             // Delay Spawn Times for Level 1
             zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd400;
-            zombie_2_delay_spawn=10'd600;
+            zombie_1_delay_spawn=10'd200;
+            zombie_2_delay_spawn=10'd300;
+            zombie_3_delay_spawn=10'd400;
+            zombie_4_delay_spawn=10'd500;
+            zombie_5_delay_spawn=10'd600;
+            zombie_6_delay_spawn=10'd700;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd900;
+            zombie_9_delay_spawn=10'd1000;
           end
         Game_Over:
           begin
@@ -299,18 +469,35 @@ module Game_state (input logic Clk, Reset_h, Play,
             zombie_0_speed=10'd1;
             zombie_1_speed=10'd1;
             zombie_2_speed=10'd1;
+            zombie_3_speed=10'd1;
+            zombie_4_speed=10'd1;
+            zombie_5_speed=10'd1;
+            zombie_6_speed=10'd1;
+            zombie_7_speed=10'd1;
+            zombie_8_speed=10'd1;
+            zombie_9_speed=10'd1;
             // Delay Spawn Times for Level 1
             zombie_0_delay_spawn=10'd100;
-            zombie_1_delay_spawn=10'd400;
-            zombie_2_delay_spawn=10'd600;
+            zombie_1_delay_spawn=10'd200;
+            zombie_2_delay_spawn=10'd300;
+            zombie_3_delay_spawn=10'd400;
+            zombie_4_delay_spawn=10'd500;
+            zombie_5_delay_spawn=10'd600;
+            zombie_6_delay_spawn=10'd700;
+            zombie_7_delay_spawn=10'd800;
+            zombie_8_delay_spawn=10'd900;
+            zombie_9_delay_spawn=10'd1000;
           end
         default: ;
       endcase
 
+      if(Level_9_B)
+          Next_State = Level_9;
       if(Next_State != State)
         new_level = 1'b1;
       if((Next_State == Level_1) && (State != Level_1))
         new_game = 1'b1;
+
     end
 
 endmodule

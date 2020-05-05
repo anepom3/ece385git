@@ -149,7 +149,7 @@ module Shooter (input logic Clk, Reset, frame_clk,
           // update position only if location attempting to be moved to is not a barrier
           if(Shooter_X_Motion == Shooter_X_Step)
           begin
-            if((barrier[Shooter_Y_Pos>>5][(Shooter_X_Pos+Shooter_X_Motion+32)>>5] == 0) && (barrier[(Shooter_Y_Pos+32)>>5][(Shooter_X_Pos+Shooter_X_Motion+32)>>5] == 0))
+            if((barrier[Shooter_Y_Pos>>5][(Shooter_X_Pos+Shooter_X_Motion+31)>>5] == 0) && (barrier[(Shooter_Y_Pos+31)>>5][(Shooter_X_Pos+Shooter_X_Motion+31)>>5] == 0))
             begin
               Shooter_X_Pos_in = Shooter_X_Pos + Shooter_X_Motion;
               Shooter_Y_Pos_in = Shooter_Y_Pos + Shooter_Y_Motion;
@@ -157,7 +157,7 @@ module Shooter (input logic Clk, Reset, frame_clk,
           end
           else if (Shooter_X_Motion == (~(Shooter_X_Step) + 1'b1))
           begin
-            if((barrier[Shooter_Y_Pos>>5][(Shooter_X_Pos+Shooter_X_Motion)>>5] == 0) && (barrier[(Shooter_Y_Pos+32)>>5][(Shooter_X_Pos+Shooter_X_Motion)>>5] == 0))
+            if((barrier[Shooter_Y_Pos>>5][(Shooter_X_Pos+Shooter_X_Motion)>>5] == 0) && (barrier[(Shooter_Y_Pos+31)>>5][(Shooter_X_Pos+Shooter_X_Motion)>>5] == 0))
             begin
               Shooter_X_Pos_in = Shooter_X_Pos + Shooter_X_Motion;
               Shooter_Y_Pos_in = Shooter_Y_Pos + Shooter_Y_Motion;
@@ -165,7 +165,7 @@ module Shooter (input logic Clk, Reset, frame_clk,
           end
           else if(Shooter_Y_Motion == Shooter_Y_Step)
           begin
-            if((barrier[(Shooter_Y_Pos+Shooter_Y_Motion+32)>>5][Shooter_X_Pos>>5] == 0) && (barrier[(Shooter_Y_Pos+Shooter_Y_Motion+32)>>5][(Shooter_X_Pos+32)>>5] == 0))
+            if((barrier[(Shooter_Y_Pos+Shooter_Y_Motion+31)>>5][Shooter_X_Pos>>5] == 0) && (barrier[(Shooter_Y_Pos+Shooter_Y_Motion+31)>>5][(Shooter_X_Pos+31)>>5] == 0))
             begin
               Shooter_X_Pos_in = Shooter_X_Pos + Shooter_X_Motion;
               Shooter_Y_Pos_in = Shooter_Y_Pos + Shooter_Y_Motion;
@@ -173,7 +173,7 @@ module Shooter (input logic Clk, Reset, frame_clk,
           end
           else if(Shooter_Y_Motion == (~(Shooter_Y_Step) + 1'b1))
           begin
-            if((barrier[(Shooter_Y_Pos+Shooter_Y_Motion)>>5][Shooter_X_Pos>>5] == 0) && (barrier[(Shooter_Y_Pos+Shooter_Y_Motion)>>5][(Shooter_X_Pos+32)>>5] == 0))
+            if((barrier[(Shooter_Y_Pos+Shooter_Y_Motion)>>5][Shooter_X_Pos>>5] == 0) && (barrier[(Shooter_Y_Pos+Shooter_Y_Motion)>>5][(Shooter_X_Pos+31)>>5] == 0))
             begin
               Shooter_X_Pos_in = Shooter_X_Pos + Shooter_X_Motion;
               Shooter_Y_Pos_in = Shooter_Y_Pos + Shooter_Y_Motion;

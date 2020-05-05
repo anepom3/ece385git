@@ -47,18 +47,23 @@ module finalproject( input               CLOCK_50,
                                  DRAM_CLK      //SDRAM Clock
                     );
 
-    logic Reset_h, Clk, Play;
+    logic Reset_h, Clk, Play, Level_9;
     logic [7:0] keycode_0;
 	  logic [7:0] keycode_1;
     logic [9:0] ShooterX_comb, ShooterY_comb;
     logic [2:0] ShooterMove_comb;
     logic [9:0] BulletX_comb, BulletY_comb;
     logic [1:0] ShooterFace_comb;
-    logic [9:0] ZombieX0_comb, ZombieY0_comb, ZombieX1_comb, ZombieY1_comb, ZombieX2_comb, ZombieY2_comb;
-    logic [1:0] Zombie0Face_comb, Zombie1Face_comb, Zombie2Face_comb;
-    logic zombie_0_live, zombie_1_live, zombie_2_live;
-    logic zombie_dead_0, zombie_dead_1, zombie_dead_2;
-    logic zombie_0_is_killed, zombie_1_is_killed, zombie_2_is_killed;
+    logic [9:0] ZombieX0_comb, ZombieY0_comb, ZombieX1_comb, ZombieY1_comb, ZombieX2_comb, ZombieY2_comb, ZombieX3_comb, ZombieY3_comb, ZombieX4_comb, ZombieY4_comb;
+    logic [9:0] ZombieX5_comb, ZombieY5_comb, ZombieX6_comb, ZombieY6_comb, ZombieX7_comb, ZombieY7_comb, ZombieX8_comb, ZombieY8_comb, ZombieX9_comb, ZombieY9_comb;
+    logic [1:0] Zombie0Face_comb, Zombie1Face_comb, Zombie2Face_comb, Zombie3Face_comb, Zombie4Face_comb;
+    logic [1:0] Zombie5Face_comb, Zombie6Face_comb, Zombie7Face_comb, Zombie8Face_comb, Zombie9Face_comb;
+    logic zombie_0_live, zombie_1_live, zombie_2_live, zombie_3_live, zombie_4_live;
+    logic zombie_5_live, zombie_6_live, zombie_7_live, zombie_8_live, zombie_9_live;
+    logic zombie_dead_0, zombie_dead_1, zombie_dead_2, zombie_dead_3, zombie_dead_4;
+    logic zombie_dead_5, zombie_dead_6, zombie_dead_7, zombie_dead_8, zombie_dead_9;
+    logic zombie_0_is_killed, zombie_1_is_killed, zombie_2_is_killed, zombie_3_is_killed, zombie_4_is_killed;
+    logic zombie_5_is_killed, zombie_6_is_killed, zombie_7_is_killed, zombie_8_is_killed, zombie_9_is_killed;
 
     logic is_shot_comb;
     logic is_ball_comb;
@@ -72,8 +77,10 @@ module finalproject( input               CLOCK_50,
     logic [3:0] player_health;
     logic new_level;
     logic new_game;
-    logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed;
-    logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn;
+    logic [9:0] zombie_0_speed, zombie_1_speed, zombie_2_speed, zombie_3_speed, zombie_4_speed;
+    logic [9:0] zombie_5_speed, zombie_6_speed, zombie_7_speed, zombie_8_speed, zombie_9_speed;
+    logic [9:0] zombie_0_delay_spawn, zombie_1_delay_spawn, zombie_2_delay_spawn, zombie_3_delay_spawn, zombie_4_delay_spawn;
+    logic [9:0] zombie_5_delay_spawn, zombie_6_delay_spawn, zombie_7_delay_spawn, zombie_8_delay_spawn, zombie_9_delay_spawn;
 
     logic enemies;
     logic [7:0] score;
@@ -84,6 +91,7 @@ module finalproject( input               CLOCK_50,
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
         Play <= ~(KEY[1]);
+        Level_9 <= ~(KEY[2]);
     end
 
     logic [1:0] hpi_addr;
@@ -155,26 +163,25 @@ module finalproject( input               CLOCK_50,
                          .shooter_take_damage(shooter_take_damage_comb), .player_health(player_health),
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .ShooterFace(ShooterFace_comb));
-    // Top-left 1.66s
+    // Top-left
     Zombie zombie_0_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd96),
-                         .delay_spawn(10'd100), .Zombie_Speed(10'd1),
+                         .delay_spawn(zombie_0_delay_spawn), .Zombie_Speed(zombie_0_speed),
                          .new_level,
                          .is_dead(zombie_dead_0), .is_killed(zombie_0_is_killed),
                          .ZombieX(ZombieX0_comb), .ZombieY(ZombieY0_comb),
                          .ZombieFace(Zombie0Face_comb), .is_alive(zombie_0_live));
-
-    // Top-right 4.1s
+    // Top-right
     Zombie zombie_1_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                         .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                         .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd96),
                         .new_level,
-                        .delay_spawn(zombie_1_delay_spawn), .Zombie_Speed(10'd2),
+                        .delay_spawn(zombie_1_delay_spawn), .Zombie_Speed(zombie_1_speed),
                         .is_dead(zombie_dead_1), .is_killed(zombie_1_is_killed),
                         .ZombieX(ZombieX1_comb), .ZombieY(ZombieY1_comb),
                         .ZombieFace(Zombie1Face_comb), .is_alive(zombie_1_live));
-    // Bottom-left 5s
+    // Bottom-left
     Zombie zombie_2_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
                          .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
                          .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd384),
@@ -183,6 +190,70 @@ module finalproject( input               CLOCK_50,
                          .is_dead(zombie_dead_2), .is_killed(zombie_2_is_killed),
                          .ZombieX(ZombieX2_comb), .ZombieY(ZombieY2_comb),
                          .ZombieFace(Zombie2Face_comb), .is_alive(zombie_2_live));
+    // Bottom-Right
+    Zombie zombie_3_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd384),
+                        .new_level,
+                        .delay_spawn(zombie_3_delay_spawn), .Zombie_Speed(zombie_3_speed),
+                        .is_dead(zombie_dead_3), .is_killed(zombie_3_is_killed),
+                        .ZombieX(ZombieX3_comb), .ZombieY(ZombieY3_comb),
+                        .ZombieFace(Zombie3Face_comb), .is_alive(zombie_3_live));
+    // Left
+    Zombie zombie_4_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd64), .Zombie_Spawn_Y(10'd224),
+                        .new_level,
+                        .delay_spawn(zombie_4_delay_spawn), .Zombie_Speed(zombie_4_speed),
+                        .is_dead(zombie_dead_4), .is_killed(zombie_4_is_killed),
+                        .ZombieX(ZombieX4_comb), .ZombieY(ZombieY4_comb),
+                        .ZombieFace(Zombie4Face_comb), .is_alive(zombie_4_live));
+    // Right
+    Zombie zombie_5_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd544), .Zombie_Spawn_Y(10'd224),
+                        .new_level,
+                        .delay_spawn(zombie_5_delay_spawn), .Zombie_Speed(zombie_5_speed),
+                        .is_dead(zombie_dead_5), .is_killed(zombie_5_is_killed),
+                        .ZombieX(ZombieX5_comb), .ZombieY(ZombieY5_comb),
+                        .ZombieFace(Zombie5Face_comb), .is_alive(zombie_5_live));
+    // Middle-Top-Left
+    Zombie zombie_6_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd192), .Zombie_Spawn_Y(10'd96),
+                        .new_level,
+                        .delay_spawn(zombie_6_delay_spawn), .Zombie_Speed(zombie_6_speed),
+                        .is_dead(zombie_dead_6), .is_killed(zombie_6_is_killed),
+                        .ZombieX(ZombieX6_comb), .ZombieY(ZombieY6_comb),
+                        .ZombieFace(Zombie6Face_comb), .is_alive(zombie_6_live));
+    // Middle-Top-Right
+    Zombie zombie_7_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd416), .Zombie_Spawn_Y(10'd96),
+                        .new_level,
+                        .delay_spawn(zombie_7_delay_spawn), .Zombie_Speed(zombie_7_speed),
+                        .is_dead(zombie_dead_7), .is_killed(zombie_7_is_killed),
+                        .ZombieX(ZombieX7_comb), .ZombieY(ZombieY7_comb),
+                        .ZombieFace(Zombie7Face_comb), .is_alive(zombie_7_live));
+    // Middle-Bottom-Left
+    Zombie zombie_8_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd192), .Zombie_Spawn_Y(10'd384),
+                        .new_level,
+                        .delay_spawn(zombie_8_delay_spawn), .Zombie_Speed(zombie_8_speed),
+                        .is_dead(zombie_dead_8), .is_killed(zombie_8_is_killed),
+                        .ZombieX(ZombieX8_comb), .ZombieY(ZombieY8_comb),
+                        .ZombieFace(Zombie8Face_comb), .is_alive(zombie_8_live));
+    // Middle-Bottom-Right
+    Zombie zombie_9_inst(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),.barrier,
+                        .ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
+                        .Zombie_Spawn_X(10'd416), .Zombie_Spawn_Y(10'd384),
+                        .new_level,
+                        .delay_spawn(zombie_9_delay_spawn), .Zombie_Speed(zombie_9_speed),
+                        .is_dead(zombie_dead_9), .is_killed(zombie_9_is_killed),
+                        .ZombieX(ZombieX9_comb), .ZombieY(ZombieY9_comb),
+                        .ZombieFace(Zombie9Face_comb), .is_alive(zombie_9_live));
+
 
     ball ball_inst (.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS),
                     .DrawX(DrawX_comb), .DrawY(DrawY_comb),
@@ -197,9 +268,11 @@ module finalproject( input               CLOCK_50,
                     );
 
     collisions collisions_handler(.ShooterX(ShooterX_comb), .ShooterY(ShooterY_comb),
-                                  .ZombieX_0(ZombieX0_comb), .ZombieY_0(ZombieY0_comb),
-                                  .ZombieX_1(ZombieX1_comb), .ZombieY_1(ZombieY1_comb),
-                                  .ZombieX_2(ZombieX2_comb), .ZombieY_2(ZombieY2_comb),
+                                  .ZombieX_0(ZombieX0_comb), .ZombieY_0(ZombieY0_comb),.ZombieX_1(ZombieX1_comb), .ZombieY_1(ZombieY1_comb),
+                                  .ZombieX_2(ZombieX2_comb), .ZombieY_2(ZombieY2_comb),.ZombieX_3(ZombieX3_comb), .ZombieY_3(ZombieY3_comb),
+                                  .ZombieX_4(ZombieX4_comb), .ZombieY_4(ZombieY4_comb),.ZombieX_5(ZombieX5_comb), .ZombieY_5(ZombieY5_comb),
+                                  .ZombieX_6(ZombieX6_comb), .ZombieY_6(ZombieY6_comb),.ZombieX_7(ZombieX7_comb), .ZombieY_7(ZombieY7_comb),
+                                  .ZombieX_8(ZombieX8_comb), .ZombieY_8(ZombieY8_comb),.ZombieX_9(ZombieX9_comb), .ZombieY_9(ZombieY9_comb),
 
                                   .BulletX(BulletX_comb), .BulletY(BulletY_comb),
 
@@ -208,9 +281,8 @@ module finalproject( input               CLOCK_50,
                                   // Outputs
                                    .remove_bullet(remove_bullet_comb),
                                   .zombie_dead_0(zombie_dead_0), .zombie_dead_1(zombie_dead_1),.zombie_dead_2(zombie_dead_2),
-                                  .zombie_dead_3(),.zombie_dead_4(),.zombie_dead_5(),
-                                  .zombie_dead_6(),.zombie_dead_7(),.zombie_dead_8(),
-                                  .zombie_dead_9(),
+                                  .zombie_dead_3(zombie_dead_3),.zombie_dead_4(zombie_dead_4),.zombie_dead_5(zombie_dead_5),
+                                  .zombie_dead_6(zombie_dead_6),.zombie_dead_7(zombie_dead_7),.zombie_dead_8(zombie_dead_8),.zombie_dead_9(zombie_dead_9),
 
                                   .shooter_take_damage(shooter_take_damage_comb));
 
@@ -219,15 +291,18 @@ module finalproject( input               CLOCK_50,
 
     color_mapper color_instance(.Clk(Clk), .ShooterX(ShooterX_comb),.ShooterY(ShooterY_comb),
                                 .ShooterFace(ShooterFace_comb),
-                                .Zombie0X(ZombieX0_comb),.Zombie0Y(ZombieY0_comb),
-                                .Zombie1X(ZombieX1_comb),.Zombie1Y(ZombieY1_comb),
-                                .Zombie2X(ZombieX2_comb),.Zombie2Y(ZombieY2_comb),
-                                .Zombie0Face(Zombie0Face_comb),
-                                .Zombie1Face(Zombie1Face_comb),
-                                .Zombie2Face(Zombie2Face_comb),
-                                .zombie_0_live,
-                                .zombie_1_live,
-                                .zombie_2_live,
+                                .Zombie0X(ZombieX0_comb),.Zombie0Y(ZombieY0_comb), .Zombie1X(ZombieX1_comb),.Zombie1Y(ZombieY1_comb),
+                                .Zombie2X(ZombieX2_comb),.Zombie2Y(ZombieY2_comb), .Zombie3X(ZombieX3_comb),.Zombie3Y(ZombieY3_comb),
+                                .Zombie4X(ZombieX4_comb),.Zombie4Y(ZombieY4_comb), .Zombie5X(ZombieX5_comb),.Zombie5Y(ZombieY5_comb),
+                                .Zombie6X(ZombieX6_comb),.Zombie6Y(ZombieY6_comb), .Zombie7X(ZombieX7_comb),.Zombie7Y(ZombieY7_comb),
+                                .Zombie8X(ZombieX8_comb),.Zombie8Y(ZombieY8_comb), .Zombie9X(ZombieX9_comb),.Zombie9Y(ZombieY9_comb),
+                                .Zombie0Face(Zombie0Face_comb), .Zombie1Face(Zombie1Face_comb),
+                                .Zombie2Face(Zombie2Face_comb), .Zombie3Face(Zombie3Face_comb),
+                                .Zombie4Face(Zombie4Face_comb), .Zombie5Face(Zombie5Face_comb),
+                                .Zombie6Face(Zombie6Face_comb), .Zombie7Face(Zombie7Face_comb),
+                                .Zombie8Face(Zombie8Face_comb), .Zombie9Face(Zombie9Face_comb),
+                                .zombie_0_live, .zombie_1_live, .zombie_2_live, .zombie_3_live, .zombie_4_live,
+                                .zombie_5_live, .zombie_6_live, .zombie_7_live, .zombie_8_live, .zombie_9_live,
                                 .is_ball(is_ball_comb),
                                 .barrier(barrier),
                                 .event_screen(event_screen),
@@ -241,18 +316,20 @@ module finalproject( input               CLOCK_50,
     // Enemies enemies_inst (.zombie_killed_0(zombie_0_is_killed), .zombie_killed_1(zombie_1_is_killed), .zombie_killed_2(zombie_2_is_killed),
     //                       .enemies, .score);
 
-    assign enemies = ~(zombie_0_is_killed & zombie_1_is_killed & zombie_2_is_killed);
+    assign enemies = ~(zombie_0_is_killed & zombie_1_is_killed & zombie_2_is_killed & zombie_3_is_killed & zombie_4_is_killed & zombie_5_is_killed & zombie_6_is_killed & zombie_7_is_killed & zombie_8_is_killed & zombie_9_is_killed);
 
     // assign player_health = {3'b0, ~shooter_take_damage_comb};
 
     Game_state states(
-                      .Clk, .Reset_h, .Play,
+                      .Clk, .Reset_h, .Play, .Level_9_B(Level_9),
                       .enemies, .player_health(player_health),
                       .level,
                       .event_screen,
                       .new_level, .new_game,
-                      .zombie_0_speed, .zombie_1_speed, .zombie_2_speed,
-                      .zombie_0_delay_spawn, .zombie_1_delay_spawn, .zombie_2_delay_spawn);
+                      .zombie_0_speed, .zombie_1_speed, .zombie_2_speed, .zombie_3_speed, .zombie_4_speed,
+                      .zombie_5_speed, .zombie_6_speed, .zombie_7_speed, .zombie_8_speed, .zombie_9_speed,
+                      .zombie_0_delay_spawn, .zombie_1_delay_spawn, .zombie_2_delay_spawn, .zombie_3_delay_spawn, .zombie_4_delay_spawn,
+                      .zombie_5_delay_spawn, .zombie_6_delay_spawn, .zombie_7_delay_spawn, .zombie_8_delay_spawn, .zombie_9_delay_spawn);
 
     // Display keycode on hex display
     HexDriver hex_inst_0 (keycode_0[3:0], HEX0);

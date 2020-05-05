@@ -1,8 +1,13 @@
 module SpriteTable_Z (
                          input Clk,
-                         input [1:0] Zombie0Face, Zombie1Face, Zombie2Face,
-                         input [9:0] Zombie0X, Zombie0Y, Zombie1X, Zombie1Y, Zombie2X, Zombie2Y,
-                         input zombie_0_live, zombie_1_live, zombie_2_live,
+                         input [1:0] Zombie0Face, Zombie1Face, Zombie2Face, Zombie3Face, Zombie4Face,
+                         input [1:0] Zombie5Face, Zombie6Face, Zombie7Face, Zombie8Face, Zombie9Face,
+                         input logic [9:0] Zombie0X, Zombie1X, Zombie2X, Zombie3X, Zombie4X,
+                         input logic [9:0] Zombie5X, Zombie6X, Zombie7X, Zombie8X, Zombie9X,
+                         input logic [9:0] Zombie0Y, Zombie1Y, Zombie2Y, Zombie3Y, Zombie4Y,
+                         input logic [9:0] Zombie5Y, Zombie6Y, Zombie7Y, Zombie8Y, Zombie9Y,
+                         input zombie_0_live, zombie_1_live, zombie_2_live, zombie_3_live, zombie_4_live,
+                         input zombie_5_live, zombie_6_live, zombie_7_live, zombie_8_live, zombie_9_live,
                          input [9:0] DrawX, DrawY,
                          output logic is_zombie,
                          output logic [7:0] SpriteR, SpriteG, SpriteB
@@ -40,6 +45,55 @@ module SpriteTable_Z (
       if(zombie_2_live)
         is_zombie = 1'b1;
       face_sel = Zombie2Face;
+    end
+    else if((DrawX >= Zombie3X) && (DrawX < Zombie3X + 32) && (DrawY >= Zombie3Y) && (DrawY < Zombie3Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie3Y) << 5) + (DrawX - Zombie3X);
+      if(zombie_3_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie3Face;
+    end
+    else if((DrawX >= Zombie4X) && (DrawX < Zombie4X + 32) && (DrawY >= Zombie4Y) && (DrawY < Zombie4Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie4Y) << 5) + (DrawX - Zombie4X);
+      if(zombie_4_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie4Face;
+    end
+    else if((DrawX >= Zombie5X) && (DrawX < Zombie5X + 32) && (DrawY >= Zombie5Y) && (DrawY < Zombie5Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie5Y) << 5) + (DrawX - Zombie5X);
+      if(zombie_5_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie5Face;
+    end
+    else if((DrawX >= Zombie6X) && (DrawX < Zombie6X + 32) && (DrawY >= Zombie6Y) && (DrawY < Zombie6Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie6Y) << 5) + (DrawX - Zombie6X);
+      if(zombie_6_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie6Face;
+    end
+    else if((DrawX >= Zombie7X) && (DrawX < Zombie7X + 32) && (DrawY >= Zombie7Y) && (DrawY < Zombie7Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie7Y) << 5) + (DrawX - Zombie7X);
+      if(zombie_7_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie7Face;
+    end
+    else if((DrawX >= Zombie8X) && (DrawX < Zombie8X + 32) && (DrawY >= Zombie8Y) && (DrawY < Zombie8Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie8Y) << 5) + (DrawX - Zombie8X);
+      if(zombie_8_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie8Face;
+    end
+    else if((DrawX >= Zombie9X) && (DrawX < Zombie9X + 32) && (DrawY >= Zombie9Y) && (DrawY < Zombie9Y + 32))
+    begin
+      read_address_comb = ((DrawY - Zombie9Y) << 5) + (DrawX - Zombie9X);
+      if(zombie_9_live)
+        is_zombie = 1'b1;
+      face_sel = Zombie9Face;
     end
     else
     begin
